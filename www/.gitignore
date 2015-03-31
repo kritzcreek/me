@@ -1,0 +1,10 @@
+# Ignore stuff
+*.sass-cache*
+_site
+drafts
+tmp
+_cache
+bin/site
+bin/site.hi
+bin/site.o
+dist

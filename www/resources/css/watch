@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# No minification
+#sass --watch main.scss:main.css --style expanded
+
+
+# Minified
+sass --watch main.scss:main.css --style compressed
+
+exit 0

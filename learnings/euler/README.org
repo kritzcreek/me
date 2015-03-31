@@ -1,0 +1,8 @@
+#+TITLE: Lisp Notes
+#+AUTHOR: Ben Sima <bensima@gmail.com>
+
+* References and Docs
+  
+  * [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Hyperspec]] - You can also search with =M-x hyperspec-lookup=
+  * [[http://www.gigamonkeys.com/book/][Practical Common Lisp]]
+  * [[http://hyperpolyglot.org/lisp][Comparing Common Lisp with Clojure]] - Super handy reference
