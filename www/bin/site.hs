@@ -46,6 +46,12 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/default.html" (topCtx `mappend` postCtx)
             >>= relativizeUrls
 
+    match "love/*" $ do
+        route $ setExtension "html"
+        compile $ pandocCompilerWith
+          defaultHakyllReaderOptions defaultHakyllWriterOptions
+            >>= loadAndApplyTemplate "templates/default.html" (topCtx `mappend` postCtx)
+            >>= relativizeUrls
 
     match "pages/*" $ do
       route $ setExtension "html"
@@ -93,6 +99,11 @@ postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
 
+loveCtx :: Context String
+loveCtx =
+    idField "love" `mappend`
+    titleField "A Philosophy of Romantic Love" `mappend`
+    defaultContext
 
 topCtx :: Context String
 topCtx = mconcat
