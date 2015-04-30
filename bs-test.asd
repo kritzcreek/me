@@ -1,6 +1,6 @@
 ;;; -*- mode: Lisp -*-
 
-(asdf:defsystem #:bs-test
+(asdf:defsystem #:bs.test
   :name "Some BS tests."
   :author "Ben Sima"
   :license "MIT"

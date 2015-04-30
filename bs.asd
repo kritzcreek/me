@@ -10,10 +10,13 @@
   :mailto "bensima@gmail.com"
   :homepage "http://www.bsima.me"
   :description "I maked these."
-  :components ((:module "maths"
-		:serial t
-		:components ((:file "general")
-			     (:file "combinatorics"))))
+  :components ((:module "bs"
+                        :serial t
+                        :components ((:file "bs")))
+               (:module "maths"
+                        :serial t
+                        :components ((:file "general")
+                                     (:file "combinatorics"))))
   :depends-on (#:alexandria))
 
 (defmethod asdf:perform ((o asdf:test-op) (c (eql (asdf:find-system '#:bs))))
