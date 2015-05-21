@@ -27,14 +27,14 @@ Roughly in chronological order (most-recent first), here is a list of some of my
 
 ### Salzman Group
 
-I'm currently employed as a Junior Ruby on Rails developer for the Salzman Group. Our primary Rails application is [WholeLatteLove.com](https://wholelattelove.com).
+I'm currently employed as a Ruby on Rails developer for the Salzman Group. Our primary Rails application is [WholeLatteLove.com](https://wholelattelove.com).
 
 ### Nebula Biotech
 
-An ongoing project to develop open-source biotechnology devices for multiple target platforms such as the Arduino, etc. Our current project involves designing and programming a safe, non-invasive potentiostat suitable for everyday blood analysis. All development is being done in the open ([Trello][t], [GitHub][gh]). Our platform is a combination of C and Matlab right now, and we plan on finishing the [Protochip](https://github.com/nebulabiotech/protochip) as an Arduino shield for customizable blood tests.
+An ongoing project to develop open-source biotechnology devices for multiple target platforms such as the Arduino, etc. Our current project involves designing and programming a safe, non-invasive potentiostat suitable for everyday blood analysis. All development is being done in the open ([Trello][t], [GitHub][gh]). Our platform is a combination of C and Matlab right now, and we plan on finishing the [Protochip](https://github.com/nebulabio/protochip) as an Arduino shield for customizable blood tests.
 
 [t]: https://trello.com/b/Tb4b74V5/protochip
-[gh]: https://github.com/nebulabiotech
+[gh]: https://github.com/nebulabio
 
 ### Aristotl
 

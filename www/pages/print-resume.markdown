@@ -10,7 +10,7 @@ Homepage: www.bsima.me
 
 **Salzman Group / WholeLatteLove.com**\
 *Rochester, New York*\
-*Junior Ruby Developer*
+*Ruby Developer*\
 *Febraury 2015 - Present*\
 I'm a junior developer for a large Ruby on Rails ecommerce site, [WholeLatteLove.com](https://wholelattelove.com). We occasionally contribute to open source software on [GitHub](https://github.com/SalzmanGroup).
 
