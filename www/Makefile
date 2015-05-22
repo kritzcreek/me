@@ -25,7 +25,7 @@ watch:
 	bin/site watch
 
 sync: _site
-	s3cmd -P sync _site/ s3://www.bsima.me/
+	aws s3 sync _site/ s3://www.bsima.me/
 
 clean:
 	bin/site clean
