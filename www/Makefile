@@ -3,25 +3,30 @@ DRAFTS  = $(ROOTDIR)/drafts
 POSTS   = $(ROOTDIR)/posts
 PAGES   = $(ROOTDIR)/pages
 
+EXECUTABLE = bsima
 
-site: bin/site.hs
-	ghc --make bin/site.hs -optl -w
+site: bin/$(EXECUTABLE).hs
+	ghc --make bin/$(EXECUTABLE).hs -optl -w
 
 build:
-	bin/site build
+	bin/$(EXECUTABLE) build
 
 watch:
-	bin/site watch
+	bin/$(EXECUTABLE) watch
 
 sync: _site
 	aws s3 sync _site/ s3://www.bsima.me/
 
 clean:
-	bin/site clean
+	bin/$(EXECUTABLE) clean
 	find . -name '*~' | xargs rm -f
 	find . -name '#*#' | xargs rm -f
 	find . -name '*.o' | xargs rm -f
-	rm bin/site.hi
+	rm bin/$(EXECUTABLE).hi
+
+setup-nix:
+	cabal2nix --shell ./ > shell.nix
+	nix-shell -I ./ --command 'cabal configure'
 
 draft:
 	read -p "Slug: " slug

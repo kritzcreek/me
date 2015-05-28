@@ -4,7 +4,8 @@ _site
 drafts
 tmp
 _cache
-bin/site
-bin/site.hi
-bin/site.o
+bin/bsima
+bin/bsima.hi
+bin/bsima.o
 dist
+.cabal-sandbox
