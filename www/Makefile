@@ -5,16 +5,23 @@ PAGES   = $(ROOTDIR)/pages
 
 EXECUTABLE = bsima
 
-site: bin/$(EXECUTABLE).hs
-	ghc --make bin/$(EXECUTABLE).hs -optl -w
 
-build:
-	bin/$(EXECUTABLE) build
+configure: shell.nix
+	nix-shell -I ./ --command 'cabal configure'
+
+nix:
+	cabal2nix --shell ./ > shell.nix
+
+build: bin/$(EXECUTABLE).hs
+	cabal build
+
+site: dist/build/$(EXECUTABLE)/$(EXECUTABLE)
+	dist/build/$(EXECUTABLE)/$(EXECUTABLE) build
 
 watch:
 	bin/$(EXECUTABLE) watch
 
-sync: _site
+deploy: _site
 	aws s3 sync _site/ s3://www.bsima.me/
 
 clean:
@@ -23,10 +30,6 @@ clean:
 	find . -name '#*#' | xargs rm -f
 	find . -name '*.o' | xargs rm -f
 	rm bin/$(EXECUTABLE).hi
-
-setup-nix:
-	cabal2nix --shell ./ > shell.nix
-	nix-shell -I ./ --command 'cabal configure'
 
 draft:
 	read -p "Slug: " slug

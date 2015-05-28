@@ -99,11 +99,11 @@ postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
 
-loveCtx :: Context String
-loveCtx =
-    idField "love" `mappend`
-    titleField "A Philosophy of Romantic Love" `mappend`
-    defaultContext
+-- loveCtx :: Context String
+-- loveCtx =
+--     idField "love" `mappend`
+--     titleField "A Philosophy of Romantic Love" `mappend`
+--     defaultContext
 
 topCtx :: Context String
 topCtx = mconcat
