@@ -46,12 +46,12 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/default.html" (topCtx `mappend` postCtx)
             >>= relativizeUrls
 
-    match "love/*" $ do
-        route $ setExtension "html"
-        compile $ pandocCompilerWith
-          defaultHakyllReaderOptions defaultHakyllWriterOptions
-            >>= loadAndApplyTemplate "templates/default.html" (topCtx `mappend` postCtx)
-            >>= relativizeUrls
+    --match "love/*" $ do
+    --    route $ setExtension "html"
+    --    compile $ pandocCompilerWith
+    --      defaultHakyllReaderOptions defaultHakyllWriterOptions
+    --        >>= loadAndApplyTemplate "templates/default.html" (topCtx `mappend` postCtx)
+    --        >>= relativizeUrls
 
     match "pages/*" $ do
       route $ setExtension "html"

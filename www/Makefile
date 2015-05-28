@@ -4,17 +4,6 @@ POSTS   = $(ROOTDIR)/posts
 PAGES   = $(ROOTDIR)/pages
 
 
-#make_post(DIR) {
-#	read -p "Slug: " slug
-#	read -p "Title: " title
-#	while true
-#	do
-#		echo "---\ntitle: $title\nmath: true\n---\n\n" > $(DIR)/$(date +%Y-%m-%d)-$slug.markdown
-#	done
-#	echo "\nAll done!\n"
-#}
-
-
 site: bin/site.hs
 	ghc --make bin/site.hs -optl -w
 
