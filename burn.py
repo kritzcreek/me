@@ -19,7 +19,7 @@ def burn_rate(safe, burn, days):
     num  = Decimal(safe) - (Decimal(burn) * Decimal(days))
     color = "green" if num > 0 else "red"
 
-    msg = "You have {} ramaining this pay period!".format(click.style(str(num), fg = color))
+    msg = "You have ${} ramaining this pay period!".format(click.style(str(num), fg = color))
     click.echo(msg)
 
 
