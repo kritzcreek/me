@@ -1,0 +1,197 @@
+#+TITLE:  Shell Profiles
+#+AUTHOR: Ben Sima
+#+EMAIL:  bensima@gmail.com
+#+TAGS:   shell bash zshell
+
+This generates my =.profile=, which can establish settings across all
+shell environments. This means it will be portable across all
+environments and shells that I might use. Think of it as "portable
+shell scripting", like "portable Common Lisp" or "portable C." Maybe.
+
+* Path
+
+  Only add the following directories if they exist. For portability!
+
+  #+BEGIN_SRC sh
+  OLDPATH=$PATH
+  PATH=$HOME/bin
+
+  for DIR in /usr/local/git/bin /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin
+  do
+    if [ -d $DIR]
+    then
+      PATH=$PATH:$DIR
+    fi
+  done
+
+  PATH=$PATH:$OLDPATH
+  #+END_SRC
+  
+* Emacs
+
+  Set =EDITOR= to start up an =emacsclient=:
+
+  #+BEGIN_SRC sh
+  export EDITOR=/usr/bin/emacsclient
+  #+END_SRC
+  
+* Ruby
+
+  Load [[http://rvm.io][RVM]] if it's installed
+
+  #+BEGIN_SRC sh
+  if which rvm >/dev/null 2&1
+  then
+    [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  fi
+  #+END_SRC
+
+  A few aliases, should be self explanatory
+
+  #+BEGIN_SRC sh
+  alias be="bundle exec"
+  alias s="bundle exec rspec --color"
+  alias migrate="rake db:migrate db:test:clone"
+  alias last_migration="ls db/migrate | tail -n1 | head -c 14"
+  #+END_SRC
+  
+* Python
+
+  Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed
+  
+  #+BEGIN_SRC sh
+  if which pyenv >/dev/null 2>&1
+  then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+  fi
+  #+END_SRC
+
+* Global Aliases
+
+   A quick grep shortcut. =-i= ignores case, and =-n= displays the
+   line numbers.
+
+   #+BEGIN_SRC sh
+   alias g='grep -in'
+   #+END_SRC
+
+   Show my history
+
+   #+BEGIN_SRC sh
+   alias history='fc -l 1'
+   #+END_SRC
+
+   Helpful "list directory" shortcuts
+
+   #+BEGIN_SRC sh
+   alias lsa='ls -lah'
+   alias l='ls -lA1'
+   alias ll='ls -l'
+   alias la='ls -lA'
+   alias sl=ls # often screw this up
+   #+END_SRC
+
+   Working directory. =setproj= sets to the current working directory
+   to the project directory variable, =cdproj= changes to the project directory
+
+   #+BEGIN_SRC sh
+   function cdproj {
+     export wdir=`cat $HOME/.current_project_path`
+     cd $wdir
+   }
+
+   function setproj {
+     pwd > ~/.current_project_path
+   }
+   #+END_SRC
+
+   Give me a second chance when deleting stuff
+
+   #+BEGIN_SRC 
+   alias rm='rm -i'
+
+   # better than rm -rf
+   function trash () {
+     mv $* ~/.trash
+   }
+
+   alias clear_trash="rm .rf ./trash/*"
+   #+END_SRC
+
+   When I wanna know my ip address...
+
+   #+BEGIN_SRC sh
+   alias myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
+   #+END_SRC
+
+   ...or check my internet connection...
+
+   #+BEGIN_SRC sh
+   function internet {
+     # count 3 packets
+     # timeout 3 seconds
+     # /dev/null unix devices that doesn't go anywhere
+     # 1 is stdout, 2 is stderr, 2 follow 1
+     if (ping -c 3 -t 3 google.com > /dev/null 2>&1)
+     then
+       echo 'yep'
+     else
+       echo 'nope'
+     fi
+   }
+   #+END_SRC
+   
+* Git Aliases and Helpers
+
+  Use [[https://hub.github.com/][hub]] as a git-wrapper
+
+  #+BEGIN_SRC sh
+  hub_path=$(which hub)
+  if (( $+commands[hub] ))
+  then
+    alias git=$hub_path
+  fi
+  #+END_SRC
+
+  Self explanatory git aliases. I don't use all of them, but they are
+  nice to have
+
+  #+BEGIN_SRC sh
+  alias gl='git pull --prune'
+  alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+  alias gp='git push origin HEAD'
+  alias gd='git diff'
+  alias gc='git commit'
+  alias gca='git commit -a'
+  alias gco='git checkout'
+  alias gb='git branch'
+  alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
+
+  # Not sure how these two are different...
+  alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+  alias gitrm="git rm $(git ls-files --deleted)"
+
+  alias pull="git pull"
+  alias ci="git commit"
+  alias st="git st"
+  alias fetch="git fetch"
+  alias push="git push"
+
+  # Two aliases for adding files. The first ignores delete files,
+  # the second includes them.
+  alias add="git add --ignore-removal"
+  alias ga="git add -A"
+  #+END_SRC
+
+* Technical Artifacts
+
+  This is an [[http://orgmode.org][org mode]] file. Tangle it with =C-c C-v t= and it will
+  place all the above source code blocks into =~/.profile=.
+  
+#+PROPERTY: tangle ~/.profile
+#+PROPERTY: comments org
+#+PROPERTY: shebang #!/bin/sh
+#+DESCRIPTION: Global environment varialbes for all shells

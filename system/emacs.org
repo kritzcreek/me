@@ -1,0 +1,1086 @@
+#+TITLE:  Emacs Configuration File
+#+AUTHOR: Ben Sima
+#+EMAIL:  bensima@gmail.com
+
+* Introduction
+
+  This is my =.emacs= file, written using org-mode. Heavily inspired
+  by [[https://github.com/howardabrams/dot-files][Howard Abrams' dot-files]].
+
+  Also, some of this is taken from [[https://sites.google.com/site/steveyegge2/my-dot-emacs-file][Steve Yegge]].
+
+** Emacs Executable
+
+   This file is really a /script/ that requires version 24 of Emacs.
+   Lately I've been using [[http://linuxmint.com/][Linux Mint]] as my preferred OS.
+
+   #+BEGIN_SRC sh :tangle no
+     sudo apt-get install emacs
+   #+END_SRC
+
+   Tada! That's all it takes to install emacs :)
+
+** Loading this File
+
+   To "load" the contents of this file, add the following to =$HOME/.emacs=:
+
+   #+BEGIN_SRC elisp :tangle no
+     ;; Load our Literate Programming version of our emacs config
+     ;; file, from file: ~/me/system/emacs.org
+     (load-file "~/.emacs.d/elisp/init-main.el")
+
+     (when (window-system)
+       (require 'init-client))
+
+     (server-start)
+   #+END_SRC
+
+* Packages
+
+   First, require the =package= package, so we can load
+   packages. Next, add melpa and marmalade.
+   
+   #+BEGIN_SRC elisp 
+   (require 'package)
+   
+   (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
+                            ("gnu"       . "http://elpa.gnu.org/packages/")
+                            ("melpa"     . "http://melpa.org/packages/")
+                            ("marmalade" . "http://marmalade-repo.org/packages/")))
+   #+END_SRC
+
+   While we can now do a =package-list-packages=, you can install and
+   everything is good, however, we can't =require= any of these
+   packages (in order to customize them in this file) until we do
+   this:
+
+   #+BEGIN_SRC elisp 
+     (package-initialize)
+     (package-refresh-contents)
+   #+END_SRC
+
+   I don't remember where I got this, but it's pretty handy for
+   declaring packages that you need installed.
+   
+   #+BEGIN_SRC elisp 
+   (defun require-package (package &optional min-version no-refresh)
+     "Install given PACKAGE, optionally requiring MIN-VERSION.
+   If NO-REFRESH is non-nil, the available package lists will not be
+   re-downloaded in order to locate PACKAGE."
+     (if (package-installed-p package min-version)
+         t
+       (if (or (assoc package package-archive-contents) no-refresh)
+           (package-install package)
+         (progn
+           (package-refresh-contents)
+           (require-package package min-version t)))))
+   #+END_SRC
+
+   This one is from Howard Abrams:
+   
+   #+BEGIN_SRC elisp 
+   (defun inverse-filter (condp lst)
+     "A filter function, but returns a list of the entries that
+   don't match the predicate."
+     (delq nil
+           (mapcar (lambda (x) (and (not (funcall condp x)) x)) lst)))
+
+   (defun packages-install (packages)
+     "Given a list of packages, this will install them from the standard locations."
+     (let ((to-install (inverse-filter 'package-installed-p packages)))
+       (when to-install
+         (package-refresh-contents)
+         (dolist (it to-install)
+             (package-install it)
+         (delete-other-windows)))))
+   #+END_SRC
+
+   Finally, I want some standard, use-everywhere packages. The
+   commented-out packages don't work with emacs 24.3.1, so I need to
+   upgrade.
+   
+   #+BEGIN_SRC elisp 
+   (packages-install '(ack-and-a-half
+                       ace-jump-mode
+                       avy
+                       company
+                       ;;company-quickhelp => *** Eval error ***  Package `emacs-24.4' is unavailable
+                       company-math
+                       dired-details
+                       color-identifiers-mode  ;; Color variables differently
+                       ctags-update
+                       epl
+                       esh-buf-stack
+                       expand-region
+                       flx
+                       flx-ido
+                       flycheck
+                       flycheck-color-mode-line
+                       git-blame
+                       git-gutter-fringe
+                       gitconfig-mode
+                       gitignore-mode
+                       graphviz-dot-mode
+                       helm
+                       helm-projectile
+                       hungry-delete
+                       htmlize
+                       hydra
+                       ido-vertical-mode
+                       iy-go-to-char
+                       linum-relative
+                       ;;magit => *** Eval error ***  Package `emacs-24.4' is unavailable
+                       markdown-mode
+                       multi-term
+                       multiple-cursors
+                       paredit
+                       projectile
+                       smex
+                       thesaurus
+                       undo-tree
+                       visual-regexp
+                       web-mode
+                       yasnippet))
+   #+END_SRC
+
+* Environment
+
+   Use Common Lisp everywhere.
+
+   #+BEGIN_SRC elisp 
+   (require 'cl-lib)
+   #+END_SRC
+
+   I don't know why this is disabled by default. It's really handy.
+
+   #+BEGIN_SRC elisp 
+   (put 'downcase-region 'disabled nil)
+   #+END_SRC
+
+   By default, backups and autosaves save to the same directory. This
+   clutters your filesystem, so let's keep them organized.
+
+   #+BEGIN_SRC elisp 
+   (setq backup-by-copying t
+         backup-directory-alist '(("." . "~/.saves"))
+         delete-old-versions t
+         kept-new-versions 6
+         kept-old-versions 2
+         version-control t)
+   #+END_SRC
+
+* Yasnippet
+   
+   Yasnippet is great, even if I forget to use it. Might as well
+   require it everywhere.
+
+   #+BEGIN_SRC elisp 
+   (require 'yasnippet)
+   (yas-global-mode 1)
+   (setq yas-snippet-dirs '("~/me/system/snippets"
+                            "~/me/system/snippets/yasnippet-snippets"))
+   #+END_SRC
+
+* Helm and Projectile
+
+   I really like Projectile, so let's enable global mode. Also, enable
+   Helm, and turn on helm-projectile mode. For learning more about
+   helm-projectile, use [[http://tuhdo.github.io/helm-projectile.html][this guide by tuhdo]]. I've also added a few
+   configurations that I like.
+
+   #+BEGIN_SRC elisp 
+   (projectile-global-mode)
+   (require 'helm)
+   (require 'helm-config)
+   (require 'helm-projectile)
+   (helm-projectile-on)
+
+;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+
+(helm-mode 1)
+   #+END_SRC
+
+* Eshell and terminal
+
+    I usually use eshell, but sometimes I want an actual terminal
+    inside emacs. That's when multi-term comes in.
+
+    A great guide for learning eshell comes from [[http://www.masteringemacs.org/article/complete-guide-mastering-eshel][Mastering Emacs]].
+
+    #+BEGIN_SRC elisp 
+    (require 'eshell)
+    (require 'em-smart)
+    (setq eshell-where-to-jump 'begin)
+    (setq eshell-review-quick-commands nil)
+    (setq eshell-smart-space-goes-to-end t)
+
+    ; http://paralambda.org/2012/07/02/using-gnu-emacs-as-a-terminal-emulator/
+    (when (require 'multi-term nil t)
+      (global-set-key (kbd "<f5>") 'multi-term)
+      (global-set-key (kbd "<C-next>") 'multi-term-next)
+      (global-set-key (kbd "<C-prior>") 'multi-term-prev)
+      (setq multi-term-buffer-name "term"
+            multi-term-program "/bin/zsh"))
+
+    (when (require 'term nil t) ; only if term can be loaded..
+      (setq term-bind-key-alist
+            (list (cons "C-c C-c"   'term-interrupt-subjob)
+                  (cons "C-p"       'previous-line)
+                  (cons "C-n"       'next-line)
+                  (cons "M-f"       'term-send-forward-word)
+                  (cons "M-b"       'term-send-backward-word)
+                  (cons "C-c C-j"   'term-line-mode)
+                  (cons "C-c C-k"   'term-char-mode)
+                  (cons "M-DEL"     'term-send-backward-kill-word)
+                  (cons "M-d"       'term-send-forward-kill-word)
+                  (cons "<C-left>"  'term-send-backward-word)
+                  (cons "<C-right>" 'term-send-forward-word)
+                  (cons "C-r"       'term-send-reverse-search-history)
+                  (cons "M-p"       'term-send-raw-meta)
+                  (cons "M-y"       'term-send-raw-meta)
+                  (cons "C-y"       'term-send-raw))))
+
+    (when (require 'term nil t)
+      (defun term-handle-ansi-terminal-messages (message)
+        (while (string-match "\eAnSiT.+\n" message)
+          ;; Extract the command code and the argument.
+          (let* ((start (match-beginning 0))
+                 (command-code (aref message (+ start 6)))
+                 (argument
+                  (save-match-data
+                    (substring message
+                               (+ start 8)
+                               (string-match "\r?\n" message
+                                             (+ start 8))))))
+            ;; Delete this command from MESSAGE.
+            (setq message (replace-match "" t t message))
+            
+            (cond ((= command-code ?c)
+                   (setq term-ansi-at-dir argument))
+                  ((= command-code ?h)
+                   (setq term-ansi-at-host argument))
+                  ((= command-code ?u)
+                   (setq term-ansi-at-user argument))
+                  ((= command-code ?e)
+                   (save-excursion
+                     (find-file-other-window argument)))
+                  ((= command-code ?x)
+                   (save-excursion
+                     (find-file argument))))))
+    
+    (when (and term-ansi-at-host term-ansi-at-dir term-ansi-at-user)
+      (setq buffer-file-name
+            (format "%s@%s:%s" term-ansi-at-user term-ansi-at-host term-ansi-at-dir))
+      (set-buffer-modified-p nil)
+      (setq default-directory (if (string= term-ansi-at-host (system-name))
+                                  (concatenate 'string term-ansi-at-dir "/")
+                                (format "/%s@%s:%s/" term-ansi-at-user term-ansi-at-host term-ansi-at-dir))))
+    message))
+    #+END_SRC
+
+    =eshell-here= is a cool function from Howard Abrams that lets you
+    open a new eshell in the lower-third of your window. 
+
+    #+BEGIN_SRC elisp
+    (defun eshell-here ()
+      "Opens a new eshell in current directory.
+    Opens up a new shell in the directory instantiated with the
+    current buffer's file. The eshell is renamed to match said
+    directory for easier identification if useing multiple eshells."
+      (interactive)
+      (let* ((parent (if (buffer-file-name)
+    	               (file-name-directory (buffer-file-name))
+    	               default-directory))
+             (height (/ (window-total-height) 3))
+             (name (car (last (split-string parent "/" t)))))
+        (split-window-vertically (- height))
+        (other-window 1)
+        (eshell "new")
+        (rename-buffer (concat "*eshell: " name "*"))
+        (insert (concat "ls"))
+        (eshell-send-input)))
+    
+    (defun eshell/x ()
+      "From the eshell, `x` exits the shell and closes the window."
+      (insert "exit")
+      (eshell-send-input)
+      (delete-window))
+    #+END_SRC
+
+* Global Helper functions
+
+    A useful helper function: quickly search [[https://duckduckgo.com][Duck Duck Go]].
+
+    #+BEGIN_SRC elisp 
+    (defun search-ddg (query)
+      "Seraches DuckDuckGo for query."
+      (interactive "sDDG: ")
+      (let ((q (replace-regexp-in-string "\s" "+" query t t)))
+        (browse-url (concat "https://duckduckgo.com?q=" q))))
+    #+END_SRC
+
+    If you want to SSH into a remote machine for editing, use
+    =connect-remote=. For example, say you wanted to do the equivalent
+    of =ssh bsima@127.0.0.1=. To do so, use the elisp function
+    =(connect-remote bsima 127.0.0.1)=. Or in other words =M-x
+    connect-remote RET bsima RET 127.0.0.1 RET=.
+
+    #+BEGIN_SRC elisp 
+    (defun connect-remote (user ip)
+      "Opens an SSH tunnel to remote host with full emacs functionality."
+      (interactive "sUser: \nsIP: ")
+      (dired (format "/%s@%s:/" user ip)))
+    #+END_SRC
+
+    A useful little function to convert a Markdown file in the current
+    buffer into HTML. It will open the new HTML file in a new buffer.
+
+    #+BEGIN_SRC elisp 
+    (defun markdown-to-html ()
+      (interactive)
+      (let* ((basename (file-name-sans-extension (buffer-file-name)))
+             (html-filename (format "%s.html" basename)))
+        (shell-command (format "pandoc -o %s %s"
+                               html-filename (buffer-file-name)))
+        (find-file-other-window html-filename)))
+    #+END_SRC
+
+* Markdown
+
+   The following is courtesy of Howard Abrams:
+
+   #+BEGIN_SRC elisp 
+     (autoload 'markdown-mode "markdown-mode.el"
+        "Major mode for editing Markdown files" t)
+     (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+     (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+   #+END_SRC
+
+   Using the =surround= function, I create some wrapper
+   functions to make it easier to bold text in Markdown files:
+
+   #+BEGIN_SRC elisp 
+     (defun markdown-bold () "Wraps the region with double asterisks."
+       (interactive)
+       (surround-text "**"))
+     (defun markdown-italics () "Wraps the region with asterisks."
+       (interactive)
+       (surround-text "*"))
+     (defun markdown-code () "Wraps the region with equal signs."
+       (interactive)
+       (surround-text "`"))
+   #+END_SRC
+
+   Now I can associate some keystrokes to =markdown-mode=:
+
+   #+BEGIN_SRC elisp 
+     (add-hook 'markdown-mode-hook
+           (lambda ()
+             (local-set-key (kbd "A-b") 'markdown-bold)
+             (local-set-key (kbd "s-b") 'markdown-bold)    ;; For Linux
+             (local-set-key (kbd "A-i") 'markdown-italics)
+             (local-set-key (kbd "s-i") 'markdown-italics)
+             (local-set-key (kbd "A-=") 'markdown-code)
+             (local-set-key (kbd "s-=") 'markdown-code)))
+   #+END_SRC
+
+* Keyboard Shortcuts
+
+   I could scatter my keyboard shortcuts throughout this document,
+   putting them closer to the function that they invoke, but I like
+   having them all in one place for easy reference.
+   
+   #+BEGIN_SRC elisp 
+   ;;FIXME: make this table into an org-mode table
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;;; Keyboard shortcuts
+   ;;;
+   ;;;    C-:         new eshell in lower third (eshell-here)
+   ;;;    C-"         shell-command (usually M-!)
+   ;;;    C-;         same as M-x
+   ;;;    C-x C-m     same as M-x
+   ;;;    C-c C-m     same as M-x
+   ;;;    C-w         backspace
+   ;;;    C-z         kill selected region (like cut)
+   ;;;    C-x/c C-k   cut selected text
+   ;;;    M-Shift-L   toggle line numbers
+   ;;;    C-q         Goto line
+   ;;;    C-c C-s     Search DuckDuckGo
+   ;;;    C-`         Insert character literal (`quoted-insert`)
+   ;;;
+   ;;;  Multiple cursors
+   ;;;    C-S-s C-S-s Add cursor to each line in a region
+   ;;;    C->         Mark the next similar (not-continuous)
+   ;;;    C->         Mark the previous similiar (not-continuous)
+   ;;;    C-c C-<     Mark all similar (not-continuous)
+   ;;;
+   
+   ;; Don't disable the upcase-region function, I seem to use it alot
+   (put 'upcase-region 'disabled nil)
+   
+   (global-set-key (kbd "C-:") 'eshell-here)
+   (global-set-key (kbd "C-;") 'execute-extended-command)
+   (global-set-key "\C-x\C-m" 'execute-extended-command)
+   (global-set-key "\C-c\C-m" 'execute-extended-command)
+   (global-set-key (kbd "C-\"") 'shell-command)
+   (global-set-key "\C-w" 'backward-kill-word)
+   (global-set-key (kbd "C-z") 'kill-region)
+   (global-set-key "\C-x\C-k" 'kill-region)
+   (global-set-key "\C-c\C-k" 'kill-region)
+   (global-set-key (kbd "M-L") 'linum-mode)
+   (global-set-key (kbd "C-q") 'goto-line)
+   (global-set-key (kbd "C-c C-s") 'search-ddg)
+   (global-set-key (kbd "C-`") 'quoted-insert)
+   (global-set-key (kbd "C-.") 'hs-toggle-hiding)
+   
+   ;; M-x qrr == find and replace
+   (defalias 'qrr 'query-replace-regexp)
+   
+   ;; M-x mx  == magit-status
+   (defalias 'ms 'magit-status)
+   
+   ;; M-x mt == multi-term
+   (defalias 'mt 'multi-term)
+   
+   ;;; Multiple cursors
+   ;;; http://github.com/magnars/multiple-cursors.el
+   (require 'multiple-cursors)
+   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+   
+   ;;; Default window movement - use Shift+arrow-key to move between windows
+   (windmove-default-keybindings)
+   #+END_SRC
+
+* Display
+
+   Get rid of all that chrome
+
+   #+BEGIN_SRC elisp 
+   (setq initial-scratch-message "") ;; Uh, I know what Scratch is for
+   (setq visible-bell t)             ;; Get rid of the beeps
+
+   (tool-bar-mode 0)               ;; Toolbars were only cool with XEmacs
+   (when (fboundp 'horizontal-scroll-bar-mode)
+     (horizontal-scroll-bar-mode -1))
+   (scroll-bar-mode -1)             ;; Scrollbars are waste screen estate
+   #+END_SRC
+
+*** Fonts
+   
+   Set a font if it's available. I really like [[https://github.com/belluzj/fantasque-sans][Fantasque Sans Mono.]]
+
+   #+BEGIN_SRC elisp :tangle no
+   (defun font-candidate (&rest fonts)
+     "Return existing font which first match."
+     (find-if (lambda (f) (find-font (font-spec :name f))) fonts))
+            
+   (set-face-attribute 'default nil :font (font-candidate '"Fantasque Sans Mono-10:weight=normal"))
+   #+END_SRC
+
+   Who doesn't love color themes? My favorite default is solarized,
+   which comes in dark and light modes. We can use [[https://github.com/hadronzoo/theme-changer][theme-changer]] to
+   activate the light mode during the day, and the dark mode at night.
+
+*** Themes
+   
+   #+BEGIN_SRC elisp 
+   (packages-install '(theme-changer
+                       solarized-theme
+                       jazz-theme))
+
+   (load-theme 'jazz t)
+
+   ;; I don't want solarized right now.
+   ;;(require 'theme-changer)
+   ;;(setq calendar-location-name "Rochester NY") 
+   ;;(setq calendar-latitude 43.16)
+   ;;(setq calendar-longitude -77.61)
+
+   ;;(change-theme 'solarized-light 'solarized-dark)
+   #+END_SRC
+
+*** PowerLine Setup
+
+    Nothing too special, just the default [[https://github.com/milkypostman/powerline][Powerline theme]].
+
+    #+BEGIN_SRC elisp
+    (require-package 'powerline)
+    (powerline-default-theme)
+    #+END_SRC
+
+* Languages
+
+  Who works in only one language these days?
+
+  #+BEGIN_SRC elisp 
+  (setq-default indent-tabs-mode nil)
+  #+END_SRC
+
+** General Lisp / elisp
+
+   I like [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] mode.
+
+   #+BEGIN_SRC elisp 
+   (require-package 'rainbow-delimiters)
+   (rainbow-delimiters-mode)
+
+   (require-package 'paredit)
+   (show-paren-mode)
+   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+
+   (require-package 'hl-sexp)
+   (add-hook 'emacs-lisp-mode-hook #'hl-sexp-mode)
+   #+END_SRC
+
+** Common Lisp
+
+   #+BEGIN_SRC elisp 
+   ;(load (expand-file-name "~/quicklisp/slime-helper.el"))
+   (setq inferior-lisp-program "sbcl")
+   (add-hook 'lisp-mode-hook #'hl-sexp-mode)
+   (add-hook 'lisp-mode-hook #'paredit-mode)
+   #+END_SRC
+
+** Clojure
+
+   Most of my lisp work is done in Clojure these days.
+   
+*** Supporting Packages
+
+    #+BEGIN_SRC elisp
+    (packages-install '( clojure-mode
+                         clojure-cheatsheet
+                         clojure-snippets
+                         clojurescript-mode
+                         cider
+                         ac-cider
+                         clj-refactor
+                         elein
+                         paredit
+                         popup
+                         rainbow-delimiters  ;; Mode for alternating paren colors
+                         rainbow-mode
+                         ))
+
+    (require 'clojure-mode)
+    #+END_SRC
+
+*** Compojure
+
+    According to the [[https://github.com/weavejester/compojure/wiki][Compojure Wiki]], the following code makes their
+    macros look prettier:
+
+    #+BEGIN_SRC elisp
+    (define-clojure-indent
+      (defroutes 'defun)
+      (GET 2)
+      (POST 2)
+      (PUT 2)
+      (DELETE 2)
+      (HEAD 2)
+      (ANY 2)
+      (context 2))
+    #+END_SRC
+
+*** Keystrokes
+
+    Pulling up the documentation for a Clojure function is
+    indispensable.
+
+    #+BEGIN_SRC elisp
+    (eval-after-load "cider"
+      '(define-key cider-mode-map (kbd "C-c C-d") 'cider-doc))
+    #+END_SRC
+
+    Using =M-e= to go forward a sentence may be useful, but not during
+    coding. Let's rebind that key sequence to =forward-sexp=:
+
+    #+BEGIN_SRC elisp
+    (add-hook 'clojure-mode-hook
+              (lambda ()
+                (local-set-key (kbd "M-e") 'forward-sexp)
+                (local-set-key (kbd "M-a") 'backward-sexp)
+                (local-set-key (kbd "C-c C-v") 'cider-eval-last-sexp-and-append)
+                (local-set-key (kbd "C-c C-S-v") 'cider-send-and-evaluate-sexp)))
+    #+END_SRC
+
+    Paredit helpers! Use =C-^= to remove newlines and =M-^= to delete
+    indentation:
+    
+    #+BEGIN_SRC elisp
+    (defun paredit-delete-indentation (&optional arg)
+      "Handle joining lines that end in a comment."
+      (interactive "*P")
+      (let (comt)
+        (save-excursion
+          (move-beginning-of-line (if arg 1 0))
+          (when (skip-syntax-forward "^<" (point-at-eol))
+            (setq comt (delete-and-extract-region (point) (point-at-eol)))))
+        (delete-indentation arg)
+        (when comt
+          (save-excursion
+            (move-end-of-line 1)
+            (insert " ")
+            (insert comt)))))
+  
+    (defun paredit-remove-newlines ()
+      "Removes extras whitespace and newlines from the current point
+    to the next parenthesis."
+      (interactive)
+      (let ((up-to (point))
+            (from (re-search-forward "[])}]")))
+         (backward-char)
+         (while (> (point) up-to)
+           (paredit-delete-indentation))))
+  
+    (define-key paredit-mode-map (kbd "C-^") 'paredit-remove-newlines)
+    (define-key paredit-mode-map (kbd "M-^") 'paredit-delete-indentation)
+    #+END_SRC
+
+*** Code Highlighting
+
+    Make sure these files are included in clojure-mode:
+    
+    #+BEGIN_SRC elisp
+    (add-to-list 'auto-mode-alist '("\\.boot" . clojure-mode))
+    (add-to-list 'auto-mode-alist '("\\.hl" . clojure-mode))
+    (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
+    (add-to-list 'auto-mode-alist '("\\.edn" . clojure-mode))
+     #+END_SRC
+
+    Make it easier to read some Clojure code by changing into actual
+    symbols.
+
+    #+BEGIN_SRC elisp
+     (when (fboundp 'global-prettify-symbols-mode)
+       (defconst clojure--prettify-symbols-alist
+         '(("fn"   . ?λ)
+           ("->"   . ?⤷)  ;; Threading for the first (into left)
+           ("->>"  . ?⤶)  ;; Threading for the last item (from right)
+           ("<="   . ?≤)
+           (">="   . ?≥)
+           ("=="   . ?≡)
+           ("not=" . ?≠)
+           ("."    . ?•)
+           ("__"   . ?⁈))))
+    #+END_SRC
+
+    Most LISP-based programming is better with rainbow ponies:
+
+    #+BEGIN_SRC elisp
+    (add-hook 'prog-mode-hook  'rainbow-delimiters-mode)
+    (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+    #+END_SRC
+
+    But the only parens I really care about are the bad ones, so let’s
+    make all those rainbow colors disappear, leaving only the bad red
+    ones:
+
+    #+BEGIN_SRC elisp
+    (when (require 'rainbow-delimiters nil t)
+      (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                        :foreground 'unspecified
+                        :inherit 'error))
+    #+END_SRC
+
+*** Cider
+
+    The [[https://github.com/clojure-emacs/cider][Cider project]] is da bomb. Usage:
+
+    - =cider-jack-in= - For starting an nREPL server and setting
+      everything up. Keyboard: =C-c M-j=
+    - =cider= to connect to an existing nREPL server.
+
+    Better cider REPL history:
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-history-file "~/.emacs.d/cider-history")
+    (setq cider-repl-wrap-history t)
+    (setq cider-repl-history-size 3000)
+    #+END_SRC
+    
+    Let's color the REPL:
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-use-clojure-font-lock t)
+    #+END_SRC
+
+    Don't care much for the extra buffers that show up when you start:
+
+    #+BEGIN_SRC elisp
+    (setq nrepl-hide-special-buffers t)
+    #+END_SRC
+
+    Stop the error buffer from popping up while working in buffers other than the REPL:
+
+    #+BEGIN_SRC elisp
+    (setq cider-popup-stacktraces nil)
+    #+END_SRC
+
+    Make cider pretty-print it's results
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-use-pretty-printing t)    
+    #+END_SRC
+
+    Prefix cider repl output
+    
+    #+BEGIN_SRC elisp
+    (setq cider-repl-result-prefix ";; => ")
+    #+END_SRC
+
+    To get Clojure's Cider working with org-mode, do:
+
+    #+BEGIN_SRC elisp
+    ;; (require 'ob-clojure)
+
+    (setq org-babel-clojure-backend 'cider)
+    (require 'cider)
+    #+END_SRC
+
+    But we will evaluate in a particular =cider-connection= with:
+
+    #+BEGIN_SRC elisp
+    (global-set-key (kbd "C-c j") 'cider-eval-last-sexp)
+    #+END_SRC
+
+*** Boot
+
+    [[http://boot-clj.com/][Boot]] is build-tooling for Clojure. It's pretty great. Install Boot
+    like so:
+
+    #+BEGIN_SRC sh :tangle no
+    curl -LO https://github.com/boot-clj/boot/releases/download/2.0.0/boot.sh
+    mv boot.sh boot && chmod a+x boot && sudo mv boot /usr/local/bin
+    #+END_SRC
+    
+*** Docs and Refactoring
+
+    First, get [[http://emacswiki.org/emacs/ElDoc][ElDoc]] working with Clojure and Cider
+
+    #+BEGIN_SRC elisp
+    (add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'cider-mode-hook #'eldoc-mode)
+    #+END_SRC
+
+    Using the [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] project (will be included in cider 1.0)
+
+    #+BEGIN_SRC elisp
+    (when (require 'clj-refactor nil t)
+
+      (defun my-clojure-mode-hook ()
+        (clj-refactor-mode 1)
+        (yas-minor-mode 1) ; for adding require/use/import
+        (cljr-add-keybindings-with-prefix "C-c C-m"))
+
+      (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
+    #+END_SRC
+
+    The advanced refactorings require the [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl middleware]], so
+    add the following to either the project's =project.clj=
+    or in the =:user= profile found at =~/.lein/profiles.clj=:
+
+    #+BEGIN_SRC clojure :tangle no
+    :plugins [[refactor-nrepl "1.0.5"]]
+    #+END_SRC
+
+*** ¯\_(ツ)_/¯
+
+    #+BEGIN_SRC elisp :tangle no
+    ;(add-hook 'clojure-mode-hook #'paredit-mode)
+    ;(require-package 'cider)
+    ;(require-package 'company)
+  
+     (setq cider-show-error-buffer nil)
+     (add-hook 'cider-repl-mode-hook #'company-mode)
+     (add-hook 'cider-mode-hook #'company-mode)
+     (add-hook 'clojure-mode-hook #'hl-sexp-mode)
+     (add-hook 'cider-repl-mode-hook #'paredit-mode)
+    #+END_SRC
+    
+** Ruby
+   
+   I write Ruby code for money.
+
+   Howard Abrams basically provided all of this section. First I'll
+   install [[https://rvm.io/][RVM]], and then set it to use a Ruby version.
+
+   #+BEGIN_SRC sh :tangle no
+   curl -sSL https://get.rvm.io | bash -s stable
+   rvm install 2.1.5
+   rvm use 2.1.5
+   #+END_SRC
+
+   When I create my profile.org stuff, I should remember to add the
+   rvm PATH line and run =source $HOME/.rvm/scripts/rvm= on startup.
+
+*** Supporting Packages
+
+    #+BEGIN_SRC elisp
+    (packages-install '(ruby-tools
+                        inf-ruby
+                        haml-mode
+                        rvm
+                        yari
+                        robe
+                        rubocop
+                        smartparens))
+    #+END_SRC
+
+*** File Extensions
+
+    #+BEGIN_SRC elisp
+    (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\Gemfile"   . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\Rakefile"  . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\Guardfile" . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\Capfile"   . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.gemspec"  . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.rake"     . ruby-mode))
+    (add-to-list 'auto-mode-alist '("\\.haml"     . haml-mode))
+    (add-to-list 'auto-mode-alist '("\\.rabl"     . haml-mode))
+    (add-to-list 'auto-mode-alist '("\\.rb$"      . haml-mode))
+    #+END_SRC
+
+    Use [[http://web-mode.org/][web-mode]] for ERB templates:
+
+    #+BEGIN_SRC elisp
+    (when (require 'web-mode nil t)
+      (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode)))
+    #+END_SRC
+
+*** Customizations
+
+    Create a function that will set the default values for the
+    =ruby-mode=, and tie that to the =ruby-mode-hook=:
+
+    #+BEGIN_SRC elisp
+    (defun bs/ruby-mode-defaults ()
+      (superword-mode +1)
+      (setq-default ruby-indent-level 2)
+      (setq-default ruby-indent-tabs-mode nil))
+
+    (add-hook 'ruby-mode-hook 'bs/ruby-mode-defaults)
+    #+END_SRC
+
+*** RVM
+    
+    Use [[https://github.com/senny/rvm.el][rvm.el]]. When jumping from project to project, be sure to run
+    =rvm-use=, which must be done before launching Eshell.
+
+    #+BEGIN_SRC elisp
+    (when (require 'rvm nil t)
+      (rvm-use-default))
+    #+END_SRC
+
+*** Yari
+
+    [[http://www.emacswiki.org/cgi-bin/emacs/YARI][Yari]] allows us to call out to the =ri= project for Ruby
+    documentation lookup. Simply place point on some function, and hit
+    =F1= to pull up the docs. You can also call =dash-at-point= with
+    =C-c d= too, just so you know.
+
+    #+BEGIN_SRC elisp
+    (when (require 'yari nil t)
+      (add-hook 'ruby-mode-hook
+                (lambda ()
+                  (local-set-key [f1] 'yari))))
+    #+END_SRC
+
+    In order for this to work, the docs must be generated as
+    below. This will probably have to be done for every gemset and
+    Ruby version in RVM.
+
+    #+BEGIN_SRC sh :tangle no
+    gem rdoc --all --ri --no-rdoc
+    rvm docs generate all
+    #+END_SRC
+
+*** REPL
+
+    #+BEGIN_SRC elisp
+    (require 'inf-ruby)
+    (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+    #+END_SRC
+    
+    To start eval-ing, do: =M-x inf-ruby=  ... or: =C-c C-s=
+  
+    Use =expand-regions= in order to send a region to this REPL with
+    =ruby-send-region= (=C-c i=).
+  
+    #+BEGIN_SRC elisp
+    (add-hook 'ruby-mode-hook
+              (lambda ()
+                (local-set-key (kbd "C-c i") 'ruby-send-region)))
+    #+END_SRC
+
+*** Smart Parens
+
+    Can I get the same wonder from *paredit* and Lisp in my Ruby using
+    [[https://github.com/Fuco1/smartparens][smartparens]]? Not really, as it isn’t as pedantic as
+    =paredit=. Still, it may be good enough for Ruby:
+
+    #+BEGIN_SRC elisp
+    (when (require 'smartparens-config nil t)
+          (require 'smartparens-ruby)
+
+      (add-hook 'ruby-mode-hook 'smartparens-mode))
+    #+END_SRC
+
+*** Rubocop
+
+    The lint-like style checker of choice for Ruby is [[https://github.com/bbatsov/rubocop][Rubocop]].
+    The [[https://github.com/bbatsov/rubocop-emacs][rubocop.el]] mode should just work with [[https://github.com/flycheck/flycheck][Flycheck]].
+
+    #+BEGIN_SRC elisp
+    (when (require 'rubocop nil t)
+      (add-hook 'ruby-mode-hook 'rubocop-mode))
+    #+END_SRC
+
+    Install it with: =gem install rubocop=
+
+*** Robe
+
+    [[https://github.com/dgutov/robe][Robe]] is a “code assistance” tool, that pretty much only works with
+    methods (and doesn’t seem to work well with direct functions). One
+    must install the following before this will work:
+
+    #+BEGIN_SRC sh :tangle no
+    gem install pry pry-doc
+    #+END_SRC
+
+    Once started with =robe-start=, we should get code completion:
+
+    #+BEGIN_SRC elisp
+    (when (require 'robe nil t)
+      (add-hook 'ruby-mode-hook 'robe-mode)
+      (add-hook 'robe-mode-hook 'ac-robe-setup)
+
+      (defadvice inf-ruby-console-auto (before activate-rvm-for-robe activate)
+        (rvm-activate-corresponding-ruby)))
+    #+END_SRC
+
+    With a complex Ruby project, one should evaluate the entire Ruby
+    file (=C-c C-l=), and then run:
+
+    - =robe-jump= to go to the method’s definition
+    - =robe-ask= will act like jump, but asks for the method first
+    - =robe-doc= displays the method documentation (doesn’t seem to be as useful as =dash-at-point=).
+
+*** Ruby Tools
+
+    The little refactoring available with [[https://github.com/rejeep/ruby-tools.el][Ruby Tools]] looks interesting.
+
+    #+BEGIN_SRC elisp
+    (when (require 'ruby-tools nil t)
+      (add-hook 'ruby-mode-hook 'ruby-tools-mode))
+    #+END_SRC
+
+    The primary key-bindings operate on the /thing/ the cursor is on,
+    e.g. a string, a symbol, etc.
+
+    - =C-‘= converts the thing into a single-quoted string
+    - =C-“= converts the thing into a double-quoted string
+    - =C-:= converts the thing into a symbol
+
+    Other options:
+
+    - =C-;= clears the string
+    - Inside a string the =#= key will insert a variable interpolation
+      if the string is double-quoted (this is actually what I use this
+      package the most)
+
+** Python
+
+   First, manage Python versions with [[https://github.com/yyuu/pyenv][pyenv]]. Install pyenv using the
+   convenient [[https://github.com/yyuu/pyenv-installer][pyenv-installer]].
+
+   #+BEGIN_SRC sh :tangle no
+   curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+   #+END_SRC
+
+   Be sure to add the following to =profile.org=:
+
+   #+BEGIN_SRC sh :tangle no
+   export PATH="$HOME/.pyenv/bin:$PATH"
+   eval "$(pyenv init -)"
+   eval "$(pyenv virtualenv-init -)"
+   #+END_SRC
+
+   Now I can do =pyenv update= to be sure I have the latest version.
+   
+** JavaScript / CoffeeScript
+
+   Sometimes I have to write CoffeeScript. I rarely write JavaScript,
+   but I guess it's still kinda necessary.
+
+   #+BEGIN_SRC elisp
+   (require-package 'js2-mode)
+   (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+   (require-package 'coffee-mode)
+   (setq coffee-tab-width 2)
+   #+END_SRC
+
+** CSS / SASS
+
+   #+BEGIN_SRC elisp
+   (require-package 'sass-mode)
+   (add-to-list 'auto-mode-alist '("\\.scss" . sass-mode))
+   (add-to-list 'auto-mode-alist '("\\.sass" . sass-mode))
+   #+END_SRC
+** YAML / TOML / JSON
+
+   Every has to work in these configuration-ish formats from time to time.
+   
+   #+BEGIN_SRC elisp
+   (packages-install '( yaml-mode
+                        toml-mode
+                        json-mode))
+   #+END_SRC
+* Technical Artifacts
+
+  This is an [[http://orgmode.org/][org-mode]] file. Create the script by tangling it with: =C-c C-v t=
+  
+** Setting up the Exec Path
+
+   Make sure that =PATH= variable for finding binary files can is the
+   same as what Emacs will look for binary files. This little magic,
+   starts up a shell, gets its path, and then uses that for the
+   =exec-path=:
+
+   #+BEGIN_SRC elisp
+     (when window-system
+       (let ((path-from-shell (shell-command-to-string "/bin/bash -l -c 'echo $PATH'")))
+         (setenv "PATH" path-from-shell)
+         (setq exec-path (split-string path-from-shell path-separator))))
+   #+END_SRC
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization script, loaded by the .emacs file.
+#+PROPERTY:    results silent
+#+PROPERTY:    tangle ~/.emacs.d/elisp/init-main.el
+#+PROPERTY:    eval no-export
+#+PROPERTY:    comments org
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
