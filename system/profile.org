@@ -97,7 +97,7 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
    Working directory. =setproj= sets to the current working directory
    to the project directory variable, =cdproj= changes to the project directory
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle no
    function cdproj {
      export wdir=`cat $HOME/.current_project_path`
      cd $wdir
@@ -110,7 +110,7 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
 
    Give me a second chance when deleting stuff
 
-   #+BEGIN_SRC 
+   #+BEGIN_SRC :tangle no
    alias rm='rm -i'
 
    # better than rm -rf
@@ -129,7 +129,7 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
 
    ...or check my internet connection...
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle no
    function internet {
      # count 3 packets
      # timeout 3 seconds
