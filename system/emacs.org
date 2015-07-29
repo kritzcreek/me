@@ -497,18 +497,21 @@
    (set-face-attribute 'default nil :font (font-candidate '"Fantasque Sans Mono-10:weight=normal"))
    #+END_SRC
 
-   Who doesn't love color themes? My favorite default is solarized,
-   which comes in dark and light modes. We can use [[https://github.com/hadronzoo/theme-changer][theme-changer]] to
-   activate the light mode during the day, and the dark mode at night.
-
 *** Themes
-   
+
+    Who doesn't love color themes? My favorite default is solarized,
+    which comes in dark and light modes. We can use [[https://github.com/hadronzoo/theme-changer][theme-changer]] to
+    activate the light mode during the day, and the dark mode at night.
+
+    I also like [[https://github.com/donderom/jazz-theme][donderom's jazz theme]] and [[https://github.com/juba/color-theme-tangotango][juba's tangotango]].
+    
    #+BEGIN_SRC elisp 
    (packages-install '(theme-changer
                        solarized-theme
+                       tangotango-theme
                        jazz-theme))
 
-   (load-theme 'jazz t)
+   (load-theme 'tangotango t)
 
    ;; I don't want solarized right now.
    ;;(require 'theme-changer)
