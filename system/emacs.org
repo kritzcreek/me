@@ -28,10 +28,6 @@
      ;; Load our Literate Programming version of our emacs config
      ;; file, from file: ~/me/system/emacs.org
      (load-file "~/.emacs.d/elisp/init-main.el")
-
-     (when (window-system)
-       (require 'init-client))
-
      (server-start)
    #+END_SRC
 
