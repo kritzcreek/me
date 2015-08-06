@@ -8,6 +8,14 @@ shell environments. This means it will be portable across all
 environments and shells that I might use. Think of it as "portable
 shell scripting", like "portable Common Lisp" or "portable C." Maybe.
 
+The differences between =~/.profile=, =~/.bash_profile=, and
+=~/.bashrc= are actually kinda interesting, from a
+nerdy-computing-history perspective. Read about them [[http://superuser.com/a/183980][here]]. What I took
+away from that explanation is that most of my stuff will go into
+=~/.profile=, but if I really get to changing my prompt and setting up
+a ton of aliases, I will setup a =~/.bashrc=, and probably a
+bashrc.org to go with it.
+  
 * Path
 
   Only add the following directories if they exist. For portability!
