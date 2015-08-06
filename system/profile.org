@@ -50,7 +50,7 @@ bashrc.org to go with it.
    super fast.
    
    #+BEGIN_SRC sh
-   command -v ag >/dev/null 2>&1 >> sudo apt-get install silversearcher-ag
+   command -v ag >/dev/null 2>&1 || sudo apt-get install silversearcher-ag
    #+END_SRC
 
    Create collection of [[file:~/.agignore][ignorable files]] so it doesn’t look in backup
@@ -60,7 +60,6 @@ bashrc.org to go with it.
      #.* 
    #+END_SRC
 
-   
 * Emacs
 
   Set =EDITOR= to start up an =emacsclient=:
