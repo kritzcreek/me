@@ -1,0 +1,48 @@
+#+TITLE:  Linux Mint Customizations
+#+AUTHOR: Ben Sima
+#+EMAIL:  bensima@gmail.com
+
+This houses some customizations I like to make to my preferred Linux
+distro, currently [[https://www.linuxmint.com][Linux Mint]]. For now this is an un-tangled document;
+I can manually make the changes until I decide how best to tangle it.
+
+* Apps
+
+  While most of my computing is done via emacs and the terminal, I
+  have a few other apps that I tend to use. I will most often use a
+  package manager to setup apps (in Mint this is [[https://wiki.debian.org/Apt][Debian's Apt]]) because
+  having a centralized interface for all of my system packages is, in
+  my experience, much easier to use in the long run.
+
+  I've also used [[https://wiki.archlinux.org/index.php/Pacman][Pacman]], [[http://brew.sh][Homebrew]], [[https://chocolatey.org/][Chocolatey]], and [[https://nixos.org/nix/][Nix]]. For maximum
+  portability and reproducibility, I think I'll switch to Nix
+  eventually, but for now Apt must do.
+
+** Telegram
+
+   Installation procedure comes from [[http://askubuntu.com/a/456121/437048][this answer on AskUbuntu.com]].
+   
+   #+BEGIN_SRC sh :tangle no
+   sudo add-apt-repository ppa:atareao/telegram
+   sudo apt-get update
+   sudo apt-get install telegram
+   #+END_SRC
+
+   To access this from the Menu, a restart is all that should be
+   necessary.
+
+** Firefox Developer Edition
+
+   I actually like [[https://www.mozilla.org/en-US/firefox/developer/][Firefox Developer Edition]], even for just normal
+   browsing. It comes with a cool dark theme, and gets previews of new
+   features, which is nice.
+
+   To install with Apt ([[http://askubuntu.com/a/548005/437048][source]]):
+
+   #+BEGIN_SRC sh :tangle no
+   sudo add-apt-repository ppa:ubuntu-mozilla-daily/firefox/aurora
+   sudo apt-get update
+   sudo apt-get install firefox
+   #+END_SRC
+
+   All settings and extensions are handled by [[https://support.mozilla.org/en-US/kb/how-do-i-set-up-firefox-sync][Firefox Sync]].
