@@ -40,7 +40,7 @@
    #+END_SRC
    
    If I'm on Windows and cannot get packages to install, then my
-   system is likely missing the GnuTLS DLLs. [[http://    .se/diary/how_to_enable_GnuTLS_for_Emacs_24_on_Windows/index.en.html][See here]] for an
+   system is likely missing the GnuTLS DLLs. [[http://חנוך.se/diary/how_to_enable_GnuTLS_for_Emacs_24_on_Windows/index.en.html][See here]] for an
    explanation of a fix. I can check if the GnuTLS DLLs are available
    by running =M-: (gnutls-available-p) RET=. If this returns =t= in
    the minibuffer, then I have GnuTLS DLLs; if it returns =nil=, then
@@ -127,7 +127,7 @@
                        ace-jump-mode
                        avy
                        company
-                       ;;company-quickhelp => *** Eval error ***  Package `emacs-24.4' is unavailable
+                       company-quickhelp ;;=> *** Eval error ***  Package `emacs-24.4' is unavailable
                        company-math
                        dired-details
                        color-identifiers-mode  ;; Color variables differently
@@ -152,7 +152,7 @@
                        ido-vertical-mode
                        iy-go-to-char
                        linum-relative
-                       ;;magit => *** Eval error ***  Package `emacs-24.4' is unavailable
+                       magit ;;=> *** Eval error ***  Package `emacs-24.4' is unavailable
                        markdown-mode
                        multi-term
                        multiple-cursors
@@ -512,12 +512,12 @@
    
    Set a font if it's available. I really like [[https://github.com/belluzj/fantasque-sans][Fantasque Sans Mono.]]
 
-   #+BEGIN_SRC elisp :tangle no
+   #+BEGIN_SRC elisp
    (defun font-candidate (&rest fonts)
      "Return existing font which first match."
      (find-if (lambda (f) (find-font (font-spec :name f))) fonts))
             
-   (set-face-attribute 'default nil :font (font-candidate '"Fantasque Sans Mono-10:weight=normal"))
+   (set-face-attribute 'default nil :font (font-candidate '"Fantasque Sans Mono-12:weight=normal"))
    #+END_SRC
 
 *** Themes
@@ -534,7 +534,7 @@
                        tangotango-theme
                        jazz-theme))
 
-   (load-theme 'tangotango t)
+   (load-theme 'jazz t)
 
    ;; I don't want solarized right now.
    ;;(require 'theme-changer)
@@ -1055,7 +1055,73 @@
    #+END_SRC
 
    Now I can do =pyenv update= to be sure I have the latest version.
-   
+
+*** Packages and Virtual Environments
+
+    #+BEGIN_SRC elisp
+    (packages-install '( elpy
+                         nose
+                         jedi
+                         py-autopep8
+                         virtualenvwrapper))
+    #+END_SRC
+
+    For [[https://github.com/jorgenschaefer/elpy/wiki][ELPY]] to work, first install the python packages:
+
+    #+BEGIN_SRC sh :tangle no
+    pip install jedi flake8 importmagit elpy
+    #+END_SRC
+
+    Now we can enable it:
+
+    #+BEGIN_SRC elisp
+    (when (require 'elpy nil t)
+      (elpy-enable))
+    #+END_SRC
+    
+*** Editing
+
+    #+BEGIN_SRC elisp
+    (add-to-list 'auto-mode-alist '("\\.wsgi$" . python-mode))
+    (add-hook 'python-mode-hook 'color-identifiers-mode)
+    #+END_SRC
+
+    Replace =self= with something a bit cooler
+
+    #+BEGIN_SRC elisp
+    (when (fboundp 'global-prettify-symbols-mode)
+      (add-hook 'python-mode-hook
+                (lambda ()
+                  (push '("self" . ?◎) prettify-symbols-alist)
+                  (modify-syntax-entry ?. "."))))
+    #+END_SRC
+
+    Jedi is an auto-completion system. First install the pip dependency:
+
+    Keys:
+
+    | Key     | Action                       |
+    |---------+------------------------------|
+    | =C-Tab= | Auto-complete                |
+    | =C-.=   | Jump to definition           |
+    | =C-c d= | Show the function definition | 
+
+    #+BEGIN_SRC elisp
+    (when (require 'jedi nil t)
+          (add-hook 'python-mode-hook 'jedi:setup)
+          (add-hook 'python-mode-hook 'jedi:ac-setup)
+          (setq jedi:setup-keys t)
+          (setq jedi:complete-on-dot t))
+    #+END_SRC
+
+*** Testing
+
+    I can use [[http://ivory.idyll.org/articles/nose-intro.html][Python Nose]] for test and code coverage
+
+    #+BEGIN_SRC elisp
+    (require 'nose nil t)
+    #+END_SRC
+
 ** JavaScript / CoffeeScript
 
    Sometimes I have to write CoffeeScript. I rarely write JavaScript,
