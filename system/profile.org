@@ -36,7 +36,7 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
   PATH=$PATH:$OLDPATH
   #+END_SRC
 
-* CLI Tools
+* CLI Tools and Programs
 ** curl
 
    Why isnt' curl standard? Let's install it if it's not already.
@@ -61,6 +61,17 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
      #.* 
    #+END_SRC
 
+** Git
+
+   The default Git available in Debian-based systems is old. Let's use
+   the latest.
+
+   #+BEGIN_SRC sh
+   sudo add-apt-repository ppa:git-core/ppa
+   sudo apt-get update
+   sudo apt-get install git
+   #+END_SRC
+   
 * Emacs
 
   Set =EDITOR= to start up an =emacsclient=:
