@@ -22,8 +22,8 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
   To keep my system healthy, I should update every time I startup.
 
   #+BEGIN_SRC sh
-  sudo apt-get update
-  sudo apt full-upgrade
+  sudo apt update
+  sudo apt dist-upgrade
   #+END_SRC
   
 * Path
