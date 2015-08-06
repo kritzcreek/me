@@ -43,6 +43,23 @@ bashrc.org to go with it.
    #+BEGIN_SRC sh
    command -v curl >/dev/null 2>&1 || sudo apt-get install curl
    #+END_SRC
+
+** Silver Searcher
+
+   [[https://github.com/ggreer/the_silver_searcher][Silver Searcher]] is a code searching tool similar to =ack=, but
+   super fast.
+   
+   #+BEGIN_SRC sh
+   command -v ag >/dev/null 2>&1 >> sudo apt-get install silversearcher-ag
+   #+END_SRC
+
+   Create collection of [[file:~/.agignore][ignorable files]] so it doesn’t look in backup
+   files:
+    
+   #+BEGIN_SRC org :tangle ~/.agignore :comments no :shebang ""
+     #.* 
+   #+END_SRC
+
    
 * Emacs
 

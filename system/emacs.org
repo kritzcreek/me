@@ -157,11 +157,10 @@
    upgrade.
    
    #+BEGIN_SRC elisp 
-   (packages-install '(ack-and-a-half
-                       ace-jump-mode
+   (packages-install '(ag
                        avy
                        company
-                       company-quickhelp ;;=> *** Eval error ***  Package `emacs-24.4' is unavailable
+                       company-quickhelp
                        company-math
                        dired-details
                        color-identifiers-mode  ;; Color variables differently
@@ -186,7 +185,7 @@
                        ido-vertical-mode
                        iy-go-to-char
                        linum-relative
-                       magit ;;=> *** Eval error ***  Package `emacs-24.4' is unavailable
+                       magit
                        markdown-mode
                        multi-term
                        multiple-cursors
@@ -381,6 +380,28 @@
       (delete-window))
     #+END_SRC
 
+* Silver Searcher
+
+  With [[https://twitter.com/_wilfredh][Wilfred Hughes]] fancy [[https://github.com/Wilfred/ag.el/#agel][ag package]], I’ve switch from [[http://beyondgrep.com][ack]] to the
+  [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack/][Silver Searcher]]. The installation is handled in [[file:profile.org][profile.org]].
+  
+  Best part about the ag package, is not needing any configuration (as
+  all functions are load-on demand).
+  
+    - =ag-project-at-point= :: sets the query with the word at point,
+         use: =C-c p s s=
+    - =ag-regexp= :: searches for regular expressions in a chosen
+                     directory (*Note:* the =ag= command prompts with
+                     =regexp=, but it adds a =--literal= option to the
+                     command)
+    - =C-u= :: Adding a prefix adds command line options, like =-s= or
+               =-i= to specify case-sensitivity.
+                   
+    Using the latest version of =ag=? Highlight the keywords:
+    
+    #+BEGIN_SRC elisp
+      (setq ag-highlight-search t)
+    #+END_SRC
 * Global Helper functions
 
     A useful helper function: quickly search [[https://duckduckgo.com][Duck Duck Go]].
