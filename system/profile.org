@@ -26,7 +26,16 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
 
   PATH=$PATH:$OLDPATH
   #+END_SRC
-  
+
+* CLI Tools
+** curl
+
+   Why isnt' curl standard? Let's install it if it's not already.
+
+   #+BEGIN_SRC sh
+   command -v curl >/dev/null 2>&1 || sudo apt-get install curl
+   #+END_SRC
+   
 * Emacs
 
   Set =EDITOR= to start up an =emacsclient=:
@@ -41,7 +50,18 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
   (this is apparently important).
 
   #+BEGIN_SRC sh
-  command -v rvm >/dev/null 2>&1 && [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+  load_rvm() {
+    [[ -s "$HOME/.rvm/scripts/rvm" ]]
+    . "$HOME/.rvm/scripts/rvm"
+  }
+
+  if [ -d "$HOME/.rvm" ]
+  then
+    load_rvm
+  else
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    curl -sSL https://get.rvm.io | bash -s stable
+  fi
   #+END_SRC
 
   A few aliases, should be self explanatory
@@ -55,11 +75,27 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
   
 * Python
 
-  Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed
+  Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed. The pyenv installer simply creates a
+  =~/.pyenv= directory, so we check for that. If it's not installed,
+  then install it.
   
   #+BEGIN_SRC sh
-  command -v pyenv >/dev/null 2>&1 && export PATH="$HOME/.pyenv/bin:$PATH" && eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init -)"
+  load_pyenv() {
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+  }
+
+  if [ -d "$HOME/.pyenv" ]
+  then
+    load_pyenv
+  else
+    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+    load_pyenv
+  fi
   #+END_SRC
+
+  Now I can do =pyenv update= to be sure I have the latest version.
 
 * Global Aliases
 

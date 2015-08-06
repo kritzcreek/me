@@ -1076,19 +1076,7 @@
    convenient [[https://github.com/yyuu/pyenv-installer][pyenv-installer]]. This only works on Unix machines. On
    Windows I might use [[http://continuum.io][Anaconda]] for simplicity.
 
-   #+BEGIN_SRC sh :tangle no
-   curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-   #+END_SRC
-
-   Be sure to add the following to =profile.org=:
-
-   #+BEGIN_SRC sh :tangle no
-   export PATH="$HOME/.pyenv/bin:$PATH"
-   eval "$(pyenv init -)"
-   eval "$(pyenv virtualenv-init -)"
-   #+END_SRC
-
-   Now I can do =pyenv update= to be sure I have the latest version.
+   Python itself is installed and setup in [[file:profile.org][profile.org]]   
 
 *** Packages and Virtual Environments
 
