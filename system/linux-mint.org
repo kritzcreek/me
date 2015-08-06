@@ -46,3 +46,15 @@ I can manually make the changes until I decide how best to tangle it.
    #+END_SRC
 
    All settings and extensions are handled by [[https://support.mozilla.org/en-US/kb/how-do-i-set-up-firefox-sync][Firefox Sync]].
+
+** Redshift
+
+   [[http://jonls.dk/redshift/][Redshift]] makes computer screens easier on your eyes, especially at
+   night. I like this because sitting in front of a computer screen
+   all day (as is my habit as a developer and hacker) gives me a
+   headache. Wearing my [[http://www.gunnars.com/][Gunnars]] really does help, as does Redshift.
+
+   #+BEGIN_SRC sh :tangle no
+   sudo apt-get install redshift redshift-gtk
+   #+END_SRC
+   
