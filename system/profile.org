@@ -18,7 +18,7 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
 
   for DIR in /usr/local/git/bin /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin
   do
-    if [ -d $DIR]
+    if [ -d $DIR ]
     then
       PATH=$PATH:$DIR
     fi
@@ -37,14 +37,11 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
   
 * Ruby
 
-  Load [[http://rvm.io][RVM]] if it's installed
+  If [[http://rvm.io][RVM]] is installed, load it into the shell session /as a function/
+  (this is apparently important).
 
   #+BEGIN_SRC sh
-  if which rvm >/dev/null 2&1
-  then
-    [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-  fi
+  command -v rvm >/dev/null 2>&1 && [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
   #+END_SRC
 
   A few aliases, should be self explanatory
@@ -61,12 +58,7 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
   Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed
   
   #+BEGIN_SRC sh
-  if which pyenv >/dev/null 2>&1
-  then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-  fi
+  command -v pyenv >/dev/null 2>&1 && export PATH="$HOME/.pyenv/bin:$PATH" && eval "$(pyenv init -)" && eval "$(pyenv virtualenv-init -)"
   #+END_SRC
 
 * Global Aliases
@@ -97,25 +89,25 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
    Working directory. =setproj= sets to the current working directory
    to the project directory variable, =cdproj= changes to the project directory
 
-   #+BEGIN_SRC sh :tangle no
-   function cdproj {
-     export wdir=`cat $HOME/.current_project_path`
-     cd $wdir
+   #+BEGIN_SRC sh
+   cdproj() {
+     export wdir=$(cat "$HOME/.current_project_path")
+     cd "$wdir" || exit
    }
 
-   function setproj {
-     pwd > ~/.current_project_path
+   setproj() {
+     pwd > "$HOME/.current_project_path"
    }
    #+END_SRC
 
    Give me a second chance when deleting stuff
 
-   #+BEGIN_SRC :tangle no
+   #+BEGIN_SRC sh
    alias rm='rm -i'
 
    # better than rm -rf
-   function trash () {
-     mv $* ~/.trash
+   trash () {
+     mv "$@" "$HOME/.trash"
    }
 
    alias clear_trash="rm .rf ./trash/*"
@@ -129,12 +121,10 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
 
    ...or check my internet connection...
 
-   #+BEGIN_SRC sh :tangle no
-   function internet {
+   #+BEGIN_SRC sh
+   internet() {
      # count 3 packets
      # timeout 3 seconds
-     # /dev/null unix devices that doesn't go anywhere
-     # 1 is stdout, 2 is stderr, 2 follow 1
      if (ping -c 3 -t 3 google.com > /dev/null 2>&1)
      then
        echo 'yep'
@@ -149,11 +139,7 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
   Use [[https://hub.github.com/][hub]] as a git-wrapper
 
   #+BEGIN_SRC sh
-  hub_path=$(which hub)
-  if (( $+commands[hub] ))
-  then
-    alias git=$hub_path
-  fi
+  command -v hub >/dev/null 2>&1 && hub_path=$(which hub) && alias git="$hub_path"
   #+END_SRC
 
   Self explanatory git aliases. I don't use all of them, but they are
@@ -169,10 +155,6 @@ shell scripting", like "portable Common Lisp" or "portable C." Maybe.
   alias gco='git checkout'
   alias gb='git branch'
   alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
-
-  # Not sure how these two are different...
-  alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-  alias gitrm="git rm $(git ls-files --deleted)"
 
   alias pull="git pull"
   alias ci="git commit"
