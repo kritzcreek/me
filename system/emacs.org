@@ -12,12 +12,40 @@
 ** Emacs Executable
 
    This file is really a /script/ that requires version 24 of Emacs.
-   Lately I've been using [[http://linuxmint.com/][Linux Mint]] as my preferred OS.
+   Lately I've been using [[http://linuxmint.com/][Linux Mint]] as my preferred
+   OS. Unfortunately, the default emacs version with =apt-get= is
+   24.3, which is outdated and doesn't work with some packages. Thus,
+   we must build it from souce.
 
+   First, add the source URI to install =build-dep=, the dependencies
+   for actually building the executable:
+   
    #+BEGIN_SRC sh :tangle no
-     sudo apt-get install emacs
+   sudo bash -c 'echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list'
+   sudo apt-get update
+   sudo apt-get install build-essential
+   sudo apt-get build-dep emacs24
    #+END_SRC
 
+   Next, get the source tarball. I like to store all of my
+   builds in a =~/builds/= directory:
+
+   #+BEGIN_SRC sh :tangle no
+   cd ~/builds/
+   mkdir emacs && cd emacs
+   wget http://mirror.teamm-cymru.org/gnu/emacs/emacs-24.4.tar.gz
+   tar xvf emacs-24.4.tar.gz
+   #+END_SRC
+
+   Now I can campile:
+
+   #+BEGIN_SRC sh :tangle no
+   cd emacs-24.4
+   ./configure
+   make
+   sudo make install
+   #+END_SRC
+   
    Tada! That's all it takes to install emacs :)
 
 ** Loading this File
@@ -25,10 +53,16 @@
    To "load" the contents of this file, add the following to =$HOME/.emacs=:
 
    #+BEGIN_SRC elisp :tangle no
-     ;; Load our Literate Programming version of our emacs config
-     ;; file, from file: ~/me/system/emacs.org
-     (load-file "~/.emacs.d/elisp/init-main.el")
-     (server-start)
+   ;; Load our Literate Programming version of our emacs config
+   ;; file, from file: ~/me/system/emacs.org
+   (load-file "~/.emacs.d/elisp/init-main.el")
+   (server-start)
+   #+END_SRC
+
+   Don't forget to create the =elisp= directory
+
+   #+BEGIN_SRC elisp :tangle no
+   (make-directory "~/.emacs.d/elisp")
    #+END_SRC
 
 ** Windows Support
