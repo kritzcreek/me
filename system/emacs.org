@@ -31,6 +31,33 @@
      (server-start)
    #+END_SRC
 
+** Windows Support
+
+   I install Emacs on Windows with [[https://chocolatey.org][Chocolatey]]:
+
+   #+BEGIN_SRC powershell :tangle no
+   choco install emacs
+   #+END_SRC
+   
+   If I'm on Windows and cannot get packages to install, then my
+   system is likely missing the GnuTLS DLLs. [[http://    .se/diary/how_to_enable_GnuTLS_for_Emacs_24_on_Windows/index.en.html][See here]] for an
+   explanation of a fix. I can check if the GnuTLS DLLs are available
+   by running =M-: (gnutls-available-p) RET=. If this returns =t= in
+   the minibuffer, then I have GnuTLS DLLs; if it returns =nil=, then
+   I do not.
+
+   This code snippet will throw if GnuTLS doesn't work:
+
+   #+BEGIN_SRC elisp :tangle no
+   (condition-case e
+    (delete-process
+     (gnutls-negotiate
+      :process (open-network-stream "test" nil "www.google.com" 443)
+      :hostname "www.google.com"
+      :verify-error t))
+    (error e))
+   #+END_SRC
+
 * Packages
 
    First, require the =package= package, so we can load
@@ -1012,7 +1039,8 @@
 ** Python
 
    First, manage Python versions with [[https://github.com/yyuu/pyenv][pyenv]]. Install pyenv using the
-   convenient [[https://github.com/yyuu/pyenv-installer][pyenv-installer]].
+   convenient [[https://github.com/yyuu/pyenv-installer][pyenv-installer]]. This only works on Unix machines. On
+   Windows I might use [[http://continuum.io][Anaconda]] for simplicity.
 
    #+BEGIN_SRC sh :tangle no
    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
