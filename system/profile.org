@@ -14,7 +14,8 @@ nerdy-computing-history perspective. Read about them [[http://superuser.com/a/18
 away from that explanation is that most of my stuff will go into
 =~/.profile=, but if I really get to changing my prompt and setting up
 a ton of aliases, I will setup a =~/.bashrc=, and probably a
-bashrc.org to go with it.
+bashrc.org to go with it. For now I'll just tangle my aliases into
+=~/.bashrc= from this org file.
   
 * Path
 
@@ -90,7 +91,7 @@ bashrc.org to go with it.
 
   A few aliases, should be self explanatory
 
-  #+BEGIN_SRC sh
+  #+BEGIN_SRC sh :tangle ~/.bashrc
   alias be="bundle exec"
   alias s="bundle exec rspec --color"
   alias migrate="rake db:migrate db:test:clone"
@@ -126,19 +127,19 @@ bashrc.org to go with it.
    A quick grep shortcut. =-i= ignores case, and =-n= displays the
    line numbers.
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    alias g='grep -in'
    #+END_SRC
 
    Show my history
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    alias history='fc -l 1'
    #+END_SRC
 
    Helpful "list directory" shortcuts
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    alias lsa='ls -lah'
    alias l='ls -lA1'
    alias ll='ls -l'
@@ -149,7 +150,7 @@ bashrc.org to go with it.
    Working directory. =setproj= sets to the current working directory
    to the project directory variable, =cdproj= changes to the project directory
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    cdproj() {
      export wdir=$(cat "$HOME/.current_project_path")
      cd "$wdir" || exit
@@ -162,7 +163,7 @@ bashrc.org to go with it.
 
    Give me a second chance when deleting stuff
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    alias rm='rm -i'
 
    # better than rm -rf
@@ -175,13 +176,13 @@ bashrc.org to go with it.
 
    When I wanna know my ip address...
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    alias myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
    #+END_SRC
 
    ...or check my internet connection...
 
-   #+BEGIN_SRC sh
+   #+BEGIN_SRC sh :tangle ~/.bashrc
    internet() {
      # count 3 packets
      # timeout 3 seconds
@@ -198,14 +199,14 @@ bashrc.org to go with it.
 
   Use [[https://hub.github.com/][hub]] as a git-wrapper
 
-  #+BEGIN_SRC sh
+  #+BEGIN_SRC sh :tangle ~/.bashrc
   command -v hub >/dev/null 2>&1 && hub_path=$(which hub) && alias git="$hub_path"
   #+END_SRC
 
   Self explanatory git aliases. I don't use all of them, but they are
   nice to have
 
-  #+BEGIN_SRC sh
+  #+BEGIN_SRC sh :tangle ~/.bashrc
   alias gl='git pull --prune'
   alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
   alias gp='git push origin HEAD'
