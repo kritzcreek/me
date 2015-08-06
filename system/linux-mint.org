@@ -29,7 +29,7 @@ I can manually make the changes until I decide how best to tangle it.
    #+END_SRC
 
    To access this from the Menu, a restart is all that should be
-   necessary.
+   necessary. If not, try [[http://community.linuxmint.com/tutorial/view/1504][this tutorial]].
 
 ** Firefox Developer Edition
 
