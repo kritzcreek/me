@@ -1112,7 +1112,7 @@
     For [[https://github.com/jorgenschaefer/elpy/wiki][ELPY]] to work, first install the python packages:
 
     #+BEGIN_SRC sh :tangle no
-    pip install jedi flake8 importmagit elpy
+    pip install jedi flake8 importmagic elpy
     #+END_SRC
 
     Now we can enable it:
