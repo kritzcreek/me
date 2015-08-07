@@ -17,15 +17,6 @@ a ton of aliases, I will setup a =~/.bashrc=, and probably a
 bashrc.org to go with it. For now I'll just tangle my aliases into
 =~/.bashrc= from this org file.
 
-* Updates
-
-  To keep my system healthy, I should update every time I startup.
-
-  #+BEGIN_SRC sh
-  sudo apt update
-  sudo apt dist-upgrade
-  #+END_SRC
-  
 * Path
 
   Only add the following directories if they exist. For portability!
