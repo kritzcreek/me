@@ -34,7 +34,7 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
   OLDPATH=$PATH
   PATH=$HOME/bin
 
-  for DIR in /usr/local/git/bin /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin
+  for DIR in /usr/local/git/bin /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin $HOME/me/bin
   do
     if [ -d $DIR ]
     then
