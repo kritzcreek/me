@@ -1121,7 +1121,16 @@
     (when (require 'elpy nil t)
       (elpy-enable))
     #+END_SRC
-    
+
+    Some useful elpy commands for interactive Python:
+
+    | Key       | Action                                                |
+    |-----------+-------------------------------------------------------|
+    | =C-c C-z= | Switch to or start a buffer with a Python interpreter |
+    | =C-c C-c= | Send code to the Python interpretor                   |
+
+    See more on the [[http://elpy.readthedocs.org/en/latest/ide.html][Elpy docs]].
+
 *** Editing
 
     #+BEGIN_SRC elisp

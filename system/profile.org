@@ -133,6 +133,15 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
 
   Now I can do =pyenv update= to be sure I have the latest version.
 
+** Scientific packages
+
+   In order to install scipy, I need a Fortran compiler, as well as
+   BLAS and LAPACK. I can [[http://stackoverflow.com/a/14541175/1146898][get these easily]] with Apt:
+   
+   #+BEGIN_SRC sh
+    sudo apt-get install gfortran libopenblas-dev liblapack-dev
+   #+END_SRC
+
 * Global Aliases
 
    A quick grep shortcut. =-i= ignores case, and =-n= displays the
