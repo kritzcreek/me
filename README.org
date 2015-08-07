@@ -9,7 +9,7 @@ languages, my own static www site(s), etc etc.
 Whenever possible, I try to keep notes and code as [[http://orgmode.org/][org-mode
 files]]. That way, I can actually remember why and how I did
 something. Most of these org files will be [[http://orgmode.org/manual/Extracting-source-code.html][tangled]] somewhere else on
-my system. For example, you can read through =system/emacs.org= to see
+my system. For example, you can read through [[file:system/emacs.org][emacs.org]] to see
 how I setup my emacs config. Everything in there should be 100%
 reproducible and self-contained.
 
