@@ -734,8 +734,8 @@
          (while (> (point) up-to)
            (paredit-delete-indentation))))
   
-    (define-key paredit-mode-map (kbd "C-^") 'paredit-remove-newlines)
-    (define-key paredit-mode-map (kbd "M-^") 'paredit-delete-indentation)
+    ;(define-key paredit-mode-map (kbd "C-^") 'paredit-remove-newlines)
+    ;(define-key paredit-mode-map (kbd "M-^") 'paredit-delete-indentation)
     #+END_SRC
 
 *** Code Highlighting
