@@ -1203,6 +1203,48 @@
                         toml-mode
                         json-mode))
    #+END_SRC
+** Nix
+
+   [[https://nixos.org][Nix]] is a purely-functional package manager, Linux operating system,
+   and devops tool. It's pretty cool. [[https://nixos.org/wiki/Emacs_configuration][This wiki article]] describes how
+   to setup emacs for use with Nix.
+
+   Nix actually ships with emacs support. The library is located in
+   =/run/current-system/sw/share/emacs/site-list/nix-mode.el=. Or, I
+   could just install it via the emacs package manager. Also, I'll
+   lazy-load the library.
+   
+   #+BEGIN_SRC elisp -n -r
+   (package-install 'nix-mode)
+
+   (autoload 'nix-mode "nix-mode" "Major mode for editing Nix expressions." t)  (ref:al)
+   (push '("\\.nix\\'" . nix-mode) auto-mode-alist)                             (ref:p1)
+   (push '("\\.nix\\.in\\'" .nix-mode) auto-mode-alist)                         (ref:p2)
+   #+END_SRC
+
+   Line [[(al)]] makes the command =nix-mode= automatically load the
+   library, and lines [[(p1)]]-[[(p2)]] install the file name extensions.
+
+   When working on remote machines, tramp needs to know where to find
+   =ls= and =id= because NixOS puts them in different locations.
+
+   #+BEGIN_SRC elisp
+   (require 'tramp)
+   (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
+   #+END_SRC
+
+   Now I can edit local files as root (=C-x C-f
+   /su::/etc/nixos/configuration.nix=) and remotely via ssh (=C-x C-f
+   /ssh:username@hostname#22:/=).
+   
+*** Using Nix to configure Emacs
+
+    People are working on making the Nix package manager handle emacs
+    packages, instea of =package.el=. This would make it super easy to
+    reproduce emacs environments accross machines. Unfortunately, it
+    doesn't look like it's complete yet. See [[https://github.com/NixOS/nixpkgs/pull/7431][this PR]] and [[https://nixos.org/wiki/Emacs_configuration#Replacing.2FSupplementing_use_of_package.el_.28Emacs.27_package_management_system.29_with_Nix][this wiki
+    section]]. Hopefully it will be completed soon!
+   
 * Technical Artifacts
 
   This is an [[http://orgmode.org/][org-mode]] file. Create the script by tangling it with: =C-c C-v t=
