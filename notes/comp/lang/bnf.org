@@ -1,0 +1,66 @@
+#+TITLE: Backus-Naur Form (BNF)
+#+AUTHOR: Ben Sima
+
+BNF is a formal, mathematical way to descrbe a language. It was
+developed by John Backus (and later Peter Naur) to describe the syntax
+of Algol 60[fn:1].
+
+BNF is so unambiguous that one can actually create a parser for a
+language if given only a BNF grammar for it. Programs that do this are
+called "compiler compilers." One such example is [[http://dinosaur.compilertools.net/yacc/][YACC]].
+
+Python is a language that uses a [[https://docs.python.org/3/reference/introduction.html#notation][modified BNF]] to describe the lexical
+anlysis and syntax for the entire language. In fact, a [[https://docs.python.org/3/reference/grammar.html][single file]]
+133-lines long is used to define the entire syntax of Python. This
+file is fed to a parser generator, which is in turn used to parse
+Python source files.
+
+* Definition
+
+A language defined by a BNF grammar is the set of all strings one can
+produce with the "production rules." A production rule looks like
+this:
+
+    : symbol := alternative1 | alternative2 ...
+
+A production rule states that the symbol of the left-hand side must be
+replaced by one of the alternatives on the right-hand
+side. Alternatives are separated by =|='s and usually consist of both
+symbols and "terminals." A terminal is a piece of the final string
+that is not a symbol; there are no production rules for terminals,
+they literally just terminate the production process.
+
+BNF has one special symbol: =@=, which means that the symbol can be
+removed.
+
+* An Example
+
+  The below example comes from Garshol[fn:1]:
+
+  #+BEGIN_SRC bnf
+  S  := '-' FN
+      | FN
+  FN := DL
+      | DL '.' DL
+  DL := D
+      | D DL
+  D  := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+  #+END_SRC
+
+  Here, =S= is the start symbol. =FN= produces a fractional number,
+  =DL= is a digit list, while =D= is a digit.
+
+  A valid sentance in this language consists of all numbers, possibly
+  fractional, and possibly negative.
+
+* BNF Variations
+
+Minor variations:
+
+- Some people use ~::=~ instead of ~:=~, but they mean the same thing.
+- Some BNF grammars enclose terminals in quotes to distinguish them
+  from symbols.
+- Some explicitly show where whitespace is allowed by having a symbol
+  for it, others leave whitespace open for interpretation.
+
+[fn:1] Much of this is sourced from an [[http://www.garshol.priv.no/download/text/bnf.html#id1.2.][article by Lars Marius Garshol]].
