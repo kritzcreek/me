@@ -18,7 +18,8 @@ lambda calculus for interfacing with chemistry and biology.
 
     [[http://lucacardelli.name/Papers/On%20the%20Computational%20Power%20of%20Biochemistry.pdf][Source PDF.]] By Luca Cardelli of Microsoft Research.
 
-    From the paper, we have a formal definition of CGF:
+    From the paper, we have first some formal definition, and then my
+    take on what it all means.
      
     - Chemical Ground Form (CFG) :: Consider the following denumerable
          sets: /Species/ ranged over by variables \(X, Y, ...,\)
@@ -28,13 +29,13 @@ lambda calculus for interfacing with chemistry and biology.
          alternatives while the double \(\vert\vert\) denotes parallel
          composition):
          
-         | [[file:../comp/lang/bnf.org][BNF Form]]                                       | Meaning                         |
-         |------------------------------------------------+---------------------------------|
-         | \(E ::= 0 \vert X=M,E \)                       | Reagents                        |
-         | \(M ::= 0 \vert \pi; Po+M \)                   | Molecule                        |
-         | \(P ::= 0 \vert X \vert\vert P\)               | Solution                        |
-         | \(\pi ::= \tau_(r) \vert ?a_(r) \vert !a_(r)\) | Internal, Input, Output actions |
-         | \(CGF ::= (E,P)\)                              | Reagents and initial Solution   |
+         | [[file:../comp/lang/bnf.org][BNF Form]]                                             | Meaning                         |
+         |------------------------------------------------------+---------------------------------|
+         | \(E ::= 0 \vert X=M,E \)                             | Reagents                        |
+         | \(M ::= 0 \vert \pi; Po+M \)                         | Molecule                        |
+         | \(P ::= 0 \vert X \vert\vert P\)                     | Solution                        |
+         | \(\pi ::= \tau_{(r)} \vert ?a_{(r)} \vert !a_{(r)}\) | Internal, Input, Output actions |
+         | \(CGF ::= (E,P)\)                                    | Reagents and initial Solution   |
          
          Given a CGF \((E,P)\), we assume that for every variable
          \(X\) occurring in \(P\) or \(E\), there is exactly one
@@ -45,8 +46,17 @@ lambda calculus for interfacing with chemistry and biology.
          as the set containing the following kinds of labeled
          transitions:
          
-         *Unary:* 
-         *Binary:*
+         *Unary:* \(\langle\{m.X.i\}\ :\ P^{\dagger}\ \rightarrow{r}\
+         T^{\dagger}\rangle\ \text{such that}\ P^{\dagger}.m = X\
+         \text{and}\ E.X.i = \tau_{(r)};Q\ \text{and}\ T =
+         (P^{\dagger}\backslash m, n)\vert Q \vert R \).
+         
+         *Binary:* \(\langle\{m.X.i, n.Y.j\}\ :\ P^{\dagger}\
+         \rightarrow{r}\ T^{\dagger}\rangle\ \text{such that}\
+         P^{\dagger}.m = X\ \text{and}\ P^{\dagger}.n = Y\ \text{and}\
+         m\neq n\ \text{and}\ E.X.i=?a_{(r)};Q\ \text{and}\ E.Y.j =
+         !a_{(r)};R\ \text{and}\ T = (P^{\dagger}\backslash m, n)\vert
+         Q \vert R\).
          
          The Labeled Transition Graph of \((E,P)\) is defined as
          follows:
@@ -66,5 +76,281 @@ lambda calculus for interfacing with chemistry and biology.
          
      Now, what this means in practical terms is not clear to me. 
          
-    
+* Biologic
+
+  This is my attempt to think through the idea that biology could have
+  an abstract, mathematical form. I'm calling this form the biologic.
+
+  - Biologic :: (n.) the theoretical, minimal systemic requirement for
+                life. That is, with respect to life, it is the
+                necessary cause.
+                
+** Specification
+
+   The biologic is composed of a few essential qualities, which can be
+   found in every living thing. Some ideas:
+
+   - cognition
+   - open system (everything is an open system)
+   - permeability
+   - autopoesis (self-sustainability)
+   - differentiation
+   - composed of morphogens?
+
+   Definitions:
    
+   - \(\beta\)-part :: (n.) the abstracted function of one generalized
+                       part of the biologic. Itself alone would not
+                       constitute and organism, but only an organic
+                       partial.
+                       
+   Let’s name the \(\beta\)-part as the fundamental building block of the
+   biologic. What would the \(\beta\)-part be? Perhaps it is simply a Varela cell
+   abstracted into pure information; that is, perhaps it is just an
+   operation of taking in information, incorporating and transforming it,
+   and then spitting it back out as something new. Now this is of course
+   not enough to procure life, but let’s say you put two \(\beta\)-parts in
+   connection with each other; they would each be receiving,
+   transforming, and ejecting information. When one piece of information
+   exits from \(\beta\)-part A, it would be incorporated into \(\beta\)-part B. As it
+   exits B, it would again be transformed, and A would have to deal with
+   it somehow. Perhaps B would return the information such that A must
+   actually change /itself/ in order to accept the information. Would this
+   not be a very basic form of natural selection? The information acts to
+   change the very vessels of its transformations.
+   
+   The next question is, of course, what sorts of chemical systems
+   exhibit this kind of behavior? Could this behavior lead to a basic
+   form of cognition?
+   
+   How would the \(\beta\)-parts change? If we reconsider the scenario in
+   chemical terms, we must apply some sort of stochastic method as to the
+   position and parameters of the chemicals in question, so that in
+   effect there is some wiggle room as to which chemicals are able to
+   pass into the \(\beta\)-part (see black notebook page 116). This “wiggle room”
+   which is really a measurable probability would be exhibited on all
+   parameters of a given aspect of the chemical system, although we could
+   begin modeling by choosing only one paramater to stochasticize. And,
+   the wiggle room would, over time, manifest as a directional change in
+   the overall makeup of the \(\beta\)-part and the organism as a
+   whole---evolution.
+   
+   - \(\beta\)-cognition :: The iteraction between two or more
+        \(\beta\)-parts in the context of an exteriority, and external
+        environment.
+        
+   \(\beta\)-cognition is the analog to \(\lambda\)-calculus and the
+   Universal Turing machine. This should be a mathematical description
+   of the relationships between the variables of the information
+   system \(i\) between two ore more \(\beta\)-parts. This means that
+   \(\beta\)-cognition would be a necessary cuase for the biologic.
+   
+   If \(i\) is the system of information between two \(\beta\)-parts,
+   then it is in fact a differential of the variables of the system as
+   they are passed between two \(\beta\)-parts. The integral of two
+   \(i\) captured, for example, over a discrete series of time would
+   be a description of the direction of selection for each
+   variable. When understood within the context of an environment of
+   affects, the direction of this selection would reveal itself as an
+   informed cognitive act with respect to the information environment
+   \(i\).
+
+** Idea Incubator
+
+*** Research Questions
+
+    - Is there something essential in carbon such that it produces
+      life? If so, what is it? Couldn't this essence then be
+      implemented in something else? (Call this essence the
+      \(\beta\)-part.)
+
+*** Cause of Degenerative Disease is a False Analogy for the Agent of Infectious Disease
+
+    Currently, medicine searches for agents of disease, but if systems
+    biology has anything to do with degenerative diseases, then it is
+    very likely that Alzheimer's and similar don't have a causative
+    agent. Instead, there is a /system situation/ that is the causative element.
+
+    Questions to ask:
+
+    - What are the criteria for an "infectious agent"?
+    - Do these match observations in degenerative disease? (Probably not)
+
+*** Biology and the False Ontology of Agency
+
+    In computers, we use objects to represent information. But we know
+    the informational content at the most primordial level of these
+    systems. It is reducible to a discrete, binary relationship of
+    true/false, on/off… etc. This allows for complete manipulation of
+    the system, especially with the analogy of objects as the
+    causative agents of manipulation.
+
+    In biology, we do not know the underlying logical structure. It is
+    clear that it is not binary. Rather, it is of a physiochemical
+    nature. DNA assumes a 3-dimensional structure, rather than a
+    2-dimensional structure, as in the case of binary. This means that
+    the information contained in DNA is not reducible to a binary
+    relationship. It may ultimately be compatible with the object
+    analogy, but (almost) all of our current tools for manipulating
+    objects depend on the binary relationship, so they won’t work on
+    the non-binary DNA-information.
+
+    We must understand the functional model of DNA (and biologic
+    structures in general). Only then can we manipulate its
+    objectional form. Turing determined the functional model of
+    computational devices to be binary when he hypothesized the Turing
+    machine. What, then, would the functional model of biologic
+    structures be? Stochastic?
+
+    Journal entry 31/3/14:
+    #+BEGIN_QUOTE
+    The problem with biology is that it maintains an ontology of
+    objects and attributes. As long as biology maintains an ontology
+    of objects, it will fail to understand the systematic flow of
+    information which dictates or persuades the morphogenic properties
+    of the biologic.  
+
+    As it stands now, biology picks apart the pieces of the organism
+    (partial-objects?) and studies them in isolation. The whole
+    organism (body-without-organs?) is then considered as a
+    [necessary] consequence of the pieces; only rarely the reverse,
+    unfortunately[fn:: I.e., what if it's the case that the organism determines
+    the function and form of the organs?]. But never is the systematic flow of information
+    considered---indeed, it cannot be modeled given the ontology of
+    objects; it is overlooked.
+    #+END_QUOTE
+
+    What I mean in the above entry is explicated in this succint quote
+    from Deleuze and Guatarri:
+
+    #+BEGIN_QUOTE
+    “For reading a text is never a scholarly exercise in search of
+    what is signified, still less a highly textual exercise in search
+    of a signifier. Rather it is a productive use of the literary
+    machine, a montage of desiring-machines, a schizoid exercise that
+    extracts from the text its revolutionary force.”
+    (Anti-Oedipus, 106)
+    #+END_QUOTE
+
+    Their analysis reveals a literary system that drives the creation
+    of new literature. The writer (agent of creation) does not create
+    literature (product of creation); the literary machine (product)
+    creates the writer (agent as the means of creation). Analogy to
+    DNA: the nucleotides and DNA-shape (agent) don’t determine the
+    genome (product; or, body without organs in context of the
+    informational content of the instructions of the organism); the
+    genome (product) determines the DNA’s structure and nucleotide
+    coding (agent as the means of creating the organism, the body
+    without organs, the essential “whole” of the organism). Which is
+    really just another way of saying: Function determines form!
+
+*** Biological Analog of a Turing Machine
+
+    Premise: If we assume the current intellectual landscape of
+    (synthetic) biology is analogous to that of computation in the
+    ~1920s, then we could say that what Turing did for computation
+    needs to be done for biology; if we accept the Information Theory
+    and concede that computers and biology both manipulate
+    information, then we admit that this can be done for biology. This
+    would be an analog, not an application, of Turing Machines to
+    biology. My thought is that this analog would occur within the
+    idea of cognition, as conceived by Varela and others as embodied
+    cognition. 
+
+    That Turing was able to create his Machine via the theoretical
+    work of Alonzo Church on \(\lambda\)-calculus potentially
+    indicates that a similar theoretical work must be done before the
+    biologic can be mechanized and systematized. Perhaps a
+    mathematical theory of cognition would be this analog?
+
+*** Cognitive Programming
+
+    If computational programming is about programming in binary terms,
+    then biological programming would be programming in more than
+    binary terms, probably within 4 dimensions (3 space dimensions
+    plus one time dimension, integrated over said time
+    dimension?). But this would not yet qualify as biological, for
+    simply manipulating variables in 4D is not life, althought perhaps
+    this would be a necessay component of life. Nor would it be
+    strictly computational, for computation always determines a single
+    definite answer given the binary foundation. Programming in 4D
+    would become very different; it would necessarily include an
+    element of non-determinism because of the complex ways in which
+    the 4Ds relate to each other. This, perhaps, could serve as the
+    basis of cognition. When organized into a coherent relation, these
+    4D bits (let’s call them) would be non-deterministic and yet would
+    still produce a correct “answer”; that is, they would still
+    fulfill a role within the greater context of the cognitive system.
+
+    Instead of writing algorithmic instructions, cognitive programming
+    would be about maintaining a relationship between the program and the
+    environment, because after all they intimately influence each
+    other. It would have to be more like a curation or artisanal craft
+    than an instruction set.
+
+*** Evolution is Negentropy is Chaos is Information Theory
+
+    "Evolution is chaos with feedback." - Joseph Ford, /Chaos/ by James Gleick, p. 314
+
+    Evolution doesn’t make any claims about the origin of life, so say
+    biologists. But if Merleau-Ponty is right about the universe
+    folding over on itself and thus creating, as Sagan says, a way for
+    the “universe to know itself,” then a natural consequence of the
+    creation of information is precisely evolution.
+
+*** Immortality and the Biologic Infinity
+    
+    #+BEGIN_QUOTE
+    The hyperbole of Levinas’s presentation of scepticism is
+    appropriate but troubling to anyone seeking to understand how it
+    complies with traditional sceptical philosophies. It is necessary to
+    unpack the basic description of the way that ‘totality’ relates to
+    ‘infinity’, and rationality to scepticism.  First, there is a
+    tremedous tension between totality and infinity. ‘Totality’ is the
+    term used to decribe the Western rationality’s enormous project to
+    attain a total synthesis of knowledge under rational themes, to
+    ‘reduce the other to the same’, which is the ‘ontology of power’
+    discussed above. ‘Infinity’ is the multifaceted term used to suggest
+    the resistance that the things pose to totalization by virtue of their
+    being more than what they simply are. There is an irresolvable
+    conflict here: totality is always threatening to reduce the other to
+    same, and infinite is always the other’s resistance to this threat.
+
+    —p. 56-6, /Levinas: A Guide for the Perplexed/, B.C. Hutchens
+    #+END_QUOTE
+
+
+    The re-definition of infinity (infinitude?) as “that which resists
+    totalization” can be translated biologically as “immortality is
+    the resistance to mortality.” This is much more useful than the
+    mathematical definition of infinity as simply \(n+1\) as it can be
+    systematized, that is, brought into an open, relational system,
+    such as one found in biology.
+
+    What, then, is the relation between a biologic totality and
+    infinity? Or, more precisely: what is the relation between a
+    physiochemical system which perpetuates itself via integration
+    toward an organizational totalization, and the process or force
+    that resists this integral totalization and instead proceeds
+    toward /dis/organization.
+    
+    - https://en.wikipedia.org/wiki/Reflexive_relation
+    - https://en.wikipedia.org/wiki/Total_relation
+    - https://en.wikipedia.org/wiki/Total_order
+
+*** Biochemistry as the genesis of information
+
+    #+BEGIN_QUOTE    
+    “That amino acids in the same biochemical pathway are coded by related
+    codons does not necessarily explain the observation that amino acids
+    that have similar physicochemical properties also have similar
+    codons.” (Freeland 1998)
+    #+END_QUOTE
+    
+    The similarity of biochemical pathways with respect to related codons
+    leads to the idea that biochemistry leaves a lineage of information
+    behind, and it’s progeny or full encoding is the codon. The
+    biochemical pathway is the assemblege of a logic of information,
+    synthesized into a locale and expressed in the progeny, that is the
+    next development of the assemblege of a logic.
+    
