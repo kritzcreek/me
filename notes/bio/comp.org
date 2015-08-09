@@ -18,31 +18,53 @@ lambda calculus for interfacing with chemistry and biology.
 
     [[http://lucacardelli.name/Papers/On%20the%20Computational%20Power%20of%20Biochemistry.pdf][Source PDF.]] By Luca Cardelli of Microsoft Research.
 
-**** Chemical Ground Form (CGF)
-
-     From the paper, we have a formal definition of CGF:
+    From the paper, we have a formal definition of CGF:
      
-     - Chemical Ground Form (CFG) :: Consider the following
-          denumerable sets: /Species/ ranged over by variables X, Y,
-          ..., /Channels/ ranged over by a, b, ..., Moreover, let r,
-          s, ... be rates (i.e. positive real numbers). The syntax of
-          CGF is as follows (where single \(\vert\) separates syntactic
-          alternatives while the double \(\vert\vert\) denotes parallel
-          composition):
-          
-          | [[file:../bdnf.org][BDNF Form]]                                      | Meaning                         |
-          |------------------------------------------------+---------------------------------|
-          | \(E ::= 0 \vert X=M,E \)                       | Reagents                        |
-          | \(M ::= 0 \vert \pi; Po+M \)                   | Molecule                        |
-          | \(P ::= 0 \vert X \vert\vert P\)               | Solution                        |
-          | \(\pi ::= \tau_(r) \vert ?a_(r) \vert !a_(r)\) | Internal, Input, Output actions |
-          | \(CGF ::= (E,P)\)                              | Reagents and initial Solution   |
-
-          Given a CGF(E,P), we assume that for every variable X
-          occurring in P or E, there is exactly one definition X = M
-          in E.
-
+    - Chemical Ground Form (CFG) :: Consider the following denumerable
+         sets: /Species/ ranged over by variables \(X, Y, ...,\)
+         /Channels/ ranged over by \(a, b, ...,\) Moreover, let \(r,
+         s, ...\) be rates (i.e. positive real numbers). The syntax of
+         CGF is as follows (where single \(\vert\) separates syntactic
+         alternatives while the double \(\vert\vert\) denotes parallel
+         composition):
+         
+         | [[file:../comp/lang/bnf.org][BNF Form]]                                       | Meaning                         |
+         |------------------------------------------------+---------------------------------|
+         | \(E ::= 0 \vert X=M,E \)                       | Reagents                        |
+         | \(M ::= 0 \vert \pi; Po+M \)                   | Molecule                        |
+         | \(P ::= 0 \vert X \vert\vert P\)               | Solution                        |
+         | \(\pi ::= \tau_(r) \vert ?a_(r) \vert !a_(r)\) | Internal, Input, Output actions |
+         | \(CGF ::= (E,P)\)                              | Reagents and initial Solution   |
+         
+         Given a CGF \((E,P)\), we assume that for every variable
+         \(X\) occurring in \(P\) or \(E\), there is exactly one
+         definition \(X = M\) in \(E\).
+         
+    - Labeled Transition Graph (LTG) of a Chemical Ground Form :: Given
+         the Chemical Ground Form \((E,P)\), we define \(Next(E,P)\)
+         as the set containing the following kinds of labeled
+         transitions:
+         
+         *Unary:* 
+         *Binary:*
+         
+         The Labeled Transition Graph of \((E,P)\) is defined as
+         follows:
+         
+         \[ LTG(E,P) = \cup_n \psi_n\ where\ \psi_0 = Next(E,P)\ and\
+         \psi_{n+1} = \cup{Next(E,Q) \vert\vert Q\ is\ a\ state\ of\
+         \psi_n } \]
+         
+    - Continuous Time Markov Chain of an LTG :: If \(\psi\) is an
+         LTG, then \(\vert\psi\vert\) is its CTMC, defined as the set
+         of the triples \(P \mapsto{r} Q\) with \(P\neq Q\), obtained
+         by summing the rates of all the transitions in \(\psi\) that
+         have the same source and target state: \(\vert\psi\vert = \{P
+         \mapsto{r}\ Q\ s.t.\ \exists\langle l : P \rightarrow{r} Q
+         \rangle \in \psi\ with\ P \neq Q,\ and\ r = \sum r_i\ s.t\ \langle
+         l_i : P \rightarrow{r_i} Q \rangle \in \psi \}\).
+         
      Now, what this means in practical terms is not clear to me. 
-          
+         
     
    
