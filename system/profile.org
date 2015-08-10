@@ -142,6 +142,15 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
     sudo apt-get install gfortran libopenblas-dev liblapack-dev
    #+END_SRC
 
+* Nix
+
+  This line is automatically added to the bottom of your =.profile=
+  when you install [[https://nixos.org/nix/][Nix]]:
+
+  #+BEGIN_SRC sh
+  if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
+  #+END_SRC
+
 * Global Aliases
 
    A quick grep shortcut. =-i= ignores case, and =-n= displays the
@@ -258,3 +267,4 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
 #+PROPERTY: comments org
 #+PROPERTY: shebang #!/bin/sh
 #+DESCRIPTION: Global environment varialbes for all shells
+'

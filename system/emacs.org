@@ -898,7 +898,28 @@
      (add-hook 'clojure-mode-hook #'hl-sexp-mode)
      (add-hook 'cider-repl-mode-hook #'paredit-mode)
     #+END_SRC
-    
+
+** Haskell
+
+   Haskell is fun. The [[https://wiki.haskell.org/Emacs][Haskell wiki has an article on emacs setup]], so
+   I follow some of their advice. I also pull from [[https://github.com/chrisdone/emacs-haskell-config/][Chris Done's]] emacs
+   config.
+
+   #+BEGIN_SRC elisp
+   (packages-install '( haskell-mode ; the predominant Haskell emacs package
+                        scion        ; an IDE library
+                        ghc          ; an interface to the Haskell compiler
+                        hindent      ; a pretty-printer 
+                      ))
+
+   (require 'haskell-interactive-mode)
+   (require 'haskell-process)
+   (add-hook 'haskell-mode-hook 'hindent-mode)
+   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+   (add-hook 'haskell-mode-hook 'haskell-auto-insert-module-template)
+   (add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode)
+   #+END_SRC 
+
 ** Ruby
    
    I write Ruby code for money.
