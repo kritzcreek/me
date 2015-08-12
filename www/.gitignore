@@ -1,11 +1,2 @@
 # Ignore stuff
-*.sass-cache*
-_site
-drafts
-tmp
-_cache
-bin/bsima
-bin/bsima.hi
-bin/bsima.o
-dist
-.cabal-sandbox
+public/*
