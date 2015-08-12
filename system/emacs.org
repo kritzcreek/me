@@ -500,6 +500,12 @@
      <link rel='stylesheet' type='text/css' href='/assets/css/main.css' />")
   #+END_SRC
 
+  Get rid of the default CSS that orgmode inlines with every page:
+  
+  #+BEGIN_SRC elisp
+  (setq org-html-head-include-default-style nil)
+  #+END_SRC
+  
   Here I setup the org project association lists. I have 3 kinds of
   pages on my site; I call them "notes," "pages," and "static"
   assets. All of the settings here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing
