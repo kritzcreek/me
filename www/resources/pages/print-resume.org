@@ -1,0 +1,96 @@
+---
+title: Ben Sima's Resume
+id: print-resume
+---
+
+Contact: bensima@gmail.com\
+Homepage: www.bsima.me
+
+## Work Experience
+
+**Salzman Group / WholeLatteLove.com**\
+*Rochester, New York*\
+*Ruby Developer*\
+*Febraury 2015 - Present*\
+I'm a junior developer for a large Ruby on Rails ecommerce site, [WholeLatteLove.com](https://wholelattelove.com). We occasionally contribute to open source software on [GitHub](https://github.com/SalzmanGroup).
+
+**Web Programming & Data Analysis**\
+*Rochester, New York*\
+*Freelance*\
+*February 2014 - Present*\
+As a freelancer, I do web programming and data analytics. I've worked on ecommerce websites, custom content management solutions, and data visualization software. For a specific list of projects you can email me: bensima@gmail.com
+
+**Nebula Sports**\
+*Rochester, New York*\
+*CEO and Co-Founder*\
+*June 2012 to June 2013*\
+Nebula Sports was an attempt to develop a novel headgear padding for athletes. We used the most advanced physics models from academia and applied them to a variety of helmet paddings to find the best material and design for a specific sport, even a specific position within that sport. Then we could apply this same technique to other sports/positions. Unfortunately the market and patent conditions were not too favorable, and we shutdown after about a year of work funded by two grants.
+
+**RIT Information Technology Services**\
+*Rochester, NY*\
+*Desktop Support Representative*\
+*February 2012 to February 2014*\
+Analyze and resolve both simple and complex computer problems. Provide effective, courteous, and timely responses to requests for service. Interact with students, faculty, and staff on the phone, in person, and through electronic mail. Maintain confidentiality and integrity of information residing on client systems, as well as physical security of those systems. Integrate clients' desktop systems with supported RIT systems and servers. Identify and report trends in computer problems. Use software tools to track and respond to service requests and report on activities.
+
+**Blue Marlin Graphics**\
+*Columbus, Ohio*\
+*Graphic Designer*\
+*June 2009 to June 2011*\
+I designed logos and artwork for pens, coffee mugs, t-shirts, and various other promotional items for a variety of small companies. I took designs from ideation, to sketches, to the final Photoshop and Illustrator designs.
+
+## Education
+
+**Rochester Institute of Technology**\
+Rochester, NY\
+2010-2014\
+B.S. in Philosophy and biotechnology
+
+Notable Classes:
+
+* Contemporary Philosophy
+* Great Thinkers: Nietzsche
+* Kyoto School Seminar
+* Anatomy & Physiology I and II and Labs
+* Medical Pathophysiology
+* Molecular Biology & Lab
+* Cellular Biology & Lab
+* **Thesis Topic:** Philosophy of Love and Desire
+
+**Jackson High School**\
+Massillon, OH\
+2006-2010\
+Graduated with Honors
+
+Notable Classes:
+
+* AP Studio Art (4 out of 5 on the AP test)
+* AP Government
+* AP Spanish
+* AP European History
+
+### Charity Work
+
+**Compass Point Mentorship, Rochester Chapter**\
+*Founder*\
+*October 2013 - May 2014*\
+CompassPoint Mentorship was founded to connect current college students of all age levels with high-school students to provide them with insight about the road to and through college and reflections on their life so far.
+
+**Keep Rochester**\
+*Volunteer*\
+*2010 - 2013*\
+Helped collect and deliver donated goods for battered women's shelters in downtown Rochester. Also helped with events to provide fun and entertainment to the women and children at the shelter.
+
+**Fight to Be Healed, Rochester Chapter**\
+*Vice President & Co-founder*\
+*February 2012 - September 2013*\
+A charitable organization with the mission of reducing the suffering of child cancer patients: [Nick's Fight to be Healed Foundation](http://fighttobehealed.org)
+
+**Habitat for Humanity**\
+*Volunteer*
+*2008-2010*\
+Helped build two homes for needy families, worked in the ReStore stocking donated goods and managing customers.
+
+**St. Michael's Church**\
+*Volunteer*\
+*2006 - 2008*\
+Helped with charitable projects with the Church's teen group.
