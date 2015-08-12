@@ -1,0 +1,42 @@
+#+TITLE:  Notes on The Precautionary Principle
+#+AUTHOR: Ben Sima
+
+My notes while reading Nassim Taleb et al's [[http://www.fooledbyrandomness.com/pp2.pdf][The Precautionary
+Principle (with Application to the Genetic Modification of
+Organisms)]]. All quotes are from the linked paper unless otherwise
+specified.
+
+Don't use this as a replacement for Taleb's paper, but as a
+supplement.
+
+* Definition of the Precautionary Principle
+
+A non-naive definition of the precautionary principle (PP) goes like
+this:
+
+#+BEGIN_QUOTE
+if an action or policy has a suspected risk of causing severe harm to
+the public domain (affecting general health or the environment
+globally), the action should not be taken in the absence of scientific
+near-certainty about its safety. Under these conditions, the burden of
+proof about absence of harm falls on those proposing an action, not
+those opposing it.
+#+END_QUOTE
+
+So, we already understand that the burden of proof for the
+/harmlessness/ of something to the public falls on the people
+promoting the "something." 
+
+For example, if a senator wants to claim that shutting down all public
+hospitals will remove the government debt, there is an obvious
+suspected public health risk. It would be the responsibility of the
+senator to prove with /scientific near-certainty/ that this will not
+harm the public. If the senator cannot provide such conclusive proof,
+then we should not shut down the public hospitals.
+
+You may be able to tell that this is a very conservative principle,
+and rightly so, because in dealing with such kinds of public policies
+there is a certain kind of /unknown/ risk. Taleb calls these "[[https://en.wikipedia.org/wiki/Black_swan_theory][black
+swans]]." All-in-all, it seems to me like a pretty sound logical
+principle.
+
