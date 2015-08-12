@@ -1,0 +1,49 @@
+#+title:  Curriculum Vitae
+#+author: Ben Sima
+
+* Current Academic and Professional Positions
+
+- Engineer, Nebula Bio, 2014-present
+- Software Engineering Mentor and Curriculum Contributor, Thinkful, 2013-present
+
+* Previous Academic and Professional Positions
+  
+- Software Engineer, Salzman Group, 2015
+- Undergraduate Researcher in Computational Genomics, RIT, 2013-2014
+- Founder and President, Rochester Chapter of [[http://cpmentorship.com][CompassPoint Mentorship]], 2013-2014
+- CEO & Co-Founder, Nebula Sports, 2012-2013
+- President & Founder, Experimental Fitness, RIT, 2011-2013
+- President & Founder, RIT Skeptics, 2011-2012
+- Executive Board, Co-Founder, RIT Chapter, Nick's Fight to be Healed Foundation, 2011-2013
+
+* Academic and Professional Distinctions
+
+- National Collegiate Inventors and Innovators Alliance, E-Team 1 Grant, 2013
+- New York State Business Competition, Finalists, 2013
+- Saunders Summer Startup, RIT, 2012
+
+* Education
+
+- B.A. Philosophy, Rochester Institute of Technology, 2014
+
+* Areas of Interest and Research
+
+- Athletic Performance
+- Ancestral Nutrition
+- Exercise Physiology
+- Biomedical Engineering & Technologies
+- Computational and Synthetic Biology
+- Continental Contemporary Philosophy
+- Contemporary Logic
+- East Asian Philosophy
+- Philosophy of Ethics and Love
+
+
+* Experience
+
+- Software Engineer, Salzman Group, 2015-present
+- Freelance software developer, 2014-present
+- Information Technology Services, Support Technition, RIT, 2011-2013
+- Summer Greenskeeper, Shady Hollow Country Club, 2010-2012
+- Web Design, Freelance, 2010-2012
+- Graphic Design, Freelance, 2008-2011

@@ -3,6 +3,10 @@ title: Resume
 id: resume
 ---
 
+My resume is currently available at [[https://docs.google.com/document/d/1OrBr3KPDjeJBcXdKFJ2vE3tgAKQxThciGMsIX1icVx8/edit][this document]].
+
+#+BEGIN_COMMENT
+
 I write **computer code** and have experience in **web apps**, **data science** and **visualization**, **statistics** and **computational biology**, and **ecommerce applications**.
 
 I have professional experience in...
@@ -58,3 +62,5 @@ All algorithm programming was done in Matlab, while presentations and marketing 
 ### Computational Genomics Research
 
 With [Dr. Babbitt](http://www.rit.edu/cos/gregory-babbitt) at RIT, we developed a [Perl program](https://github.com/bsima/yeast-TRX) to study the flexibility (TRX score) of DNA and RNA molecules. This involved parsing a couple gigabytes of genomic data, normalizing and plotting the data, and doing a weighted Pearson correlation between the DNA and the RNA GC-rich regions.
+
+#+END_COMMENT

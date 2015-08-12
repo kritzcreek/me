@@ -1,17 +1,19 @@
----
-title: Ben Sima's Resume
-id: print-resume
----
+#+title: Ben Sima's Resume
 
-Contact: bensima@gmail.com\
+My resume is currently available at [[https://docs.google.com/document/d/1OrBr3KPDjeJBcXdKFJ2vE3tgAKQxThciGMsIX1icVx8/edit][this document]].
+
+#+BEGIN_COMMENT
+
+Contact: bensima@gmail.com
+
 Homepage: www.bsima.me
 
-## Work Experience
+* Work Experience
 
-**Salzman Group / WholeLatteLove.com**\
+*Salzman Group / WholeLatteLove.com**
 *Rochester, New York*\
 *Ruby Developer*\
-*Febraury 2015 - Present*\
+*Febraury 2015 - July 2015*\
 I'm a junior developer for a large Ruby on Rails ecommerce site, [WholeLatteLove.com](https://wholelattelove.com). We occasionally contribute to open source software on [GitHub](https://github.com/SalzmanGroup).
 
 **Web Programming & Data Analysis**\
@@ -94,3 +96,5 @@ Helped build two homes for needy families, worked in the ReStore stocking donate
 *Volunteer*\
 *2006 - 2008*\
 Helped with charitable projects with the Church's teen group.
+
+#+END_COMMENT
