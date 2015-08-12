@@ -555,12 +555,13 @@
 
   To actually publish everything, I need to do =M-x
   org-publish-project RET org RET=. That's too many things. So here is
-  a helper function:
+  a helper function. The =t= makes orgmode publish everything, even if
+  the file's been unchanged.
 
   #+BEGIN_SRC elisp
   (defun bs-publish ()
     (interactive)
-    (org-publish-project "org"))
+    (org-publish-project "org" t))
   #+END_SRC
   
 * Keyboard Shortcuts
