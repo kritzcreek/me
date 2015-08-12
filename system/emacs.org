@@ -479,6 +479,84 @@
              (local-set-key (kbd "s-=") 'markdown-code)))
    #+END_SRC
 
+* "Blogging"
+
+  Really, just notetaking. I use orgmode for notes, mostly in the
+  [[file:../notes][notes]] directory. The code blocks below allow me to compile all of my
+  notes into HTML, and then I can upload them to a server
+  somewhere. Lately I've just been publishing them to Amazon S3, and
+  routing [[http://www.bsima.me][bsima.me]] to the public-facing S3 bucket.
+
+  First I require the =ox-publish= package as describe in the [[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html#sec-3][org-mode
+  docs]]. I also define the stylesheets and fonts that go into the
+  =<head>= of every page.
+  
+  #+BEGIN_SRC elisp
+  (require 'ox-publish)
+
+  (defvar bs-site-head
+    "<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic'>
+     <link rel='stylesheet' type='text/css' media='screen' href='http://openfontlibrary.org/face/fantasque-sans-mono'/>
+     <link rel='stylesheet' type='text/css' href='/assets/css/main.css' />")
+  #+END_SRC
+
+  Here I setup the org project association lists. I have 3 kinds of
+  pages on my site; I call them "notes," "pages," and "static"
+  assets. All of the settings here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing
+  section]] of the orgmode manual.
+
+  #+BEGIN_SRC elisp
+  (setq org-publish-project-alist
+        `(("org-notes"
+           :base-directory "~/me/notes/"
+           :base-extension "org"
+           :publishing-directory "~/me/www/public/notes/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 5
+           :html-head ,bs-site-head
+           :auto-preamble t)
+
+          ("org-pages"
+           :base-directory "~/me/www/resources/pages/"
+           :base-extension "org"
+           :publishing-directory "~/me/www/public/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 5
+           :html-head ,bs-site-head
+           :auto-preamble t)
+
+          ;("org-essays"
+          ; :base-directory "~/me/essays/"
+          ; :base-extension "org"
+          ; :publishing-directory "~/me/www/public/essays/"
+          ; :recursive t
+          ; :publishing-function org-html-publish-to-html
+          ; :html-head ,bs-site-head
+          ; :auto-preamble t)
+
+
+          ("org-static"
+           :base-directory "~/me/www/resources/assets/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :publishing-directory "~/me/www/public/assets/"
+           :recursive t
+           :publishing-function org-publish-attachment)
+
+          ("org" :components ("org-notes" "org-pages" "org-static"))))
+  #+END_SRC
+
+  To actually publish everything, I need to do =M-x
+  org-publish-project RET org RET=. That's too many things. So here is
+  a helper function:
+
+  #+BEGIN_SRC elisp
+  (defun bs-publish ()
+    (interactive)
+    (org-publish-project "org"))
+  #+END_SRC
+  
 * Keyboard Shortcuts
 
    I could scatter my keyboard shortcuts throughout this document,
