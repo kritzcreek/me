@@ -500,10 +500,13 @@
      <link rel='stylesheet' type='text/css' href='/assets/css/main.css' />")
   #+END_SRC
 
-  Get rid of the default CSS that orgmode inlines with every page:
+  Get rid of the default CSS that orgmode inlines with every page, the
+  validate link, and the postamble footer stuff:
   
   #+BEGIN_SRC elisp
   (setq org-html-head-include-default-style nil)
+  (setq org-html-validation-link nil)
+  (setq org-html-postamble nil)
   #+END_SRC
   
   Here I setup the org project association lists. I have 3 kinds of
