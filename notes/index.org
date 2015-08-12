@@ -1,0 +1,9 @@
+#+title: Ben's Notes
+#+author: Ben Sima
+#+email: bensima@gmail.com
+
+When I learn something, I try and write it down so I don't forget.
+
+- [[file:bio/comp.org][bio.comp]]
+- [[file:comp/lang/bnf.org][comp.lang.bnf]]
+- [[file:math/stats/pp.org][math.stats.pp]]
