@@ -142,6 +142,18 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
     sudo apt-get install gfortran libopenblas-dev liblapack-dev
    #+END_SRC
 
+* Lisp
+
+  I like to use [[https://github.com/KeenS/CIM][CIM]] to manage my Lisps. After you install it, CIM asks
+  you to run =~/.cim/bin/cim config "sh" >> "~/.bashrc"=. Doing so
+  adds the following line:
+
+  #+BEGIN_SRC sh
+  CIM_HOME="$HOME/.cim"; [ -s "$CIM_HOME/init.sh" ] && . "$CIM_HOME/init.sh"
+  #+END_SRC
+
+  From here I can just do =cim install sbcl=. Boom.
+  
 * Nix
 
   This line is automatically added to the bottom of your =.profile=
