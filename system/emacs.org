@@ -43,7 +43,7 @@
    #+BEGIN_SRC powershell :tangle no
    choco install emacs
    #+END_SRC
-   
+
    If I'm on Windows and cannot get packages to install, then my
    system is likely missing the GnuTLS DLLs. [[http://חנוך.se/diary/how_to_enable_GnuTLS_for_Emacs_24_on_Windows/index.en.html][See here]] for an
    explanation of a fix. I can check if the GnuTLS DLLs are available
@@ -67,10 +67,10 @@
 
    First, require the =package= package, so we can load
    packages. Next, add melpa and marmalade.
-   
-   #+BEGIN_SRC elisp 
+
+   #+BEGIN_SRC elisp
    (require 'package)
-   
+
    (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
                             ("gnu"       . "http://elpa.gnu.org/packages/")
                             ("melpa"     . "http://melpa.org/packages/")
@@ -82,15 +82,15 @@
    packages (in order to customize them in this file) until we do
    this:
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
      (package-initialize)
      (package-refresh-contents)
    #+END_SRC
 
    I don't remember where I got this, but it's pretty handy for
    declaring packages that you need installed.
-   
-   #+BEGIN_SRC elisp 
+
+   #+BEGIN_SRC elisp
    (defun require-package (package &optional min-version no-refresh)
      "Install given PACKAGE, optionally requiring MIN-VERSION.
    If NO-REFRESH is non-nil, the available package lists will not be
@@ -105,8 +105,8 @@
    #+END_SRC
 
    This one is from Howard Abrams:
-   
-   #+BEGIN_SRC elisp 
+
+   #+BEGIN_SRC elisp
    (defun inverse-filter (condp lst)
      "A filter function, but returns a list of the entries that
    don't match the predicate."
@@ -126,8 +126,8 @@
    Finally, I want some standard, use-everywhere packages. The
    commented-out packages don't work with emacs 24.3.1, so I need to
    upgrade.
-   
-   #+BEGIN_SRC elisp 
+
+   #+BEGIN_SRC elisp
    (packages-install '(ag
                        avy
                        company
@@ -174,20 +174,20 @@
 
    Use Common Lisp everywhere.
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (require 'cl-lib)
    #+END_SRC
 
    I don't know why this is disabled by default. It's really handy.
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (put 'downcase-region 'disabled nil)
    #+END_SRC
 
    By default, backups and autosaves save to the same directory. This
    clutters your filesystem, so let's keep them organized.
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (setq backup-by-copying t
          backup-directory-alist '(("." . "~/.saves"))
          delete-old-versions t
@@ -197,11 +197,11 @@
    #+END_SRC
 
 * Yasnippet
-   
+
    Yasnippet is great, even if I forget to use it. Might as well
    require it everywhere.
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (require 'yasnippet)
    (yas-global-mode 1)
    (setq yas-snippet-dirs '("~/me/system/snippets"
@@ -215,7 +215,7 @@
    helm-projectile, use [[http://tuhdo.github.io/helm-projectile.html][this guide by tuhdo]]. I've also added a few
    configurations that I like.
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (projectile-global-mode)
    (require 'helm)
    (require 'helm-config)
@@ -251,7 +251,7 @@
 
     A great guide for learning eshell comes from [[http://www.masteringemacs.org/article/complete-guide-mastering-eshel][Mastering Emacs]].
 
-    #+BEGIN_SRC elisp 
+    #+BEGIN_SRC elisp
     (require 'eshell)
     (require 'em-smart)
     (setq eshell-where-to-jump 'begin)
@@ -298,7 +298,7 @@
                                              (+ start 8))))))
             ;; Delete this command from MESSAGE.
             (setq message (replace-match "" t t message))
-            
+
             (cond ((= command-code ?c)
                    (setq term-ansi-at-dir argument))
                   ((= command-code ?h)
@@ -311,7 +311,7 @@
                   ((= command-code ?x)
                    (save-excursion
                      (find-file argument))))))
-    
+
     (when (and term-ansi-at-host term-ansi-at-dir term-ansi-at-user)
       (setq buffer-file-name
             (format "%s@%s:%s" term-ansi-at-user term-ansi-at-host term-ansi-at-dir))
@@ -323,7 +323,7 @@
     #+END_SRC
 
     =eshell-here= is a cool function from Howard Abrams that lets you
-    open a new eshell in the lower-third of your window. 
+    open a new eshell in the lower-third of your window.
 
     #+BEGIN_SRC elisp
     (defun eshell-here ()
@@ -333,8 +333,8 @@
     directory for easier identification if useing multiple eshells."
       (interactive)
       (let* ((parent (if (buffer-file-name)
-    	               (file-name-directory (buffer-file-name))
-    	               default-directory))
+                       (file-name-directory (buffer-file-name))
+                       default-directory))
              (height (/ (window-total-height) 3))
              (name (car (last (split-string parent "/" t)))))
         (split-window-vertically (- height))
@@ -343,7 +343,7 @@
         (rename-buffer (concat "*eshell: " name "*"))
         (insert (concat "ls"))
         (eshell-send-input)))
-    
+
     (defun eshell/x ()
       "From the eshell, `x` exits the shell and closes the window."
       (insert "exit")
@@ -355,10 +355,10 @@
 
   With [[https://twitter.com/_wilfredh][Wilfred Hughes]] fancy [[https://github.com/Wilfred/ag.el/#agel][ag package]], I’ve switch from [[http://beyondgrep.com][ack]] to the
   [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack/][Silver Searcher]]. The installation is handled in [[file:profile.org][profile.org]].
-  
+
   Best part about the ag package, is not needing any configuration (as
   all functions are load-on demand).
-  
+
     - =ag-project-at-point= :: sets the query with the word at point,
          use: =C-c p s s=
     - =ag-regexp= :: searches for regular expressions in a chosen
@@ -367,9 +367,9 @@
                      command)
     - =C-u= :: Adding a prefix adds command line options, like =-s= or
                =-i= to specify case-sensitivity.
-                   
+
     Using the latest version of =ag=? Highlight the keywords:
-    
+
     #+BEGIN_SRC elisp
       (setq ag-highlight-search t)
     #+END_SRC
@@ -377,7 +377,7 @@
 
     A useful helper function: quickly search [[https://duckduckgo.com][Duck Duck Go]].
 
-    #+BEGIN_SRC elisp 
+    #+BEGIN_SRC elisp
     (defun search-ddg (query)
       "Seraches DuckDuckGo for query."
       (interactive "sDDG: ")
@@ -391,7 +391,7 @@
     =(connect-remote bsima 127.0.0.1)=. Or in other words =M-x
     connect-remote RET bsima RET 127.0.0.1 RET=.
 
-    #+BEGIN_SRC elisp 
+    #+BEGIN_SRC elisp
     (defun connect-remote (user ip)
       "Opens an SSH tunnel to remote host with full emacs functionality."
       (interactive "sUser: \nsIP: ")
@@ -401,7 +401,7 @@
     A useful little function to convert a Markdown file in the current
     buffer into HTML. It will open the new HTML file in a new buffer.
 
-    #+BEGIN_SRC elisp 
+    #+BEGIN_SRC elisp
     (defun markdown-to-html ()
       (interactive)
       (let* ((basename (file-name-sans-extension (buffer-file-name)))
@@ -415,7 +415,7 @@
 
    The following is courtesy of Howard Abrams:
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
      (autoload 'markdown-mode "markdown-mode.el"
         "Major mode for editing Markdown files" t)
      (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
@@ -425,7 +425,7 @@
    Using the =surround= function, I create some wrapper
    functions to make it easier to bold text in Markdown files:
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
      (defun markdown-bold () "Wraps the region with double asterisks."
        (interactive)
        (surround-text "**"))
@@ -439,7 +439,7 @@
 
    Now I can associate some keystrokes to =markdown-mode=:
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
      (add-hook 'markdown-mode-hook
            (lambda ()
              (local-set-key (kbd "A-b") 'markdown-bold)
@@ -461,7 +461,7 @@
   First I require the =ox-publish= package as describe in the [[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html#sec-3][org-mode
   docs]]. I also define the stylesheets and fonts that go into the
   =<head>= of every page.
-  
+
   #+BEGIN_SRC elisp
   (require 'ox-publish)
 
@@ -473,13 +473,13 @@
 
   Get rid of the default CSS that orgmode inlines with every page, the
   validate link, and the postamble footer stuff:
-  
+
   #+BEGIN_SRC elisp
   (setq org-html-head-include-default-style nil)
   (setq org-html-validation-link nil)
   (setq org-html-postamble nil)
   #+END_SRC
-  
+
   Here I setup the org project association lists. I have 3 kinds of
   pages on my site; I call them "notes," "pages," and "static"
   assets. All of the settings here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing
@@ -537,14 +537,14 @@
     (interactive)
     (org-publish-project "org" t))
   #+END_SRC
-  
+
 * Keyboard Shortcuts
 
    I could scatter my keyboard shortcuts throughout this document,
    putting them closer to the function that they invoke, but I like
    having them all in one place for easy reference.
-   
-   #+BEGIN_SRC elisp 
+
+   #+BEGIN_SRC elisp
    ;;FIXME: make this table into an org-mode table
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ;;; Keyboard shortcuts
@@ -561,6 +561,7 @@
    ;;;    C-q         Goto line
    ;;;    C-c C-s     Search DuckDuckGo
    ;;;    C-`         Insert character literal (`quoted-insert`)
+   ;;;    C-c w       Toggle whitespace mode
    ;;;
    ;;;  Multiple cursors
    ;;;    C-S-s C-S-s Add cursor to each line in a region
@@ -568,10 +569,10 @@
    ;;;    C->         Mark the previous similiar (not-continuous)
    ;;;    C-c C-<     Mark all similar (not-continuous)
    ;;;
-   
+
    ;; Don't disable the upcase-region function, I seem to use it alot
    (put 'upcase-region 'disabled nil)
-   
+
    (global-set-key (kbd "C-:") 'eshell-here)
    (global-set-key (kbd "C-;") 'execute-extended-command)
    (global-set-key "\C-x\C-m" 'execute-extended-command)
@@ -586,16 +587,17 @@
    (global-set-key (kbd "C-c C-s") 'search-ddg)
    (global-set-key (kbd "C-`") 'quoted-insert)
    (global-set-key (kbd "C-.") 'hs-toggle-hiding)
-   
+   (global-set-key (kbd "C-c w") 'whitespace-mode)
+
    ;; M-x qrr == find and replace
    (defalias 'qrr 'query-replace-regexp)
-   
+
    ;; M-x mx  == magit-status
    (defalias 'ms 'magit-status)
-   
+
    ;; M-x mt == multi-term
    (defalias 'mt 'multi-term)
-   
+
    ;;; Multiple cursors
    ;;; http://github.com/magnars/multiple-cursors.el
    (require 'multiple-cursors)
@@ -603,7 +605,7 @@
    (global-set-key (kbd "C->") 'mc/mark-next-like-this)
    (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
    (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-   
+
    ;;; Default window movement - use Shift+arrow-key to move between windows
    (windmove-default-keybindings)
    #+END_SRC
@@ -612,7 +614,7 @@
 
    Get rid of all that chrome
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (setq initial-scratch-message "") ;; Uh, I know what Scratch is for
    (setq visible-bell t)             ;; Get rid of the beeps
 
@@ -623,14 +625,14 @@
    #+END_SRC
 
 *** Fonts
-   
+
    Set a font if it's available. I really like [[https://github.com/belluzj/fantasque-sans][Fantasque Sans Mono.]]
 
    #+BEGIN_SRC elisp
    (defun font-candidate (&rest fonts)
      "Return existing font which first match."
      (find-if (lambda (f) (find-font (font-spec :name f))) fonts))
-            
+
    (set-face-attribute 'default nil :font (font-candidate '"Fantasque Sans Mono-12:weight=normal"))
    #+END_SRC
 
@@ -641,8 +643,8 @@
     activate the light mode during the day, and the dark mode at night.
 
     I also like [[https://github.com/donderom/jazz-theme][donderom's jazz theme]] and [[https://github.com/juba/color-theme-tangotango][juba's tangotango]].
-    
-   #+BEGIN_SRC elisp 
+
+   #+BEGIN_SRC elisp
    (packages-install '(theme-changer
                        solarized-theme
                        tangotango-theme
@@ -652,7 +654,7 @@
 
    ;; I don't want solarized right now.
    ;;(require 'theme-changer)
-   ;;(setq calendar-location-name "Rochester NY") 
+   ;;(setq calendar-location-name "Rochester NY")
    ;;(setq calendar-latitude 43.16)
    ;;(setq calendar-longitude -77.61)
 
@@ -672,7 +674,7 @@
 
   Who works in only one language these days?
 
-  #+BEGIN_SRC elisp 
+  #+BEGIN_SRC elisp
   (setq-default indent-tabs-mode nil)
   #+END_SRC
 
@@ -680,7 +682,7 @@
 
    I like [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] mode.
 
-   #+BEGIN_SRC elisp 
+   #+BEGIN_SRC elisp
    (require-package 'rainbow-delimiters)
    (rainbow-delimiters-mode)
 
@@ -694,8 +696,8 @@
 
 ** Common Lisp
 
-   
-   
+
+
    #+BEGIN_SRC elisp
    (packages-install '( slime ))
 
@@ -710,11 +712,92 @@
    #+BEGIN_SRC elisp
    (packages-install '( shen-mode ))
    #+END_SRC
+
+** C / C++
+
+   Tuhdo has a [[http://tuhdo.github.io/c-ide.html][nice guide]] on setting up emacs for C/C++. I'll need [[http://www.gnu.org/software/global/][GNU
+   Global]], which I have automatically installed in [[file:setup.org][setup.org]].
+
+   First I install all the packages.
+
+   #+BEGIN_SRC elisp
+   (packages-install '( helm-gtags ))
+   #+END_SRC
+
+   Configure Helm to interface with GNU Global via [[https://github.com/syohex/emacs-helm-gtags][helm-gtags]]
+
+   #+BEGIN_SRC elisp
+   (setq
+     helm-gtags-ignore-case t
+     helm-gtags-auto-update t
+     helm-gtags-use-input-at-cursor t
+     helm-gtags-pulse-at-cursor t
+     helm-gtags-prefix-key "\C-cg"
+     helm-gtags-suggested-key-mapping t)
+
+   (require 'helm-gtags)
+   ;; Enable helm-gtags-mode
+   (add-hook 'dired-mode-hook 'helm-gtags-mode)
+   (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+   (add-hook 'c-mode-hook 'helm-gtags-mode)
+   (add-hook 'c++-mode-hook 'helm-gtags-mode)
+   (add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+   (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+   (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+   (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+   (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+   (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+   (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+   #+END_SRC
+
+   Add header file extensions to C++ mode
+
+   #+BEGIN_SRC elisp
+   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode)
+   #+END_SRC
+
+   Allow folding blocks with =hs-minor-mode=.
+
+   #+BEGIN_SRC elisp
+   (add-hook 'c-mode-common-hook 'hs-minor-mode)
+   #+END_SRC
+
+   Indentation style options. See examples of the below [[https://en.wikipedia.org/wiki/Indent_style#Styles][on Wikipedia]].
+
+   | Option       | Description                                                                                                                           |
+   |--------------+---------------------------------------------------------------------------------------------------------------------------------------|
+   | =gnu=        | The default style for GNU projects                                                                                                    |
+   | =k&r=        | What Kernighan and Ritchie, the authors of C used in their book                                                                       |
+   | =bsd=        | What BSD developers use, aka “Allman style” after Eric Allman.                                                                        |
+   | =whitesmith= | Popularized by the examples that came with Whitesmiths C, an early commercial C compiler.                                             |
+   | =stroustrup= | What Stroustrup, the author of C++ used in his book                                                                                   |
+   | =ellemtel=   | Popular C++ coding standards as defined by “Programming in C++, Rules and Recommendations,” Erik Nyquist and Mats Henricson, Ellemtel |
+   | =linux=      | What the Linux developers use for kernel development                                                                                  |
+   | =python=     | What Python developers use for extension modules                                                                                      |
+   | =java=       | The default style for java-mode (see below)                                                                                           |
+   | =user=       | When you want to define your own style                                                                                                |
+
+   #+BEGIN_SRC elisp
+   (setq c-default-style "linux")
+   #+END_SRC
+
+** Arduino
+
+   There is an emacs [[https://github.com/bookest/arduino-mode][Arduino-mode]]. It looks like it's just an
+   extension of [[http://cc-mode.sourceforge.net/][cc-mode]].
+
+   #+BEGIN_SRC elisp
+   (packages-install '( arduino-mode ))
+
+   (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
+   (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
+   #+END_SRC
    
 ** Clojure
 
    Most of my lisp work is done in Clojure these days.
-   
+
 *** Supporting Packages
 
     #+BEGIN_SRC elisp
@@ -776,7 +859,7 @@
 
     Paredit helpers! Use =C-^= to remove newlines and =M-^= to delete
     indentation:
-    
+
     #+BEGIN_SRC elisp
     (defun paredit-delete-indentation (&optional arg)
       "Handle joining lines that end in a comment."
@@ -792,7 +875,7 @@
             (move-end-of-line 1)
             (insert " ")
             (insert comt)))))
-  
+
     (defun paredit-remove-newlines ()
       "Removes extras whitespace and newlines from the current point
     to the next parenthesis."
@@ -802,7 +885,7 @@
          (backward-char)
          (while (> (point) up-to)
            (paredit-delete-indentation))))
-  
+
     ;(define-key paredit-mode-map (kbd "C-^") 'paredit-remove-newlines)
     ;(define-key paredit-mode-map (kbd "M-^") 'paredit-delete-indentation)
     #+END_SRC
@@ -810,7 +893,7 @@
 *** Code Highlighting
 
     Make sure these files are included in clojure-mode:
-    
+
     #+BEGIN_SRC elisp
     (add-to-list 'auto-mode-alist '("\\.boot" . clojure-mode))
     (add-to-list 'auto-mode-alist '("\\.hl" . clojure-mode))
@@ -868,7 +951,7 @@
     (setq cider-repl-wrap-history t)
     (setq cider-repl-history-size 3000)
     #+END_SRC
-    
+
     Let's color the REPL:
 
     #+BEGIN_SRC elisp
@@ -890,11 +973,11 @@
     Make cider pretty-print it's results
 
     #+BEGIN_SRC elisp
-    (setq cider-repl-use-pretty-printing t)    
+    (setq cider-repl-use-pretty-printing t)
     #+END_SRC
 
     Prefix cider repl output
-    
+
     #+BEGIN_SRC elisp
     (setq cider-repl-result-prefix ";; => ")
     #+END_SRC
@@ -923,7 +1006,7 @@
     curl -LO https://github.com/boot-clj/boot/releases/download/2.0.0/boot.sh
     mv boot.sh boot && chmod a+x boot && sudo mv boot /usr/local/bin
     #+END_SRC
-    
+
 *** Docs and Refactoring
 
     First, get [[http://emacswiki.org/emacs/ElDoc][ElDoc]] working with Clojure and Cider
@@ -960,7 +1043,7 @@
     ;(add-hook 'clojure-mode-hook #'paredit-mode)
     ;(require-package 'cider)
     ;(require-package 'company)
-  
+
      (setq cider-show-error-buffer nil)
      (add-hook 'cider-repl-mode-hook #'company-mode)
      (add-hook 'cider-mode-hook #'company-mode)
@@ -978,7 +1061,7 @@
    (packages-install '( haskell-mode ; the predominant Haskell emacs package
                         scion        ; an IDE library
                         ghc          ; an interface to the Haskell compiler
-                        hindent      ; a pretty-printer 
+                        hindent      ; a pretty-printer
                       ))
 
    (require 'haskell-interactive-mode)
@@ -987,10 +1070,10 @@
    (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
    (add-hook 'haskell-mode-hook 'haskell-auto-insert-module-template)
    (add-hook 'haskell-interactive-mode-hook 'structured-haskell-repl-mode)
-   #+END_SRC 
+   #+END_SRC
 
 ** Ruby
-   
+
    I write Ruby code for money.
 
    Howard Abrams basically provided all of this section. First I'll
@@ -1055,7 +1138,7 @@
     #+END_SRC
 
 *** RVM
-    
+
     Use [[https://github.com/senny/rvm.el][rvm.el]]. When jumping from project to project, be sure to run
     =rvm-use=, which must be done before launching Eshell.
 
@@ -1093,12 +1176,12 @@
     (require 'inf-ruby)
     (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
     #+END_SRC
-    
+
     To start eval-ing, do: =M-x inf-ruby=  ... or: =C-c C-s=
-  
+
     Use =expand-regions= in order to send a region to this REPL with
     =ruby-send-region= (=C-c i=).
-  
+
     #+BEGIN_SRC elisp
     (add-hook 'ruby-mode-hook
               (lambda ()
@@ -1187,7 +1270,7 @@
    convenient [[https://github.com/yyuu/pyenv-installer][pyenv-installer]]. This only works on Unix machines. On
    Windows I might use [[http://continuum.io][Anaconda]] for simplicity.
 
-   Python itself is installed and setup in [[file:profile.org][profile.org]]   
+   Python itself is installed and setup in [[file:profile.org][profile.org]]
 
 *** Packages and Virtual Environments
 
@@ -1246,7 +1329,7 @@
     |---------+------------------------------|
     | =C-Tab= | Auto-complete                |
     | =C-.=   | Jump to definition           |
-    | =C-c d= | Show the function definition | 
+    | =C-c d= | Show the function definition |
 
     #+BEGIN_SRC elisp
     (when (require 'jedi nil t)
@@ -1287,7 +1370,7 @@
 ** YAML / TOML / JSON
 
    Every has to work in these configuration-ish formats from time to time.
-   
+
    #+BEGIN_SRC elisp
    (packages-install '( yaml-mode
                         toml-mode
@@ -1303,7 +1386,7 @@
    =/run/current-system/sw/share/emacs/site-list/nix-mode.el=. Or, I
    could just install it via the emacs package manager. Also, I'll
    lazy-load the library.
-   
+
    #+BEGIN_SRC elisp -n -r
    (package-install 'nix-mode)
 
@@ -1326,7 +1409,7 @@
    Now I can edit local files as root (=C-x C-f
    /su::/etc/nixos/configuration.nix=) and remotely via ssh (=C-x C-f
    /ssh:username@hostname#22:/=).
-   
+
 *** Using Nix to configure Emacs
 
     People are working on making the Nix package manager handle emacs
@@ -1334,11 +1417,11 @@
     reproduce emacs environments accross machines. Unfortunately, it
     doesn't look like it's complete yet. See [[https://github.com/NixOS/nixpkgs/pull/7431][this PR]] and [[https://nixos.org/wiki/Emacs_configuration#Replacing.2FSupplementing_use_of_package.el_.28Emacs.27_package_management_system.29_with_Nix][this wiki
     section]]. Hopefully it will be completed soon!
-   
+
 * Technical Artifacts
 
   This is an [[http://orgmode.org/][org-mode]] file. Create the script by tangling it with: =C-c C-v t=
-  
+
 ** Setting up the Exec Path
 
    Make sure that =PATH= variable for finding binary files can is the
