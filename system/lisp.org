@@ -1,0 +1,28 @@
+#+TITLE: Lisp Configurations
+#+AUTHOR: Ben Sima
+
+My configurations for various Common Lisp implementatins.
+
+* SBCL
+
+  This creates my =~/.sbclrc= file just the way I like it. First I
+  always include [[https://www.quicklisp.org/beta/][Quicklisp]].
+
+  #+BEGIN_SRC lisp :tangle ~/.sbclrc
+  (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
+    (when (probe-file quicklisp-init)
+      (load quicklisp-init)))
+  #+END_SRC
+
+  Now I'll add this repo to the asdf registry, and load my =bs.lisp=
+  stuff. Not much is in there yet, but I'll add to it soon.
+
+  #+BEGIN_SRC lisp :tangle no
+  (let ((me (merge-pathnames "bs.asd" (user-homedir-pathname))))
+    (push me asdf:*central-repository*))
+  #+END_SRC
+
+* Technical Artifacts
+
+#+PROPERTY: comments org
+#+DESCRIPTION: My lisp configurations

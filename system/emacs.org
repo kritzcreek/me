@@ -723,13 +723,23 @@
 
 ** Common Lisp
 
-   #+BEGIN_SRC elisp 
-   ;(load (expand-file-name "~/quicklisp/slime-helper.el"))
+   
+   
+   #+BEGIN_SRC elisp
+   (packages-install '( slime ))
+
+   (load (expand-file-name "~/quicklisp/slime-helper.el"))
    (setq inferior-lisp-program "sbcl")
    (add-hook 'lisp-mode-hook #'hl-sexp-mode)
    (add-hook 'lisp-mode-hook #'paredit-mode)
    #+END_SRC
 
+** Shen
+
+   #+BEGIN_SRC elisp
+   (packages-install '( shen-mode ))
+   #+END_SRC
+   
 ** Clojure
 
    Most of my lisp work is done in Clojure these days.

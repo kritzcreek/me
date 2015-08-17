@@ -279,4 +279,3 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
 #+PROPERTY: comments org
 #+PROPERTY: shebang #!/bin/sh
 #+DESCRIPTION: Global environment varialbes for all shells
-'

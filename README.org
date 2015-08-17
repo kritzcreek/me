@@ -33,3 +33,7 @@ be able to call each other too.
 
 1. load [[https://github.com/fukamachi/shelly][Shelly]] and setup a continuous Common Lisp REPL that I can use
    as a sort-of-alternative to bash/zsh.
+2. Shelly should load all the lisp scripts in =./bin/=, so I have
+   access to them from both the shell and the repl
+3. [[file:system/lisp.org][.sbclrc]] should also load lisp scripts in =./bin/= and load a new
+   directory called =./lib/=, where I can put more library-like code.
