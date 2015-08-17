@@ -1,0 +1,136 @@
+#+title:  Setup
+#+author: Ben Sima
+
+This is an idempotent setup file to install and build programs that I
+want on every system. This entire script depends on root access, so I
+check for that up front.
+
+#+BEGIN_SRC sh
+[ $(whoami) = root ] || exec su -c $0 root
+#+END_SRC
+
+See [[http://unix.stackexchange.com/a/70870/128190][here]] for an explanation of that code.
+
+* =builds=
+
+  I like to keep all of my custom builds in a =~/builds= directory.
+
+  #+BEGIN_SRC 
+  mkdir $HOME/builds/
+  export $BUILDS_DIR=$HOME/builds/
+  #+END_SRC
+
+* curl
+
+   Why isnt' curl standard? Let's install it if it's not already.
+
+   #+BEGIN_SRC sh
+   command -v curl >/dev/null 2>&1 || apt-get install curl
+   #+END_SRC
+
+* Silver Searcher
+
+   [[https://github.com/ggreer/the_silver_searcher][Silver Searcher]] is a code searching tool similar to =ack=, but
+   super fast.
+   
+   #+BEGIN_SRC sh
+   command -v ag >/dev/null 2>&1 || apt-get install silversearcher-ag
+   #+END_SRC
+
+   Create collection of [[file:~/.agignore][ignorable files]] so it doesn’t look in backup
+   files:
+    
+   #+BEGIN_SRC org :tangle ~/.agignore :comments no :shebang ""
+     #.* 
+   #+END_SRC
+
+* Git
+
+   The default Git available in Debian-based systems is old. Let's use
+   the latest.
+
+   #+BEGIN_SRC sh
+   add-apt-repository ppa:git-core/ppa
+   apt-get update
+   apt-get install git
+   #+END_SRC
+
+* Emacs
+
+  /Note: This section is not currenly tangled./
+
+  First, add the source URI to install =build-dep=, the dependencies
+  for actually building the executable:
+   
+  #+BEGIN_SRC sh :tangle no
+  bash -c 'echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list'
+  apt-get update
+  apt-get install build-essential
+  apt-get build-dep emacs24
+  #+END_SRC
+
+  Next, get the source tarball. I like to store all of my
+  builds in a =~/builds/= directory:
+
+  #+BEGIN_SRC sh :tangle no
+  cd ~/builds/
+  mkdir emacs && cd emacs
+  wget http://mirror.teamm-cymru.org/gnu/emacs/emacs-24.4.tar.gz
+  tar xvf emacs-24.4.tar.gz
+  #+END_SRC
+
+  Now I can campile:
+
+  #+BEGIN_SRC sh :tangle no
+  cd emacs-24.4
+  ./configure
+  make
+  sudo make install
+  #+END_SRC
+   
+  Tada! That's all it takes to install emacs :)
+  
+* GNU Global
+
+  Global is also too old on the Debian repositories. I can build it
+  from scratch though:
+
+  #+BEGIN_SRC sh
+  install_gnu_global() {
+    mkdir $BUILDS_DIR/gnu-global
+    cd $BUILDS_DIR/gnu-global
+    wget http://tamacom.com/global/global-6.5.tar.gz
+    tar xvf global-6.5.tar.gz
+    cd global-6.5
+    ./configure && make && make install
+  }
+
+  command -v global >/dev/null 2>&1 || install_gnu_global()
+  #+END_SRC
+
+* Arduino
+
+  I can totally package Arduino code from the command line. Check out
+  [[http://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile][this article on HardwareFun.com]].
+
+  First install [[https://github.com/sudar/Arduino-Makefile/][arduino-mk]] and the [[http://playground.arduino.cc/Linux/Debian][Arduino IDE]]:
+
+  #+BEGIN_SRC sh
+  apt-get install arduino arduino-mk
+  #+END_SRC
+
+  I will also need [[https://pypi.python.org/pypi/pyserial][pySerial]]
+
+  #+BEGIN_SRC sh
+  pip install pyserial
+  #+END_SRC
+  
+* Technical Artifacts
+
+  This is an [[http://orgmode.org][org mode]] file. Tangle it with =C-c C-v t= and it will
+  place all the above source code blocks into =~/bin/setup.sh=.
+  
+#+PROPERTY: tangle ~/bin/setup.sh
+#+PROPERTY: comments org
+#+PROPERTY: shebang #!/bin/env sh
+#+DESCRIPTION: Idempotent setup script

@@ -17,36 +17,7 @@
    24.3, which is outdated and doesn't work with some packages. Thus,
    we must build it from souce.
 
-   First, add the source URI to install =build-dep=, the dependencies
-   for actually building the executable:
-   
-   #+BEGIN_SRC sh :tangle no
-   sudo bash -c 'echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list'
-   sudo apt-get update
-   sudo apt-get install build-essential
-   sudo apt-get build-dep emacs24
-   #+END_SRC
-
-   Next, get the source tarball. I like to store all of my
-   builds in a =~/builds/= directory:
-
-   #+BEGIN_SRC sh :tangle no
-   cd ~/builds/
-   mkdir emacs && cd emacs
-   wget http://mirror.teamm-cymru.org/gnu/emacs/emacs-24.4.tar.gz
-   tar xvf emacs-24.4.tar.gz
-   #+END_SRC
-
-   Now I can campile:
-
-   #+BEGIN_SRC sh :tangle no
-   cd emacs-24.4
-   ./configure
-   make
-   sudo make install
-   #+END_SRC
-   
-   Tada! That's all it takes to install emacs :)
+   See [[file:setup.org][setup.org]] for instructions on how to build emacs.
 
 ** Loading this File
 
