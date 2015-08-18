@@ -55,6 +55,22 @@ See [[http://unix.stackexchange.com/a/70870/128190][here]] for an explanation of
    apt-get install git
    #+END_SRC
 
+* Exa
+
+  [[http://bsago.me/exa/][exa]] is a beautiful and modern replacement for =ls=, written in
+  Rust. I can install it with the binaries:
+
+  #+BEGIN_SRC sh
+  command -v exa >/dev/null 2>&1 || {
+    mkdir $BUILDS_DIR/exa
+    cd $BUILDS_DIR/exa
+    wget https://github.com/ogham/exa/releases/download/v0.3.0/exa-linux-x86_64.zip
+    unzip exa-linux-x86_64.zip
+    chmod a+x exa-linux-x86_64.zip
+    mv exa-linux-x86_64.zip ~/bin/exa
+  }
+  #+END_SRC
+
 * Emacs
 
   /Note: This section is not currenly tangled./

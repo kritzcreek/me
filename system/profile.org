@@ -142,16 +142,6 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
    alias history='fc -l 1'
    #+END_SRC
 
-   Helpful "list directory" shortcuts
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   alias lsa='ls -lah'
-   alias l='ls -lA1'
-   alias ll='ls -l'
-   alias la='ls -lA'
-   alias sl=ls # often screw this up
-   #+END_SRC
-
    Working directory. =setproj= sets to the current working directory
    to the project directory variable, =cdproj= changes to the project directory
 
@@ -198,6 +188,28 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
        echo 'nope'
      fi
    }
+   #+END_SRC
+
+** =ls= and =exa=
+
+   I like using exa, so these are some aliases to help with that.
+
+   #+BEGIN_SRC sh :tangle ~/.bashrc
+   alias ls="echo \"You're using exa\" && exa" # help me remember to switch to exa
+   alias e="exa -lh"
+   alias eg="exa -lh --git"
+   alias et="exa -lT --level 3" # more than 3 levels takes *forever*. Even 3 takes a while :(
+   alias l="exa -lgah"
+   #+END_SRC
+  
+   Old but helpful "list directory" shortcuts (not tangled)
+  
+   #+BEGIN_SRC sh :tangle no
+   alias lsa='ls -lah'
+   alias l='ls -lA1'
+   alias ll='ls -l'
+   alias la='ls -lA'
+   alias sl=ls # often screw this up
    #+END_SRC
    
 * Git Aliases and Helpers
