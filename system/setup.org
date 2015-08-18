@@ -15,9 +15,11 @@ See [[http://unix.stackexchange.com/a/70870/128190][here]] for an explanation of
 
   I like to keep all of my custom builds in a =~/builds= directory.
 
-  #+BEGIN_SRC 
-  mkdir $HOME/builds/
-  export $BUILDS_DIR=$HOME/builds/
+  #+BEGIN_SRC sh
+  export USER_HOME=/home/$USERNAME
+  export BIN_DIR=$USER_HOME/bin
+  export BUILDS_DIR=$USER_HOME/builds
+  [ -d $BUILDS_DIR ] || mkdir $BUILDS_DIR
   #+END_SRC
 
 * curl
@@ -61,14 +63,16 @@ See [[http://unix.stackexchange.com/a/70870/128190][here]] for an explanation of
   Rust. I can install it with the binaries:
 
   #+BEGIN_SRC sh
-  command -v exa >/dev/null 2>&1 || {
+  install_exa() {
     mkdir $BUILDS_DIR/exa
     cd $BUILDS_DIR/exa
     wget https://github.com/ogham/exa/releases/download/v0.3.0/exa-linux-x86_64.zip
     unzip exa-linux-x86_64.zip
     chmod a+x exa-linux-x86_64.zip
-    mv exa-linux-x86_64.zip ~/bin/exa
+    mv exa-linux-x86_64.zip $BIN_DIR/exa
   }
+
+  command -v exa >/dev/null 2>&1 || install_exa()
   #+END_SRC
 
 * Emacs
@@ -132,21 +136,21 @@ See [[http://unix.stackexchange.com/a/70870/128190][here]] for an explanation of
   First install [[https://github.com/sudar/Arduino-Makefile/][arduino-mk]] and the [[http://playground.arduino.cc/Linux/Debian][Arduino IDE]]:
 
   #+BEGIN_SRC sh
-  apt-get install arduino arduino-mk
+  command -v arduino >/dev/null 2>&1 || apt-get install arduino arduino-mk
   #+END_SRC
 
-  I will also need [[https://pypi.python.org/pypi/pyserial][pySerial]]
+  I will also need [[https://pypi.python.org/pypi/pyserial][pySerial]] (not tangled)
 
-  #+BEGIN_SRC sh
+  #+BEGIN_SRC sh :tangle no
   pip install pyserial
   #+END_SRC
   
 * Technical Artifacts
 
   This is an [[http://orgmode.org][org mode]] file. Tangle it with =C-c C-v t= and it will
-  place all the above source code blocks into =~/bin/setup.sh=.
+  place all the above source code blocks into =~/bin/setup=.
   
-#+PROPERTY: tangle ~/bin/setup.sh
+#+PROPERTY: tangle ~/bin/setup
 #+PROPERTY: comments org
-#+PROPERTY: shebang #!/bin/env sh
+#+PROPERTY: shebang #!/bin/sh
 #+DESCRIPTION: Idempotent setup script
