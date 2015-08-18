@@ -196,8 +196,9 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
 
    #+BEGIN_SRC sh :tangle ~/.bashrc
    alias ls="echo \"You're using exa\" && exa" # help me remember to switch to exa
-   alias e="exa -lh"
+   alias e="exa -lgah"
    alias eg="exa -lh --git"
+   alisa ea="exa -la"
    alias et="exa -lT --level 3" # more than 3 levels takes *forever*. Even 3 takes a while :(
    alias l="exa -lgah"
    #+END_SRC
