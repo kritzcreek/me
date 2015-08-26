@@ -46,21 +46,25 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
   
 * Ruby
 
-  If [[http://rvm.io][RVM]] is installed, load it into the shell session /as a function/
-  (this is apparently important).
+  Load [[https://github.com/sstephenson/rbenv][rbenv]] if it is installed. I also need the [[https://github.com/sstephenson/ruby-build][ruby-build]] plugin for
+  rbenv, which provides the =rbenv install= command.
 
+  To load rbenv into the shell, I need to add =~/.rbenv/bin= to the
+  =$PATH= and eval this =init= command.
+  
   #+BEGIN_SRC sh
-  load_rvm() {
-    [[ -s "$HOME/.rvm/scripts/rvm" ]]
-    . "$HOME/.rvm/scripts/rvm"
+  load_rbenv() {
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
   }
 
-  if [ -d "$HOME/.rvm" ]
+  if [ -d "$HOME/.rbenv" ]
   then
-    load_rvm
+    load_rbenv
   else
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    curl -sSL https://get.rvm.io | bash -s stable
+    git clone https://github.com/sstephenson/rbenv.git "$HOME/.rbenv"
+    git clone https://github.com/sstephenson/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
+    load_rbenv
   fi
   #+END_SRC
 
