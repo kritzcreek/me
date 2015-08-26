@@ -1113,7 +1113,7 @@
     (add-to-list 'auto-mode-alist '("\\.rake"     . ruby-mode))
     (add-to-list 'auto-mode-alist '("\\.haml"     . haml-mode))
     (add-to-list 'auto-mode-alist '("\\.rabl"     . haml-mode))
-    (add-to-list 'auto-mode-alist '("\\.rb$"      . haml-mode))
+    (add-to-list 'auto-mode-alist '("\\.rb"       . ruby-mode))
     #+END_SRC
 
     Use [[http://web-mode.org/][web-mode]] for ERB templates:
