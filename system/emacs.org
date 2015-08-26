@@ -1241,6 +1241,15 @@
     - =robe-ask= will act like jump, but asks for the method first
     - =robe-doc= displays the method documentation (doesn’t seem to be as useful as =dash-at-point=).
 
+*** Rails
+
+    [[https://github.com/eschulte/rinari/tree/master][Rinari]] makes working with Rails easier.
+    
+    #+BEGIN_SRC elisp
+    (packages-install '( rinari ))
+    (require 'rinari)
+    #+END_SRC
+
 *** Ruby Tools
 
     The little refactoring available with [[https://github.com/rejeep/ruby-tools.el][Ruby Tools]] looks interesting.
