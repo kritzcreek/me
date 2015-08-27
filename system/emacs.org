@@ -754,7 +754,7 @@
    Add header file extensions to C++ mode
 
    #+BEGIN_SRC elisp
-   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode)
+   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
    #+END_SRC
 
    Allow folding blocks with =hs-minor-mode=.
