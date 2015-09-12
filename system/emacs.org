@@ -949,6 +949,7 @@
 
     #+BEGIN_SRC elisp
     (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+    (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
     #+END_SRC
 
     Better cider REPL history:
