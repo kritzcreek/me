@@ -944,6 +944,13 @@
       everything up. Keyboard: =C-c M-j=
     - =cider= to connect to an existing nREPL server.
 
+    I depend heavily on Cider for Clojure development, so I only want
+    the stable version:
+
+    #+BEGIN_SRC elisp
+    (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+    #+END_SRC
+
     Better cider REPL history:
 
     #+BEGIN_SRC elisp
@@ -1006,6 +1013,22 @@
     curl -LO https://github.com/boot-clj/boot/releases/download/2.0.0/boot.sh
     mv boot.sh boot && chmod a+x boot && sudo mv boot /usr/local/bin
     #+END_SRC
+
+    I can customize Boot with a =$BOOT_HOME/profile.boot= file. This
+    will add cider and [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl]] to the Boot middleware.
+
+    #+BEGIN_SRC clojure :tangle "~/.boot/profile.boot"
+    (require 'boot.repl)
+    (swap! boot.repl/*default-dependencies*
+           conj '[refactor-nrepl "1.1.0"]
+                '[cider/cider-nrepl "0.9.1"])
+
+    (swap! boot.repl/*default-middleware*
+           conj 'refactor-nrepl.middleware/wrap-refactor
+                'cider.nrepl/cider-middleware)
+    #+END_SRC
+
+    The above will tangle to =~/.boot/profile.boot=.
 
 *** Docs and Refactoring
 
