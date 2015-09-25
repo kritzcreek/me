@@ -808,6 +808,7 @@
                          cider
                          ac-cider
                          clj-refactor
+                         typed-clojure-mode
                          elein
                          paredit
                          popup
@@ -816,8 +817,11 @@
                          ))
 
     (require 'clojure-mode)
-    #+END_SRC
 
+    (add-hook 'clojure-mode-hook 'typed-clojure-mode)
+    (add-hook 'clojure-mode-hook 'paredit-mode)
+    #+END_SRC
+    
 *** Compojure
 
     According to the [[https://github.com/weavejester/compojure/wiki][Compojure Wiki]], the following code makes their
