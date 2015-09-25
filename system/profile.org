@@ -110,6 +110,16 @@ bashrc.org to go with it. For now I'll just tangle my aliases into
     sudo apt-get install gfortran libopenblas-dev liblapack-dev
    #+END_SRC
 
+* Rust
+
+  I like this automatic [[https://www.rust-lang.org/install.html][Rust]] installer:
+
+  #+BEGIN_SRC sh :tangle ~/.bashrc
+  alias rustup="curl -sSf https://static.rust-lang.org/rustup.sh | sh"
+  alias rustup_beta="curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=beta"
+  alias rustup_nightly="curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly"
+  #+END_SRC
+
 * Lisp
 
   I like to use [[https://github.com/KeenS/CIM][CIM]] to manage my Lisps. After you install it, CIM asks
