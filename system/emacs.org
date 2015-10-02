@@ -538,6 +538,136 @@
     (org-publish-project "org" t))
   #+END_SRC
 
+* IRC
+
+  [[https://github.com/jorgenschaefer/circe/wiki][Circe]] seems to be the best IRC client in emacs.
+
+  #+BEGIN_SRC elisp
+  (packages-install '(circe))
+  (require 'circe)
+  #+END_SRC
+
+  Connect to some of my oft-visited channels. Use =M-x circe= to
+  connect.
+
+  #+BEGIN_SRC elisp
+  (add-to-list 'circe-network-options
+    '("Freenode"
+      :nick "bsima"
+      :channels ("#hoplon" "#rust" "#haskell" "#clojure" "#immutant")))
+  #+END_SRC
+
+  Simplify the channel output.
+  
+  #+BEGIN_SRC elisp
+  (setq circe-format-say "{nick}> {body}")
+  #+END_SRC
+
+  Let's hide all the JOIN, PART and other messages that I don't care
+  about:
+  
+  #+BEGIN_SRC elisp
+  (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
+  (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
+  (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))
+
+  (setq circe-reduce-lurker-spam t)
+  #+END_SRC
+  
+  Circe (actually, lui) has the ability to intercept long pastes if
+  it is done in a single input. Lui will then ask if the user would
+  prefer to use a paste service.
+  
+  #+BEGIN_SRC elisp
+  (require 'lui-autopaste)
+  (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
+  #+END_SRC
+  
+  Who can really spell, amirite?
+  
+  #+BEGIN_SRC elisp
+  (setq lui-flyspell-p t
+        lui-flyspell-alist '((".*" "american")))
+  #+END_SRC
+  
+  Since I often run my IRC in a smaller window, I need to allow for
+  the timestamps to be in a margin, so that we can wrap correctly.
+  
+  #+BEGIN_SRC elisp
+  (setq lui-time-stamp-position 'right-margin
+        lui-time-stamp-format "%H:%M")
+
+  (add-hook 'lui-mode-hook 'my-circe-set-margin)
+  (defun my-circe-set-margin ()
+    (setq right-margin-width 5))
+
+  (setq lui-time-stamp-position 'right-margin
+        lui-fill-type nil)
+
+  (add-hook 'lui-mode-hook 'my-lui-setup)
+  (defun my-lui-setup ()
+    (setq
+     fringes-outside-margins t
+     right-margin-width 5
+     word-wrap t
+     wrap-prefix "    "))
+  #+END_SRC
+  
+
+  #+BEGIN_SRC elisp
+  (setq circe-format-say "{nick}> {body}")
+  #+END_SRC
+  
+  Let's hide all the JOIN, PART and other messages that I don't care
+  about:
+
+  #+BEGIN_SRC elisp
+  (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
+  (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
+  (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))
+
+  (setq circe-reduce-lurker-spam t)
+  #+END_SRC
+  
+  Circe (actually, lui) has the ability to intercept long pastes if
+  it is done in a single input. Lui will then ask if the user would
+  prefer to use a paste service.
+  
+  #+BEGIN_SRC elisp
+  (require 'lui-autopaste)
+  (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
+  #+END_SRC
+  
+  Who can really spell, amirite?
+  
+  #+BEGIN_SRC elisp
+  (setq lui-flyspell-p t
+        lui-flyspell-alist '((".*" "american")))
+  #+END_SRC
+  
+  Since I often run my IRC in a smaller window, I need to allow for
+  the timestamps to be in a margin, so that we can wrap correctly.
+
+  #+BEGIN_SRC elisp
+  (setq lui-time-stamp-position 'right-margin
+        lui-time-stamp-format "%H:%M")
+
+  (add-hook 'lui-mode-hook 'my-circe-set-margin)
+  (defun my-circe-set-margin ()
+    (setq right-margin-width 5))
+
+  (setq lui-time-stamp-position 'right-margin
+        lui-fill-type nil)
+
+  (add-hook 'lui-mode-hook 'my-lui-setup)
+  (defun my-lui-setup ()
+    (setq
+     fringes-outside-margins t
+     right-margin-width 5
+     word-wrap t
+     wrap-prefix "    "))
+  #+END_SRC
+  
 * Keyboard Shortcuts
 
    I could scatter my keyboard shortcuts throughout this document,
@@ -795,6 +925,17 @@
    (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
    #+END_SRC
    
+** Rust
+
+   [[https://github.com/toshok/rust-mode][Rust mode]] by toshok and [[https://github.com/flycheck/flycheck-rust][flycheck-rust]]. Someday I'll use [[https://github.com/phildawes/racer][Racer]] too.
+   
+   #+BEGIN_SRC elisp
+   (packages-install '( rust-mode
+                        flycheck-rust))
+
+   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+   #+END_SRC
+
 ** Clojure
 
    Most of my lisp work is done in Clojure these days.
@@ -821,6 +962,96 @@
 
     (add-hook 'clojure-mode-hook 'typed-clojure-mode)
     (add-hook 'clojure-mode-hook 'paredit-mode)
+    #+END_SRC
+*** Boot
+
+    [[http://boot-clj.com/][Boot]] is build-tooling for Clojure. It's pretty great. Install Boot
+    like so:
+
+    #+BEGIN_SRC sh :tangle no
+    curl -LO https://github.com/boot-clj/boot/releases/download/2.0.0/boot.sh
+    mv boot.sh boot && chmod a+x boot && sudo mv boot /usr/local/bin
+    #+END_SRC
+
+    I can customize Boot with a =$BOOT_HOME/profile.boot= file. This
+    will add cider and [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl]] to the Boot middleware.
+
+    #+BEGIN_SRC clojure :tangle "~/.boot/profile.boot"
+    (require 'boot.repl)
+    (swap! boot.repl/*default-dependencies*
+           conj '[refactor-nrepl "1.2.0-SNAPSHOT"]
+                '[cider/cider-nrepl "0.9.1"])
+
+    (swap! boot.repl/*default-middleware*
+           conj 'refactor-nrepl.middleware/wrap-refactor
+                'cider.nrepl/cider-middleware
+                'clojure.core.typed.repl/wrap-clj-repl)
+    #+END_SRC
+
+    The above will tangle to =~/.boot/profile.boot=.
+
+*** Cider
+
+    The [[https://github.com/clojure-emacs/cider][Cider project]] is da bomb. Usage:
+
+    - =cider-jack-in= - For starting an nREPL server and setting
+      everything up. Keyboard: =C-c M-j=
+    - =cider= to connect to an existing nREPL server.
+
+    I depend heavily on Cider for Clojure development, so I only want
+    the stable version.
+
+    Better cider REPL history:
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-history-file "~/.emacs.d/cider-history")
+    (setq cider-repl-wrap-history t)
+    (setq cider-repl-history-size 3000)
+    #+END_SRC
+
+    Let's color the REPL:
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-use-clojure-font-lock t)
+    #+END_SRC
+
+    Don't care much for the extra buffers that show up when you start:
+
+    #+BEGIN_SRC elisp
+    (setq nrepl-hide-special-buffers t)
+    #+END_SRC
+
+    Stop the error buffer from popping up while working in buffers other than the REPL:
+
+    #+BEGIN_SRC elisp
+    (setq cider-popup-stacktraces nil)
+    #+END_SRC
+
+    Make cider pretty-print it's results
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-use-pretty-printing t)
+    #+END_SRC
+
+    Prefix cider repl output
+
+    #+BEGIN_SRC elisp
+    (setq cider-repl-result-prefix ";; => ")
+    #+END_SRC
+
+    To get Clojure's Cider working with org-mode, do:
+
+    #+BEGIN_SRC elisp
+    ;; (require 'ob-clojure)
+
+    (setq org-babel-clojure-backend 'cider)
+    (require 'cider)
+    #+END_SRC
+
+    But we will evaluate in a particular =cider-connection= with:
+
+    #+BEGIN_SRC elisp
+    (global-set-key (kbd "C-c j") 'cider-eval-last-sexp)
     #+END_SRC
     
 *** Compojure
@@ -940,101 +1171,6 @@
                         :foreground 'unspecified
                         :inherit 'error))
     #+END_SRC
-
-*** Cider
-
-    The [[https://github.com/clojure-emacs/cider][Cider project]] is da bomb. Usage:
-
-    - =cider-jack-in= - For starting an nREPL server and setting
-      everything up. Keyboard: =C-c M-j=
-    - =cider= to connect to an existing nREPL server.
-
-    I depend heavily on Cider for Clojure development, so I only want
-    the stable version:
-
-    #+BEGIN_SRC elisp
-    (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-    (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
-    #+END_SRC
-
-    Better cider REPL history:
-
-    #+BEGIN_SRC elisp
-    (setq cider-repl-history-file "~/.emacs.d/cider-history")
-    (setq cider-repl-wrap-history t)
-    (setq cider-repl-history-size 3000)
-    #+END_SRC
-
-    Let's color the REPL:
-
-    #+BEGIN_SRC elisp
-    (setq cider-repl-use-clojure-font-lock t)
-    #+END_SRC
-
-    Don't care much for the extra buffers that show up when you start:
-
-    #+BEGIN_SRC elisp
-    (setq nrepl-hide-special-buffers t)
-    #+END_SRC
-
-    Stop the error buffer from popping up while working in buffers other than the REPL:
-
-    #+BEGIN_SRC elisp
-    (setq cider-popup-stacktraces nil)
-    #+END_SRC
-
-    Make cider pretty-print it's results
-
-    #+BEGIN_SRC elisp
-    (setq cider-repl-use-pretty-printing t)
-    #+END_SRC
-
-    Prefix cider repl output
-
-    #+BEGIN_SRC elisp
-    (setq cider-repl-result-prefix ";; => ")
-    #+END_SRC
-
-    To get Clojure's Cider working with org-mode, do:
-
-    #+BEGIN_SRC elisp
-    ;; (require 'ob-clojure)
-
-    (setq org-babel-clojure-backend 'cider)
-    (require 'cider)
-    #+END_SRC
-
-    But we will evaluate in a particular =cider-connection= with:
-
-    #+BEGIN_SRC elisp
-    (global-set-key (kbd "C-c j") 'cider-eval-last-sexp)
-    #+END_SRC
-
-*** Boot
-
-    [[http://boot-clj.com/][Boot]] is build-tooling for Clojure. It's pretty great. Install Boot
-    like so:
-
-    #+BEGIN_SRC sh :tangle no
-    curl -LO https://github.com/boot-clj/boot/releases/download/2.0.0/boot.sh
-    mv boot.sh boot && chmod a+x boot && sudo mv boot /usr/local/bin
-    #+END_SRC
-
-    I can customize Boot with a =$BOOT_HOME/profile.boot= file. This
-    will add cider and [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl]] to the Boot middleware.
-
-    #+BEGIN_SRC clojure :tangle "~/.boot/profile.boot"
-    (require 'boot.repl)
-    (swap! boot.repl/*default-dependencies*
-           conj '[refactor-nrepl "1.1.0"]
-                '[cider/cider-nrepl "0.9.1"])
-
-    (swap! boot.repl/*default-middleware*
-           conj 'refactor-nrepl.middleware/wrap-refactor
-                'cider.nrepl/cider-middleware)
-    #+END_SRC
-
-    The above will tangle to =~/.boot/profile.boot=.
 
 *** Docs and Refactoring
 
