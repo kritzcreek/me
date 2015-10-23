@@ -14,8 +14,7 @@ with (import <nixpkgs> {});
   sbcl
   stumpwm
   leiningen # this will auto-include openjdk-8 (and a bunch of other stuff)
-  boot
-  dropbox; }
+  boot; }
 #+END_SRC
 
 This file is tangled to =~/packages.nix=. To install all packages from
