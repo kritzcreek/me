@@ -1,0 +1,40 @@
+#+title: Nix Packages
+#+author: Ben Sima <bensima@gmail.com>
+
+With the NixOS Package Manager, I can have a declarative, portable
+listing of all my stuff. See [[https://nixos.org/wiki/FAQ#How_can_I_manage_software_with_nix-env_like_with_configuration.nix.3F][here]].
+
+#+BEGIN_SRC nix :tangle ~/packages.nix
+with (import <nixpkgs> {});
+{ inherit
+  git
+  emacs
+  xclip
+  chromium
+  sbcl
+  stumpwm
+  leiningen # this will auto-include openjdk-8 (and a bunch of other stuff)
+  boot
+  dropbox; }
+#+END_SRC
+
+This file is tangled to =~/packages.nix=. To install all packages from
+the terminal, I just do
+
+#+BEGIN_SRC :tangle no
+$ nix-env -f ~/packages.nix -i
+#+END_SRC
+
+I can also choose to install only certain packages by specifying their
+attribute name like this:
+
+#+BEGIN_SRC :tangle no
+$ nix-env -f ~/packages.nix -iA pkg1
+#+END_SRC
+
+To install all the packages, and remove everything else, I use the
+=--remove-all= (=-r=) switch
+
+#+BEGIN_SRC :tangle no
+$ nix-env -f ~/packages.nix -ir
+#+END_SRC
