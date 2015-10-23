@@ -458,9 +458,9 @@
   somewhere. Lately I've just been publishing them to Amazon S3, and
   routing [[http://www.bsima.me][bsima.me]] to the public-facing S3 bucket.
 
-  First I require the =ox-publish= package as describe in the [[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html#sec-3][org-mode
-  docs]]. I also define the stylesheets and fonts that go into the
-  =<head>= of every page.
+  First I require the =ox-publish= package as described in the
+  [[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html#sec-3][org-mode docs]]. I also define the stylesheets and fonts that go into
+  the =<head>= of every page.
 
   #+BEGIN_SRC elisp
   (require 'ox-publish)
@@ -831,7 +831,9 @@
    #+BEGIN_SRC elisp
    (packages-install '( slime ))
 
-   (load (expand-file-name "~/quicklisp/slime-helper.el"))
+   (let ((ql (expand-file-name "~/quicklisp/slime-helper.el")))
+     (if (file-exists-p ql)
+       (load ql)))
    (setq inferior-lisp-program "sbcl")
    (add-hook 'lisp-mode-hook #'hl-sexp-mode)
    (add-hook 'lisp-mode-hook #'paredit-mode)
@@ -990,6 +992,17 @@
 
     The above will tangle to =~/.boot/profile.boot=.
 
+*** Leiningen
+
+    [[http://leiningen.org/][Leiningen]] is the de-facto project manager for Clojure. Gets its
+    name from [[https://www.youtube.com/watch?v=gmeHKhvWGIM][this]].
+
+    Lein uses a Clojure map to store user configurations:
+
+    #+BEGIN_SRC clojure :tangle ~/.lein/profiles.clj
+    {:user {:plugins [[lein-sub "0.3.0"]]}}
+    #+END_SRC
+    
 *** Cider
 
     The [[https://github.com/clojure-emacs/cider][Cider project]] is da bomb. Usage:
@@ -1205,10 +1218,6 @@
 *** ¯\_(ツ)_/¯
 
     #+BEGIN_SRC elisp :tangle no
-    ;(add-hook 'clojure-mode-hook #'paredit-mode)
-    ;(require-package 'cider)
-    ;(require-package 'company)
-
      (setq cider-show-error-buffer nil)
      (add-hook 'cider-repl-mode-hook #'company-mode)
      (add-hook 'cider-mode-hook #'company-mode)
