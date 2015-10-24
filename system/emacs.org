@@ -978,7 +978,7 @@
     I can customize Boot with a =$BOOT_HOME/profile.boot= file. This
     will add cider and [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl]] to the Boot middleware.
 
-    #+BEGIN_SRC clojure :tangle "~/.boot/profile.boot"
+    #+BEGIN_SRC clojure :tangle "~/.boot/profile.boot" :comments org
     (require 'boot.repl)
     (swap! boot.repl/*default-dependencies*
            conj '[refactor-nrepl "1.2.0-SNAPSHOT"]
@@ -999,8 +999,10 @@
 
     Lein uses a Clojure map to store user configurations:
 
-    #+BEGIN_SRC clojure :tangle ~/.lein/profiles.clj
-    {:user {:plugins [[lein-sub "0.3.0"]]}}
+    #+BEGIN_SRC clojure :tangle ~/.lein/profiles.clj :comments org
+    {:user {:plugins [[lein-sub "0.3.0"]
+                      [refactor-nrepl "1.1.0"]
+                      [cider/cider-nrepl "0.9.1"]]}}
     #+END_SRC
     
 *** Cider
