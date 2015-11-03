@@ -15,3 +15,7 @@
 * Koka: Programming with Row-polymorphic Effect Types
 
 [[http://research.microsoft.com/pubs/210640/paper.pdf][PDF]] - found via toroidal-code's implementation in OCaml: [[https://github.com/brick-lang/kekka/][kekka]]
+
+* Fast Set operations with Treaps
+
+[[http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.5678][Source]]. Found via Rich Hickey's email [[https://groups.google.com/forum/#!topic/clojure/tfFhrEfQTpM][here]].
