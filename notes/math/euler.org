@@ -1,6 +1,19 @@
 #+title: Euler problems
 #+author: Ben Sima <bensima@gmail.com>
 
+[[file:euler.jpg]]
+
+Am I a mathematician yet?
+
+* Table of Contents                                                   :TOC@2:
+ - [[#problem-1---multiples-of-3-and-5][Problem 1 - Multiples of 3 and 5]]
+   - [[#haskell][Haskell]]
+   - [[#common-lisp][Common Lisp]]
+ - [[#problem-2---even-fibonacci-numbers][Problem 2 - Even Fibonacci numbers]]
+   - [[#common-lisp][Common Lisp]]
+   - [[#ocaml][OCaml]]
+   - [[#haskell][Haskell]]
+
 * DONE Problem 1 - Multiples of 3 and 5
 CLOSED: [2015-11-06 Fri 16:45]
 
@@ -32,7 +45,6 @@ CLOSED: [2015-11-06 Fri 16:45]
 
 (one 999)
 #+END_SRC
-
 
 * TODO Problem 2 - Even Fibonacci numbers
 
