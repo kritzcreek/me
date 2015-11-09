@@ -19,3 +19,9 @@
 * Fast Set operations with Treaps
 
 [[http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.5678][Source]]. Found via Rich Hickey's email [[https://groups.google.com/forum/#!topic/clojure/tfFhrEfQTpM][here]].
+
+* Two papers on Algorithm W
+
+[[http://webdoc.sub.gwdg.de/ebook/serien/ah/UU-CS/2002-031.pdf][Generalizing Hindley-Milner Type Inference Algorithms]]
+
+[[https://courses.engr.illinois.edu/cs421/sp2012/project/milner-polymorphism.pdf][A theory of polymorphism in programming]]
