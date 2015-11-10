@@ -25,3 +25,7 @@
 [[http://webdoc.sub.gwdg.de/ebook/serien/ah/UU-CS/2002-031.pdf][Generalizing Hindley-Milner Type Inference Algorithms]]
 
 [[https://courses.engr.illinois.edu/cs421/sp2012/project/milner-polymorphism.pdf][A theory of polymorphism in programming]]
+
+* Out of the tarpit
+
+[[http://shaffner.us/cs/papers/tarpit.pdf][Source]] - recommended via Fogus' 2013 talk at the Clojure Conj about Zeder
