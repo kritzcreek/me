@@ -29,3 +29,7 @@
 * Out of the tarpit
 
 [[http://shaffner.us/cs/papers/tarpit.pdf][Source]] - recommended via Fogus' 2013 talk at the Clojure Conj about Zeder
+
+* Functional Programming with Structured Graphs
+
+[[https://www.cs.utexas.edu/~wcook/Drafts/2012/graphs.pdf][Source PDF.]] Found via [[https://twitter.com/BrandonBloom/status/665554176307412992][this tweet]].
