@@ -1,0 +1,68 @@
+#+title: Machine Learning Notes
+#+author: Ben Sima
+
+Sporadic notes from my studies in machine learning. A few general sources:
+
+- [[https://www.coursera.org/learn/machine-learning/][Andrew Ng's Coursera Class]]
+
+* Table of Contents                      :TOC@4:
+ - [[#quick-overview][Quick Overview]]
+ - [[#supervised-learning][Supervised Learning]]
+ - [[#unsupervised-learning][Unsupervised Learning]]
+   - [[#cocktail-party-problem][Cocktail party problem]]
+ - [[#vectorization][Vectorization]]
+
+* Quick Overview
+
+- Supervised learning :: an algorithm is given "right answers" as part of the
+     dataset
+- Unsupervised learning :: the algorithm does not have example "right answers,"
+     also known as "clustering."
+- Regression problem :: we are trying to predict a continuous valued output
+- Classification problem :: we are trying to predict a discrete valued output
+- Vectorization :: math trick that lets us
+
+* Supervised Learning
+
+The term "supervised" refers to the fact that we supplied the algorithm with
+"right answers." That is, for every example in a dataset, we also give the
+correct algorithm output.
+
+This is also called a /regression problem/, which means that we are trying to
+prediction a continuous valued output (as opposed to a discrete value).
+
+The opposite of regression is /classification/, wherein there is a discrete
+valued output. In particular, the output can be 0 or 1 for false or true
+respectively.
+
+* Unsupervised Learning
+
+We don't tell the algorithm in advance which elements go into which cluster.
+Able to find structure from seemingly unstructured information.
+
+- Clustering algorithms
+
+Example 1: is Google News, which clusters together multiple news sources about a
+single story.
+
+Example 2: Market segmentation. Taking arbitrary demographics information, we
+can cluster people into segments where they have desired similarities.
+
+** Cocktail party problem
+
+Say we have a cocktail party and two people are speaking into two microphones.
+Each microphone will pick up some of the opposite person. An unsupervised
+learning algorithm can separate the two audio streams, thus focusing on only the
+dominant audio input.
+
+The cocktail party algorithm can be done in one line of Octave code:
+
+#+BEGIN_SRC octave
+[W,s,v] = svd((repmat(sum(x .* x, 1), size(x, 1), 1) .* x) * x');
+#+END_SRC
+
+~svd~ is a linear algebra routine built into Octave.
+
+* Vectorization
+
+FIXME
