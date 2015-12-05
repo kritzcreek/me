@@ -169,8 +169,8 @@ this function is good for my own customizations.
   (point))
 
 (defun dotspacemacs/user-config ()
-  (display-time-mode 1)
   (setq
+    display-time-format "%k:%M"
     powerline-default-separator nil
     clojure-enable-fancify-symbols t
 
@@ -190,6 +190,7 @@ this function is good for my own customizations.
                                :empty-lines 1))
     org-journal-dir         "~/Dropbox/org/journal/"
     org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
+  (display-time-mode t)
   (add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
   ;; get today's and yesterday's journal entries
   (global-set-key (kbd "C-c f j") 'journal-file-today)
