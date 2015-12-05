@@ -1,0 +1,155 @@
+#+title:      My Spacemacs Configuration
+#+author:     Ben Sima <bensima@gmail.com>
+#+desciption: A literate programming version of my configs for Spacemacs.
+#+property:   tangle ~/.spacemacs
+#+property:   comments org
+#+property:   eval no-export
+
+This generates my =~/.spacemacs= file. I've begun using [[https://github.com/syl20bnr/spacemacs][Spacemacs]] instead of my
+custom emacs config because of the great community and sensible builds, but I
+still want some of my own customizations, so this file retains a lot of those.
+
+* Default layers
+
+The =dotspacemacs/layers= function declares what layers to bring in from the
+core Spacemacs code. Layers are just preconfigured modules, usually wrapping one
+or more emacs packages. All layers can be seen in the [[https://github.com/syl20bnr/spacemacs/tree/master/layers][=spacemacs/layers=]]
+directory.
+
+The settings here are:
+
+- *dotspacemacs-distribution* - This is the base distribution to use, contained
+  in the =+distribution= layer. Can either ber =spacemacs-base= or =spacemacs=.
+- *dotspacemacs-configuration-layer-path* - A list of additional paths where I
+  might keep my own layers. Paths must have a trailing slash. This is useful if
+  I have personal layers that I don't want to submit back upstream, or haven't
+  finished yet.
+- *dotspacemacs-configuration-layers* - A list of layers that I want to load. I
+  can load all the available layers by replacing the list with the symbol =all=.
+- *dotspacemacs-additional-packages* - A list of additional packages I want
+  without being wrapped in a layer. Configuration for these can be put in
+  =dotspacemacs/config=.
+- *dotspacemacs-excluded-packages* - A package blacklist
+- *dotspacemacs-delete-orphan-packages* - If non-nil, Spacemacs will delete
+  installed packages that aren't included in the layers or packages I included above.
+
+#+BEGIN_SRC elisp
+(defun dotspacemacs/layers ()
+  (setq-default
+    dotspacemacs-distribution 'spacemacs
+    dotspacemacs-configuration-layer-path '()
+    dotspacemacs-configuration-layers
+    '( auto-completion
+       better-defaults
+       emacs-lisp
+       shell
+       git
+       github
+       dockerfile
+       yaml
+       markdown
+       org
+       jabber
+       xkcd
+       emoji
+       clojure
+       java
+       common-lisp
+       ;;shen
+       racket
+       ;;python
+       haskell
+       ocaml
+       rust
+       c-c++
+      )
+    dotspacemacs-additional-packages '( helm-lobsters
+                                        sx
+                                        circe )
+    dotspacemacs-excluded-packages '()
+    dotspacemacs-delete-orphan-packages t))
+#+END_SRC
+
+* Initialization
+
+The =dotspacemacs/init= function is called at the very startup of Spacemacs
+initialization, /before layers are configured/. Don't put user code in here,
+just modify the given variables.
+
+#+BEGIN_SRC elisp
+(defun dotspacemacs/init ()
+  (setq-default
+    dotspacemacs-editing-style   'hybrid
+    dotspacemacs-verbose-loading nil
+    dotspacemacs-startup-banner  nil
+    dotspacemacs-startup-lists   '(recents projects bookmarks)
+    dotspacemacs-themes '( leuven
+                           spacemacs-light
+                           spacemacs-dark
+                           solarized-light
+                           solarized-dark
+                           monokai
+                           zenburn )
+    dotspacemacs-colorize-cursor-according-to-state t
+    dotspacemacs-default-font '("Source Code Pro"
+                                :size 13
+                                :weight normal
+                                :width normal
+                                :powerline-scale 1.1)
+    dotspacemacs-leader-key "SPC"
+    dotspacemacs-emacs-leader-key "M-m"
+    dotspacemacs-major-mode-leader-key ","
+    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+    dotspacemacs-command-key ":"
+    dotspacemacs-remap-Y-to-y$ t
+    dotspacemacs-auto-save-file-location 'cache
+    dotspacemacs-use-ido nil
+    dotspacemacs-helm-resize nil
+    dotspacemacs-helm-no-header nil
+    dotspacemacs-helm-position 'bottom
+    dotspacemacs-enable-paste-micro-state nil
+    dotspacemacs-which-key-delay 0.4
+    dotspacemacs-which-key-position 'bottom
+    dotspacemacs-loading-progress-bar t
+    dotspacemacs-fullscreen-at-startup nil
+    dotspacemacs-fullscreen-use-non-native nil
+    dotspacemacs-maximized-at-startup nil
+    dotspacemacs-active-transparency 90
+    dotspacemacs-inactive-transparency 90
+    dotspacemacs-mode-line-unicode-symbols t
+    dotspacemacs-smooth-scrolling t
+    dotspacemacs-smartparens-strict-mode nil
+    dotspacemacs-highlight-delimiters 'all
+    dotspacemacs-persistent-server nil
+    dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+    dotspacemacs-default-package-repository nil
+    ))
+#+END_SRC
+
+* User Initialization
+
+I can put any user code here :)
+
+#+BEGIN_SRC elisp
+(defun dotspacemacs/user-init ()
+  )
+#+END_SRC
+
+* User Configuration
+
+Called at the very end of Spacemacs intitialization and layer configuration,
+this function is good for my own customizations.
+
+#+BEGIN_SRC elisp
+(defun dotspacemacs/user-config ()
+  (display-time-mode 1)
+  (setq clojure-enable-fancify-symbols t
+        jabber-account-list      '(("bensima@gmail.com"
+                                   (:network-server . "talk.google.com")
+                                   (:connection-type . ssl)))
+        jabber-history-enabled    t
+        jabber-use-global-history nil
+        jabber-backlog-number     40
+        jabber-backlog-days       30
+        org-todo-keywords         '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED"))))
+#+END_SRC
