@@ -65,7 +65,8 @@ The settings here are:
       )
     dotspacemacs-additional-packages '( helm-lobsters
                                         sx
-                                        circe )
+                                        circe
+                                        org-journal )
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t))
 #+END_SRC
@@ -141,15 +142,56 @@ Called at the very end of Spacemacs intitialization and layer configuration,
 this function is good for my own customizations.
 
 #+BEGIN_SRC elisp
+(defun get-journal-file-today ()
+  "Return filename for today's journal entry"
+  (let ((daily-name (format-time-string "%Y%m%d")))
+    (expand-file-name (concat org-journal-dir daily-name))))
+
+(defun journal-file-today ()
+  "Create and load a journal file based on today's date."
+  (interactive)
+  (find-file (get-journal-file-today)))
+
+(defun get-journal-file-yesterday ()
+  "Return filename for yesterday's journal entry."
+  (let ((daily-name (format-time-string "%Y%m%d" (time-subtract (current-time) (days-to-time 1)))))
+    (expand-file-name (concat org-journal-dir daily-name))))
+
+(defun journal-file-yesterday ()
+  "Creates and load a file based on yesterday's date."
+  (interactive)
+  (find-file (get-journal-file-yesterday)))
+
+(defun bs/first-header ()
+  (goto-char (point-min))
+  (search-forward-regexp "^\* ")
+  (beginning-of-line 1)
+  (point))
+
 (defun dotspacemacs/user-config ()
   (display-time-mode 1)
-  (setq clojure-enable-fancify-symbols t
-        jabber-account-list      '(("bensima@gmail.com"
-                                   (:network-server . "talk.google.com")
-                                   (:connection-type . ssl)))
-        jabber-history-enabled    t
-        jabber-use-global-history nil
-        jabber-backlog-number     40
-        jabber-backlog-days       30
-        org-todo-keywords         '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED"))))
+  (setq
+    powerline-default-separator nil
+    clojure-enable-fancify-symbols t
+
+    jabber-account-list      '(("bensima@gmail.com"
+                               (:network-server . "talk.google.com")
+                               (:connection-type . ssl)))
+    jabber-history-enabled    t
+    jabber-use-global-history nil
+    jabber-backlog-number     40
+    jabber-backlog-days       30
+
+    org-todo-keywords       '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED"))
+    org-default-tasks-file  "~/Dropbox/org/tasks.org"
+    org-capture-templates   '(("t" "Task entry"
+                               entry (file+function org-default-tasks-file bs/first-header)
+                               "* TODO %?\n\n %i\n\n From: %a"
+                               :empty-lines 1))
+    org-journal-dir         "~/Dropbox/org/journal/"
+    org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
+  (add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
+  ;; get today's and yesterday's journal entries
+  (global-set-key (kbd "C-c f j") 'journal-file-today)
+  (global-set-key (kbd "C-c f y") 'journal-file-yesterday))
 #+END_SRC
