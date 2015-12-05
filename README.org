@@ -15,18 +15,14 @@ reproducible and self-contained.
 
 * Directory structure
 
-How should this be structured? Ideally, I want all my system stuff to
-be separte from my code, from my website, etc, but I want them all to
-be able to call each other too.
-
 #+BEGIN_EXAMPLE
 ~
 |-/me/
   |- system/   (for all of my environment/system setup)
   |- www/      (my static website at www.bsima.me)
   |- org/      (my private org files - sync'd via bittorrent/dropbox/rsync)
-  |- maths/    (my maths files - notes, simulations, algorithms - for continuing my education)
-     |- euler/ (my project euler solutions)
+  |- notes/    (notes I take when I learn stuff)
+  |- ...
 #+END_EXAMPLE
 
 * Todo
