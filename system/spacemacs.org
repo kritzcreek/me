@@ -169,15 +169,15 @@ this function is good for my own customizations.
     org-journal-dir         "~/Dropbox/org/journal/"
     org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
   (display-time-mode t)
-  ;; get today's and yesterday's journal entries
-  (global-set-key (kbd "C-c f j") 'journal-file-today)
-  (global-set-key (kbd "C-c f y") 'journal-file-yesterday))
+  (evil-leader/set-key "aoI" 'org-clock-in))
 #+END_SRC
 
 * Additional Layers
 ** Journal
 
-First bring in the [[https://github.com/bastibe/org-journal][org-journal]] package and setup Spacemacs keybindings.
+First bring in the [[https://github.com/bastibe/org-journal][org-journal]] package and setup Spacemacs keybindings. Journal
+files are named with the date sans the =.org= extension, so we need to add these
+files to org-mode.
 
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/org-journal/packages.el
 (setq org-journal-packages '(org-journal))
@@ -186,6 +186,9 @@ First bring in the [[https://github.com/bastibe/org-journal][org-journal]] packa
   (use-package org-journal
     :config
     (progn
+      (add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
+      (global-set-key (kbd "C-c f j") 'journal-file-today)
+      (global-set-key (kbd "C-c f y") 'journal-file-yesterday)
       (evil-leader/set-key
         "aojn" 'org-journal-new-entry
         "aojs" 'org-journal-search
@@ -195,13 +198,6 @@ First bring in the [[https://github.com/bastibe/org-journal][org-journal]] packa
         "aojk" 'org-journal-previous-entry
         "aojt" 'journal-file-today
         "aojy" 'journal-file-yesterday))))
-#+END_SRC
-
-Journal files are named with the date sans the =.org= extension, so we need to
-add these files to org-mode.
-
-#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/org-journal/config.el
-(add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
 #+END_SRC
 
 Helper functions for getting journal files.
@@ -234,7 +230,9 @@ Helper functions for getting journal files.
   (point))
 #+END_SRC
 
-** Private Layer
+** Private layer
+
+*** =bsima.me=
 
 I use orgmode for notes, mostly in the [[file:../notes][notes]] directory. The code blocks below
 allow me to compile all of my notes into HTML, and then I can upload them to a
@@ -313,6 +311,24 @@ orgmode publish everything, even if the file's been unchanged.
   (defun bs-publish ()
     (interactive)
     (org-publish-project "org" t))
+#+END_SRC
 
+*** Tasks
 
+I keep my tasks in =~/Dropbox/org/tasks.org=. The value of =bs/tasks-file= is
+where my tasks live, and the function =bs/get-tasks-file= will open my tasks in
+a new buffer.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+(setq bs/tasks-file "~/Dropbox/org/tasks.org")
+
+(defun bs/get-tasks-file ()
+  (interactive)
+  (find-file bs/tasks-file))
+#+END_SRC
+
+To view my tasks, just do =SPC a t=.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+(evil-leader/set-key "at" 'bs/get-tasks-file)
 #+END_SRC
