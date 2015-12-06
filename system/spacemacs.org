@@ -5,11 +5,13 @@
 #+property:   comments org
 #+property:   eval no-export
 
+* =dotspacemacs=
+
 This generates my =~/.spacemacs= file. I've begun using [[https://github.com/syl20bnr/spacemacs][Spacemacs]] instead of my
 custom emacs config because of the great community and sensible builds, but I
 still want some of my own customizations, so this file retains a lot of those.
 
-* Default layers
+** Default layers
 
 The =dotspacemacs/layers= function declares what layers to bring in from the
 core Spacemacs code. Layers are just preconfigured modules, usually wrapping one
@@ -49,6 +51,8 @@ The settings here are:
        yaml
        markdown
        org
+       bsima
+       org-journal
        jabber
        xkcd
        emoji
@@ -71,7 +75,7 @@ The settings here are:
     dotspacemacs-delete-orphan-packages t))
 #+END_SRC
 
-* Initialization
+** Initialization
 
 The =dotspacemacs/init= function is called at the very startup of Spacemacs
 initialization, /before layers are configured/. Don't put user code in here,
@@ -127,7 +131,7 @@ just modify the given variables.
     ))
 #+END_SRC
 
-* User Initialization
+** User Initialization
 
 I can put any user code here :)
 
@@ -136,12 +140,73 @@ I can put any user code here :)
   )
 #+END_SRC
 
-* User Configuration
+** User Configuration
 
 Called at the very end of Spacemacs intitialization and layer configuration,
 this function is good for my own customizations.
 
 #+BEGIN_SRC elisp
+(defun dotspacemacs/user-config ()
+  (setq
+    display-time-format "%k:%M"
+    powerline-default-separator nil
+    clojure-enable-fancify-symbols t
+
+    jabber-account-list      '(("bensima@gmail.com"
+                               (:network-server . "talk.google.com")
+                               (:connection-type . ssl)))
+    jabber-history-enabled    t
+    jabber-use-global-history nil
+    jabber-backlog-number     40
+    jabber-backlog-days       30
+
+    org-todo-keywords       '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED"))
+    org-default-tasks-file  "~/Dropbox/org/tasks.org"
+    org-capture-templates   '(("t" "Task entry"
+                               entry (file+function org-default-tasks-file bs/first-header)
+                               "* TODO %?\n\n %i\n\n From: %a"
+                               :empty-lines 1))
+    org-journal-dir         "~/Dropbox/org/journal/"
+    org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
+  (display-time-mode t)
+  ;; get today's and yesterday's journal entries
+  (global-set-key (kbd "C-c f j") 'journal-file-today)
+  (global-set-key (kbd "C-c f y") 'journal-file-yesterday))
+#+END_SRC
+
+* Additional Layers
+** Journal
+
+First bring in the [[https://github.com/bastibe/org-journal][org-journal]] package and setup Spacemacs keybindings.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/org-journal/packages.el
+(setq org-journal-packages '(org-journal))
+
+(defun org-journal/init-org-journal ()
+  (use-package org-journal
+    :config
+    (progn
+      (evil-leader/set-key
+        "aojn" 'org-journal-new-entry
+        "aojs" 'org-journal-search
+        "aojd" 'org-journal-new-date-entry
+        "aojr" 'org-journal-read-entry
+        "aojj" 'org-journal-next-entry
+        "aojk" 'org-journal-previous-entry
+        "aojt" 'journal-file-today
+        "aojy" 'journal-file-yesterday))))
+#+END_SRC
+
+Journal files are named with the date sans the =.org= extension, so we need to
+add these files to org-mode.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/org-journal/config.el
+(add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
+#+END_SRC
+
+Helper functions for getting journal files.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/org-journal/funcs.el
 (defun get-journal-file-today ()
   "Return filename for today's journal entry"
   (let ((daily-name (format-time-string "%Y%m%d")))
@@ -167,33 +232,87 @@ this function is good for my own customizations.
   (search-forward-regexp "^\* ")
   (beginning-of-line 1)
   (point))
+#+END_SRC
 
-(defun dotspacemacs/user-config ()
-  (setq
-    display-time-format "%k:%M"
-    powerline-default-separator nil
-    clojure-enable-fancify-symbols t
+** Private Layer
 
-    jabber-account-list      '(("bensima@gmail.com"
-                               (:network-server . "talk.google.com")
-                               (:connection-type . ssl)))
-    jabber-history-enabled    t
-    jabber-use-global-history nil
-    jabber-backlog-number     40
-    jabber-backlog-days       30
+I use orgmode for notes, mostly in the [[file:../notes][notes]] directory. The code blocks below
+allow me to compile all of my notes into HTML, and then I can upload them to a
+server somewhere. Lately I've just been publishing them to Amazon S3, and
+routing [[http://www.bsima.me][bsima.me]] to the public-facing S3 bucket.
 
-    org-todo-keywords       '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED"))
-    org-default-tasks-file  "~/Dropbox/org/tasks.org"
-    org-capture-templates   '(("t" "Task entry"
-                               entry (file+function org-default-tasks-file bs/first-header)
-                               "* TODO %?\n\n %i\n\n From: %a"
-                               :empty-lines 1))
-    org-journal-dir         "~/Dropbox/org/journal/"
-    org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
-  (display-time-mode t)
-  (add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
-  (evil-leader/set-key "aoj" 'org-journal-new-entry)
-  ;; get today's and yesterday's journal entries
-  (global-set-key (kbd "C-c f j") 'journal-file-today)
-  (global-set-key (kbd "C-c f y") 'journal-file-yesterday))
+I must define the stylesheets and fonts that go into the =<head>= of every
+page.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+(defvar bs-site-head
+  "<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic'>
+   <link rel='stylesheet' type='text/css' media='screen' href='http://openfontlibrary.org/face/fantasque-sans-mono'/>
+   <link rel='stylesheet' type='text/css' href='/assets/css/main.css' />")
+#+END_SRC
+
+Get rid of the default CSS that orgmode inlines with every page, the validate
+link, and the postamble footer stuff:
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+(setq org-html-head-include-default-style nil)
+(setq org-html-validation-link nil)
+(setq org-html-postamble nil)
+#+END_SRC
+
+Here I setup the org project association lists. I have 3 kinds of pages on my
+site; I call them "notes," "pages," and "static" assets. All of the settings
+here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing section]] of the orgmode manual.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+(setq org-publish-project-alist
+      `(("org-notes"
+         :base-directory "~/me/notes/"
+         :base-extension "org"
+         :publishing-directory "~/me/www/public/notes/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 5
+         :html-head ,bs-site-head
+         :auto-preamble t)
+
+        ("org-pages"
+         :base-directory "~/me/www/resources/pages/"
+         :base-extension "org"
+         :publishing-directory "~/me/www/public/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 5
+         :html-head ,bs-site-head
+         :auto-preamble t)
+
+        ;("org-essays"
+        ; :base-directory "~/me/essays/"
+        ; :base-extension "org"
+        ; :publishing-directory "~/me/www/public/essays/"
+        ; :recursive t
+        ; :publishing-function org-html-publish-to-html
+        ; :html-head ,bs-site-head
+        ; :auto-preamble t)
+
+        ("org-static"
+         :base-directory "~/me/www/resources/assets/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/me/www/public/assets/"
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("org" :components ("org-notes" "org-pages" "org-static"))))
+#+END_SRC
+
+To actually publish everything, I need to do =M-x org-publish-project RET org
+RET=. That's too many things, so here is a helper function. The =t= makes
+orgmode publish everything, even if the file's been unchanged.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+  (defun bs-publish ()
+    (interactive)
+    (org-publish-project "org" t))
+
+
 #+END_SRC
