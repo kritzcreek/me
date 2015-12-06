@@ -192,6 +192,7 @@ this function is good for my own customizations.
     org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
   (display-time-mode t)
   (add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode))
+  (evil-leader/set-key "aoj" 'org-journal-new-entry)
   ;; get today's and yesterday's journal entries
   (global-set-key (kbd "C-c f j") 'journal-file-today)
   (global-set-key (kbd "C-c f y") 'journal-file-yesterday))
