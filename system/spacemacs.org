@@ -167,7 +167,9 @@ this function is good for my own customizations.
                                "* TODO %?\n\n %i\n\n From: %a"
                                :empty-lines 1))
     org-journal-dir         "~/Dropbox/org/journal/"
-    org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)")
+    org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)"
+    org-agenda-files        '("~/Dropbox/org/tasks.org"
+                              "~/workspace/liaison/dm-schema/schema.org"))
   (display-time-mode t)
   (evil-leader/set-key "aoI" 'org-clock-in))
 #+END_SRC
