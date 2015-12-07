@@ -59,10 +59,10 @@ def fu(simple_data, age, rate, investments):
     enough money or spending properly to retire young. Obviously this
     is very contingent on other things, such as investments and other
     accounts, etc. But for the most part, if you can save 25 times
-    your annual spending, then you can retire forever[1]. 
+    your annual spending, then you can retire forever[1].
 
     So basically, this command calculates how much you'll need to
-    save, based on your annual spending. 
+    save, based on your annual spending.
 
     If you include your rate of savings (-r, how much money you
     transfer into your dedicated retirement savings account per day)
@@ -79,7 +79,7 @@ def fu(simple_data, age, rate, investments):
     condition such as annual salary increases or saving for your kids'
     college tuition, but it does make the same assumptions about the
     economy as Mr. Money Mustache[1].
-    
+
     [0]: https://www.simple.com/help/articles/account-info/statements-and-export
     [1]: http://www.mrmoneymustache.com/2012/05/29/how-much-do-i-need-for-retirement/
 
@@ -92,7 +92,7 @@ def fu(simple_data, age, rate, investments):
     for tx in raw_data["transactions"]:
         data.append({
             "type":    tx["bookkeeping_type"],
-            "uuid":    tx["uuid"], 
+            "uuid":    tx["uuid"],
             "amount":  tx["amounts"]["amount"],
             "date":    datetime.strptime(tx["times"]["when_recorded_local"], "%Y-%m-%d %H:%M:%S.%f")
         })
@@ -126,7 +126,7 @@ def fu(simple_data, age, rate, investments):
     # note that the amounts need to be divided by 10,000 to get back
     # to normal monetary representations
     display = lambda n: locale.currency(float(n / 10000), grouping=True)
-    
+
     click.echo("Your average annual spending is {}. At this rate, you'll need {} saved up before you can retire and say 'fuck you!' to the system, man."
                .format(click.style(display(current_annual_debits), fg="green"),
                        click.style(display(required_retirement_fund), fg="green")))
