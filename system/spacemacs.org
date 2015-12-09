@@ -96,7 +96,7 @@ just modify the given variables.
                            monokai
                            zenburn )
     dotspacemacs-colorize-cursor-according-to-state t
-    dotspacemacs-default-font '("Source Code Pro"
+    dotspacemacs-default-font '("Fantasque Sans Mono"
                                 :size 13
                                 :weight normal
                                 :width normal
