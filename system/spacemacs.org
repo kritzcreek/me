@@ -143,7 +143,11 @@ I can put any user code here :)
 ** User Configuration
 
 Called at the very end of Spacemacs intitialization and layer configuration,
-this function is good for my own customizations.
+this function is good for my own customizations. Some highlights:
+
+- Use =SPC t t= to toggle syntax highlighting
+- org-journal and org-agenda configs
+- jabber account setup, =SPC a j= will connect to jabber
 
 #+BEGIN_SRC elisp
 (defun dotspacemacs/user-config ()
@@ -171,7 +175,8 @@ this function is good for my own customizations.
     org-agenda-files        '("~/Dropbox/org/tasks.org"
                               "~/workspace/liaison/dm-schema/schema.org"))
   (display-time-mode t)
-  (evil-leader/set-key "aoI" 'org-clock-in))
+  (evil-leader/set-key "tt" 'font-lock-mode)
+      (evil-leader/set-key "aoI" 'org-clock-in))
 #+END_SRC
 
 * Additional Layers
