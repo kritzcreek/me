@@ -25,11 +25,17 @@ reproducible and self-contained.
   |- ...
 #+END_EXAMPLE
 
-* Todo
+* TODO Common Lisp Scripting
 
-1. load [[https://github.com/fukamachi/shelly][Shelly]] and setup a continuous Common Lisp REPL that I can use
-   as a sort-of-alternative to bash/zsh.
-2. Shelly should load all the lisp scripts in =./bin/=, so I have
-   access to them from both the shell and the repl
-3. [[file:system/lisp.org][.sbclrc]] should also load lisp scripts in =./bin/= and load a new
-   directory called =./lib/=, where I can put more library-like code.
+Lisp is way better than shell. I can use the following as a portable
+
+- [[https://gitlab.common-lisp.net/asdf/asdf/blob/master/uiop/README.md][uiop]] for executing system commands in a portable way
+- [[https://github.com/snmsts/roswell/][roswell]] for scripting ([[https://github.com/snmsts/roswell/blob/master/scripts/release.ros][example]])
+- [[https://github.com/fukamachi/shelly][Shelly]] for quick access to Common Lisp from the command line
+  1. load [[https://github.com/fukamachi/shelly][Shelly]] and setup a continuous Common Lisp REPL that I can use
+     as a sort-of-alternative to bash/zsh.
+  2. Shelly should load all the lisp scripts in =./bin/=, so I have
+     access to them from both the shell and the repl
+  3. [[file:system/lisp.org][.sbclrc]] should also load lisp scripts in =./bin/= and load a new
+     directory called =./lib/=, where I can put more library-like code.
+-
