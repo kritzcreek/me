@@ -148,8 +148,14 @@ this function is good for my own customizations. Some highlights:
 - Use =SPC t t= to toggle syntax highlighting
 - org-journal and org-agenda configs
 - jabber account setup, =SPC a j= will connect to jabber
+- spacemacs' default =SPC f e d= to open the =~/.spacemacs= file is overwritten
+  to open this org file
 
 #+BEGIN_SRC elisp
+(defun find-spacemacs-org-file ()
+  (interactive)
+  (find-file "~/me/system/spacemacs.org"))
+
 (defun dotspacemacs/user-config ()
   (setq
     display-time-format "%k:%M"
@@ -175,8 +181,9 @@ this function is good for my own customizations. Some highlights:
     org-agenda-files        '("~/Dropbox/org/tasks.org"
                               "~/workspace/liaison/dm-schema/schema.org"))
   (display-time-mode t)
-  (evil-leader/set-key "tt" 'font-lock-mode)
-      (evil-leader/set-key "aoI" 'org-clock-in))
+  (evil-leader/set-key "fed" 'find-spacemacs-org-file)
+  (evil-leader/set-key "tt"  'font-lock-mode)
+  (evil-leader/set-key "aoI" 'org-clock-in))
 #+END_SRC
 
 * Additional Layers
@@ -216,7 +223,7 @@ Helper functions for getting journal files.
     (expand-file-name (concat org-journal-dir daily-name))))
 
 (defun journal-file-today ()
-  "Create and load a journal file based on today's date."
+  "Create and load a journal file bbcikznuyqhosctvrased on today's date."
   (interactive)
   (find-file (get-journal-file-today)))
 
