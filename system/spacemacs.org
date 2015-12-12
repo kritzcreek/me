@@ -70,6 +70,7 @@ The settings here are:
     dotspacemacs-additional-packages '( helm-lobsters
                                         sx
                                         circe
+                                        instapaper
                                         org-journal )
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t))
