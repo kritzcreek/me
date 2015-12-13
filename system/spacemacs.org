@@ -157,6 +157,12 @@ this function is good for my own customizations. Some highlights:
   (interactive)
   (find-file "~/me/system/spacemacs.org"))
 
+(defun config-instapaper ()
+  "https://bitbucket.org/jfm/emacs-instapaper/"
+  (require 'instapaper)
+  (define-key global-map "\C-ci" 'instapaper-add-at-point)
+  (define-key w3m-mode-map "i" 'instapaper-add-from-w3m))
+
 (defun dotspacemacs/user-config ()
   (setq
     display-time-format "%k:%M"
@@ -182,6 +188,7 @@ this function is good for my own customizations. Some highlights:
     org-agenda-files        '("~/Dropbox/org/tasks.org"
                               "~/workspace/liaison/dm-schema/schema.org"))
   (display-time-mode t)
+  (config-instapaper)
   (evil-leader/set-key "fed" 'find-spacemacs-org-file)
   (evil-leader/set-key "tt"  'font-lock-mode)
   (evil-leader/set-key "aoI" 'org-clock-in))
