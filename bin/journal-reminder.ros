@@ -24,10 +24,13 @@ exec ros -Q -- $0 "$@"
         T
         nil)))
 
-(defun main (&rest argv)
+(defun journal-reminder (&rest argv)
   (declare (ignorable argv))
   ;; If journal-dir argumen is supplied, use it
   (let ((*journal-dir* (or (first argv) *journal-dir*)))
     (if (journaled-today?)
         nil
-        (print "You still need to journal!"))))
+        (format t "You still need to journal!~%"))))
+
+(defun main (&rest argv)
+  (apply #'journal-reminder argv))
