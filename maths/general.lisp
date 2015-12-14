@@ -1,8 +1,10 @@
 (in-package :bs)
 
+#|
 (defsection @bs-maths-general (:title "BS manual")
   (mgl-pac asdf:system)
   (@bs-count-stuff))
+|#
 
 (defun range (start end)
   "Returns the range of the selected values. end value
@@ -17,7 +19,7 @@
   "Basic perfect square predicate."
   (= (square (isqrt n)) n))
 
-;;;; This can be moved to something else I guess
+;;; This can be moved to something else I guess
 
 (defun fibonacci (n)
   "Naive Fibonacci implementation:

@@ -1,8 +1,10 @@
 (in-package :bs)
 
+#|
 (defsection @bs-maths-combinatorics (:title "BS manual")
   (mgl-pac asdf:system)
   (@bs-natural-numbers))
+|#
 
 (defun catalan (n)
   "Catalan numbers form a sequence of natural numbers that conform to or describe

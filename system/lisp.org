@@ -1,25 +1,31 @@
 #+TITLE: Lisp Configurations
 #+AUTHOR: Ben Sima
 #+PROPERTY: comments org
+#+PROPERTY: tangle ~/.sbclrc
 #+DESCRIPTION: My lisp configurations
 
 My configurations for various Common Lisp implementatins.
 
 * SBCL
 
-This creates my =~/.sbclrc= file just the way I like it. First I always include
-[[https://www.quicklisp.org/beta/][Quicklisp]].
+This creates my =~/.sbclrc= file just the way I like it.
 
-#+BEGIN_SRC lisp :tangle ~/.sbclrc
+I always include [[https://www.common-lisp.net/project/asdf/asdf.html][ASDF]] and [[https://www.quicklisp.org/beta/][Quicklisp]].
+
+#+BEGIN_SRC lisp
+(require 'asdf)
+
 (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 #+END_SRC
 
-Now I'll add this repo to the asdf registry, and load my =bs.lisp= stuff. Not
-much is in there yet, but I'll add to it soon.
+Now I'll add this repo to the asdf registry, and load my custom packages.
 
-#+BEGIN_SRC lisp :tangle no
-(let ((me (merge-pathnames "me/bs.asd" (user-homedir-pathname))))
-  (push me asdf:*central-repository*))
+#+BEGIN_SRC lisp
+(let ((me (merge-pathnames "me/" (user-homedir-pathname))))
+  (push me asdf:*central-registry*))
+
+(ql:quickload :bs)
+(use-package :bs)
 #+END_SRC
