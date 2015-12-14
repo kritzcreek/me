@@ -162,7 +162,8 @@ this function is good for my own customizations. Some highlights:
   "https://bitbucket.org/jfm/emacs-instapaper/"
   (require 'instapaper)
   (define-key global-map "\C-ci" 'instapaper-add-at-point)
-  (define-key w3m-mode-map "i" 'instapaper-add-from-w3m))
+  ;(define-key w3m-mode-map "i" 'instapaper-add-from-w3m)
+)
 
 (defun dotspacemacs/user-config ()
   (setq
