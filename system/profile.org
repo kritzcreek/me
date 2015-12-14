@@ -58,53 +58,6 @@ Set =EDITOR= to use emacs in the terminal:
 export EDITOR="emacsclient -t"
 #+END_SRC
   
-* Ruby
-
-Load [[https://github.com/sstephenson/rbenv][rbenv]] if it is installed. I also need the [[https://github.com/sstephenson/ruby-build][ruby-build]] plugin for rbenv,
-which provides the =rbenv install= command.
-
-To load rbenv into the shell, I need to add =~/.rbenv/bin= to the =$PATH= and
-eval this =init= command.
-  
-#+BEGIN_SRC sh
-function load_rbenv {
-  export PATH="./bin:$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-}
-
-if [ -d "$HOME/.rbenv" ]
-then
-  load_rbenv
-else
-  git clone https://github.com/sstephenson/rbenv.git "$HOME/.rbenv"
-  git clone https://github.com/sstephenson/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
-  load_rbenv
-fi
-#+END_SRC
-
-* Python
-
-Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed. The pyenv installer simply creates a =~/.pyenv=
-directory, so we check for that. If it's not installed, then install it.
-  
-  #+BEGIN_SRC sh
-function load_pyenv {
-  export PATH="$HOME/.pyenv/bin:$PATH"
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-}
-
-if [ -d "$HOME/.pyenv" ]
-then
-  load_pyenv
-else
-  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-  load_pyenv
-fi
-  #+END_SRC
-
-  Now I can do =pyenv update= to be sure I have the latest version.
-
 * Nix
 
 This line is automatically added to the bottom of your =.profile= when you
@@ -120,8 +73,5 @@ This updates =PATH= for the Google Coud SDK and enables shell command completion
 for =gcloud=:
 
 #+BEGIN_SRC sh
-if [ -d "$HOME/google-cloud-sdk" ]; then
-  source "$HOME/google-cloud-sdk/path.bash.inc"
-  source "$HOME/google-cloud-sdk/completion.bash.inc"
-fi
+[ -d "$HOME/google-cloud-sdk" ] && source "$HOME/google-cloud-sdk/path.bash.inc" && source "$HOME/google-cloud-sdk/completion.bash.inc"
 #+END_SRC
