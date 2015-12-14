@@ -4,7 +4,6 @@
   (mgl-pac asdf:system)
   (@bs-count-stuff))
 
-
 (defun range (start end)
   "Returns the range of the selected values. end value
   designates a bounding index and is not included in calculation."
@@ -17,7 +16,6 @@
 (defun squarep (n)
   "Basic perfect square predicate."
   (= (square (isqrt n)) n))
-
 
 ;;;; This can be moved to something else I guess
 

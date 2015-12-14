@@ -12,7 +12,7 @@
    * the number of pairs of parantheses
    * the number of full binary trees with n+1 leaves
    * etc.
-  
+
   Formally, it is defined as (in LaTeX):
 
      C_n=\Pi^{n}_{k=2}\frac{n+k}{k}\text{for}n>=0
