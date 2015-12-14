@@ -1,272 +1,127 @@
-#+TITLE:  Shell Profiles
+#+TITLE:  Profiles
 #+AUTHOR: Ben Sima
 #+EMAIL:  bensima@gmail.com
-#+TAGS:   shell bash zshell
-
-This generates my =.profile=, which can establish settings across all
-shell environments. This means it will be portable across all
-environments and shells that I might use. Think of it as "portable
-shell scripting", like "portable Common Lisp" or "portable C." Maybe.
-
-The differences between =~/.profile=, =~/.bash_profile=, and
-=~/.bashrc= are actually kinda interesting, from a
-nerdy-computing-history perspective. Read about them [[http://superuser.com/a/183980][here]]. What I took
-away from that explanation is that most of my stuff will go into
-=~/.profile=, but if I really get to changing my prompt and setting up
-a ton of aliases, I will setup a =~/.bashrc=, and probably a
-bashrc.org to go with it. For now I'll just tangle my aliases into
-=~/.bashrc= from this org file.
-
-* Path
-
-  Only add the following directories if they exist. For portability!
-
-  #+BEGIN_SRC sh
-  OLDPATH=$PATH
-  PATH=$HOME/bin
-
-  for DIR in /usr/local/git/bin /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin $HOME/me/bin
-  do
-    if [ -d $DIR ]
-    then
-      PATH=$PATH:$DIR
-    fi
-  done
-
-  PATH=$PATH:$OLDPATH
-  #+END_SRC
-
-* Editor
-
-  Set =EDITOR= to use =vim=:
-
-  #+BEGIN_SRC sh
-  export EDITOR=vim
-  #+END_SRC
-  
-* Ruby
-
-  Load [[https://github.com/sstephenson/rbenv][rbenv]] if it is installed. I also need the [[https://github.com/sstephenson/ruby-build][ruby-build]] plugin for
-  rbenv, which provides the =rbenv install= command.
-
-  To load rbenv into the shell, I need to add =~/.rbenv/bin= to the
-  =$PATH= and eval this =init= command.
-  
-  #+BEGIN_SRC sh
-  load_rbenv() {
-    export PATH="./bin:$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
-  }
-
-  if [ -d "$HOME/.rbenv" ]
-  then
-    load_rbenv
-  else
-    git clone https://github.com/sstephenson/rbenv.git "$HOME/.rbenv"
-    git clone https://github.com/sstephenson/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
-    load_rbenv
-  fi
-  #+END_SRC
-
-  A few aliases, should be self explanatory
-
-  #+BEGIN_SRC sh :tangle ~/.bashrc
-  alias be="bundle exec"
-  alias s="bundle exec rspec --color"
-  alias migrate="rake db:migrate db:test:clone"
-  alias last_migration="ls db/migrate | tail -n1 | head -c 14"
-  #+END_SRC
-  
-* Python
-
-  Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed. The pyenv installer simply creates a
-  =~/.pyenv= directory, so we check for that. If it's not installed,
-  then install it.
-  
-  #+BEGIN_SRC sh
-  load_pyenv() {
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-  }
-
-  if [ -d "$HOME/.pyenv" ]
-  then
-    load_pyenv
-  else
-    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-    load_pyenv
-  fi
-  #+END_SRC
-
-  Now I can do =pyenv update= to be sure I have the latest version.
-
-** Scientific packages
-
-   In order to install scipy, I need a Fortran compiler, as well as
-   BLAS and LAPACK. I can [[http://stackoverflow.com/a/14541175/1146898][get these easily]] with Apt:
-   
-   #+BEGIN_SRC sh
-    sudo apt-get install gfortran libopenblas-dev liblapack-dev
-   #+END_SRC
-
-* Rust
-
-  I like this automatic [[https://www.rust-lang.org/install.html][Rust]] installer:
-
-  #+BEGIN_SRC sh :tangle ~/.bashrc
-  alias rustup="curl -sSf https://static.rust-lang.org/rustup.sh | sh"
-  alias rustup_beta="curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=beta"
-  alias rustup_nightly="curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly"
-  #+END_SRC
-
-* Lisp
-
-  I like to use [[https://github.com/KeenS/CIM][CIM]] to manage my Lisps. After you install it, CIM asks
-  you to run =~/.cim/bin/cim config "sh" >> "~/.bashrc"=. Doing so
-  adds the following line:
-
-  #+BEGIN_SRC sh
-  CIM_HOME="$HOME/.cim"; [ -s "$CIM_HOME/init.sh" ] && . "$CIM_HOME/init.sh"
-  #+END_SRC
-
-  From here I can just do =cim install sbcl=. Boom.
-  
-* Nix
-
-  This line is automatically added to the bottom of your =.profile=
-  when you install [[https://nixos.org/nix/][Nix]]:
-
-  #+BEGIN_SRC sh
-  if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
-  #+END_SRC
-
-* Global Aliases
-
-   A quick grep shortcut. =-i= ignores case, and =-n= displays the
-   line numbers.
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   alias g='grep -in'
-   #+END_SRC
-
-   Show my history
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   alias history='fc -l 1'
-   #+END_SRC
-
-   Working directory. =setproj= sets to the current working directory
-   to the project directory variable, =cdproj= changes to the project directory
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   cdproj() {
-     export wdir=$(cat "$HOME/.current_project_path")
-     cd "$wdir" || exit
-   }
-
-   setproj() {
-     pwd > "$HOME/.current_project_path"
-   }
-   #+END_SRC
-
-   Give me a second chance when deleting stuff
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   alias rm='rm -i'
-
-   # better than rm -rf
-   trash () {
-     mv "$@" "$HOME/.trash"
-   }
-
-   alias clear_trash="rm .rf ./trash/*"
-   #+END_SRC
-
-   When I wanna know my ip address...
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   alias myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
-   #+END_SRC
-
-   ...or check my internet connection...
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   internet() {
-     # count 3 packets
-     # timeout 3 seconds
-     if (ping -c 3 -t 3 google.com > /dev/null 2>&1)
-     then
-       echo 'yep'
-     else
-       echo 'nope'
-     fi
-   }
-   #+END_SRC
-
-** =ls= and =exa=
-
-   I like using exa, so these are some aliases to help with that.
-
-   #+BEGIN_SRC sh :tangle ~/.bashrc
-   alias ls="echo \"You're using exa\" && exa" # help me remember to switch to exa
-   alias e="exa -lgah"
-   alias eg="exa -lh --git"
-   alias ea="exa -la"
-   alias et="exa -lT --level 3" # more than 3 levels takes *forever*. Even 3 takes a while :(
-   alias l="exa -lgah"
-   #+END_SRC
-  
-   Old but helpful "list directory" shortcuts (not tangled)
-  
-   #+BEGIN_SRC sh :tangle no
-   alias lsa='ls -lah'
-   alias l='ls -lA1'
-   alias ll='ls -l'
-   alias la='ls -lA'
-   alias sl=ls # often screw this up
-   #+END_SRC
-   
-* Git Aliases and Helpers
-
-  Use [[https://hub.github.com/][hub]] as a git-wrapper
-
-  #+BEGIN_SRC sh :tangle ~/.bashrc
-  command -v hub >/dev/null 2>&1 && hub_path=$(which hub) && alias git="$hub_path"
-  #+END_SRC
-
-  Self explanatory git aliases. I don't use all of them, but they are
-  nice to have
-
-  #+BEGIN_SRC sh :tangle ~/.bashrc
-  alias gl='git pull --prune'
-  alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-  alias gp='git push origin HEAD'
-  alias gd='git diff'
-  alias gc='git commit'
-  alias gca='git commit -a'
-  alias gco='git checkout'
-  alias gb='git branch'
-  alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
-
-  alias pull="git pull"
-  alias ci="git commit"
-  alias st="git st"
-  alias fetch="git fetch"
-  alias push="git push"
-
-  # Two aliases for adding files. The first ignores delete files,
-  # the second includes them.
-  alias add="git add --ignore-removal"
-  alias ga="git add -A"
-  #+END_SRC
-
-* Technical Artifacts
-
-  This is an [[http://orgmode.org][org mode]] file. Tangle it with =C-c C-v t= and it will
-  place all the above source code blocks into =~/.profile=.
-  
 #+PROPERTY: tangle ~/.profile
 #+PROPERTY: comments org
 #+PROPERTY: shebang #!/bin/sh
 #+DESCRIPTION: Global environment varialbes for all shells
+
+This generates my =~/.profile=, which can establish settings across all shell
+environments. This means it will be portable across all environments and shells
+that I might use. Think of it as "portable shell scripting", like "portable
+Common Lisp" or "portable C." Maybe.
+
+The differences between =~/.profile=, =~/.bash_profile=, and =~/.bashrc= are
+actually kinda interesting, from a nerdy-computing-history perspective. Read
+about them [[http://superuser.com/a/183980][here]]. What I took away from that explanation is that most of my stuff
+will go into =~/.profile=, but for changing my prompt and setting up aliases, I
+should use =~/.bashrc= (and a [[file:shell.org][shell.org]] to go with it).
+
+* Check for bash
+
+If I'm running bash, then include =.bashrc= if it exists.
+
+#+BEGIN_SRC sh
+if [ -n "$BASH_VERSION" ]
+then
+  if [ -f "$HOME/.bashrc" ]
+  then
+    . "$HOME/.bashrc"
+  fi
+fi
+#+END_SRC
+
+* Path
+
+Only add the following directories if they exist. For portability!
+
+#+BEGIN_SRC sh
+OLDPATH=$PATH
+PATH=$HOME/bin
+
+for DIR in /usr/local/git/bin /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin $HOME/bin $HOME/me/bin
+do
+  if [ -d $DIR ]
+  then
+    PATH=$PATH:$DIR
+  fi
+done
+
+PATH=$PATH:$OLDPATH
+#+END_SRC
+
+* Editor
+
+Set =EDITOR= to use emacs in the terminal:
+
+#+BEGIN_SRC sh
+export EDITOR="emacsclient -t"
+#+END_SRC
+  
+* Ruby
+
+Load [[https://github.com/sstephenson/rbenv][rbenv]] if it is installed. I also need the [[https://github.com/sstephenson/ruby-build][ruby-build]] plugin for rbenv,
+which provides the =rbenv install= command.
+
+To load rbenv into the shell, I need to add =~/.rbenv/bin= to the =$PATH= and
+eval this =init= command.
+  
+#+BEGIN_SRC sh
+function load_rbenv {
+  export PATH="./bin:$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+}
+
+if [ -d "$HOME/.rbenv" ]
+then
+  load_rbenv
+else
+  git clone https://github.com/sstephenson/rbenv.git "$HOME/.rbenv"
+  git clone https://github.com/sstephenson/ruby-build.git "$HOME/.rbenv/plugins/ruby-build"
+  load_rbenv
+fi
+#+END_SRC
+
+* Python
+
+Load [[https://github.com/yyuu/pyenv][pyenv]] if it's installed. The pyenv installer simply creates a =~/.pyenv=
+directory, so we check for that. If it's not installed, then install it.
+  
+  #+BEGIN_SRC sh
+function load_pyenv {
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+}
+
+if [ -d "$HOME/.pyenv" ]
+then
+  load_pyenv
+else
+  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+  load_pyenv
+fi
+  #+END_SRC
+
+  Now I can do =pyenv update= to be sure I have the latest version.
+
+* Nix
+
+This line is automatically added to the bottom of your =.profile= when you
+install [[https://nixos.org/nix/][Nix]]:
+
+#+BEGIN_SRC sh
+if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi
+#+END_SRC
+
+* Google Cloud
+
+This updates =PATH= for the Google Coud SDK and enables shell command completion
+for =gcloud=:
+
+#+BEGIN_SRC sh
+if [ -d "$HOME/google-cloud-sdk" ]; then
+  source "$HOME/google-cloud-sdk/path.bash.inc"
+  source "$HOME/google-cloud-sdk/completion.bash.inc"
+fi
+#+END_SRC

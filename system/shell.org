@@ -1,0 +1,195 @@
+#+title:    Shell configs
+#+author:   Ben Sima
+#+email:    bensima@gmail.com
+#+property: tangle ~/.bashrc
+#+property: comments org
+#+property: shebang #!/bin/sh
+
+This generates by config file for whichever shell I'm using, right now
+=~/.bashrc=, and goes along with my [[file:profile.org][profile.org]]. The difference is that
+=~/.profile= is loaded for the entire user environment, wherease =~/.bashrc= is
+only loaded for non-login shells (i.e., the interactive terminal).
+
+* Basic settings
+
+I got these from the default Linux Mint =~/.bashrc=.
+
+Source global definitions:
+
+#+BEGIN_SRC sh
+if [ -f /etc/bash.bashrc ]
+then
+  . /etc/bash.bashrc
+fi
+#+END_SRC
+
+*Fail fast!* If not running interactively, then don't do anything:
+
+#+BEGIN_SRC sh
+[ -z "$PS1" ] && return
+#+END_SRC
+
+Make =less= more friendly for non-text input. See =lesspipe(1)=:
+
+#+BEGIN_SRC sh
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+#+END_SRC
+
+Add an "alert" alias for long running commands. E.g. =sleep 10; alert=:
+
+#+BEGIN_SRC sh
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+#+END_SRC
+
+* Linux Mint
+
+#+BEGIN_SRC sh
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+#+END_SRC
+
+* Shell History
+
+Don't put duplicate lines in the history, and set history sizes. See =bash(1)=
+for more options:
+
+#+BEGIN_SRC sh
+HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=1000
+HISTFILESIZE=2000
+#+END_SRC
+
+Append to the history file, don't overwrite it:
+
+#+BEGIN_SRC sh
+shopt -s histappend
+#+END_SRC
+
+Show my history with a quick alias:
+
+#+BEGIN_SRC sh
+alias history='fc -l 1'
+#+END_SRC
+
+* Global Aliases
+
+A quick grep shortcut. =-i= ignores case, and =-n= displays the line numbers.
+
+#+BEGIN_SRC sh
+alias g='grep -in'
+#+END_SRC
+
+Working directory. =setproj= sets to the current working directory to the
+project directory variable, =cdproj= changes to the project directory
+
+#+BEGIN_SRC sh
+function cdproj {
+  export wdir=$(cat "$HOME/.current_project_path")
+  cd "$wdir" || exit
+}
+
+function setproj {
+  pwd > "$HOME/.current_project_path"
+}
+#+END_SRC
+
+Give me a second chance when deleting stuff
+
+#+BEGIN_SRC sh
+alias rm='rm -i'
+
+# better than rm -rf
+function trash {
+  mv "$@" "$HOME/.trash"
+}
+
+alias clear_trash="rm .rf ./trash/*"
+#+END_SRC
+
+When I wanna know my ip address...
+
+#+BEGIN_SRC sh
+alias myip="ifconfig | grep 'inet ' | grep -v 127.0.0.1 | cut -d\   -f2"
+#+END_SRC
+
+...or check my internet connection...
+
+#+BEGIN_SRC sh
+function internet {
+  # count 3 packets
+  # timeout 3 seconds
+  if (ping -c 3 -t 3 google.com > /dev/null 2>&1)
+  then
+    echo 'yep'
+  else
+    echo 'nope'
+  fi
+}
+#+END_SRC
+
+** =ls= and =exa=
+
+I like using exa, so these are some aliases to help with that.
+
+#+BEGIN_SRC sh :tangle ~/.bashrc
+alias ls="echo \"You're using exa\" && exa" # help me remember to switch to exa
+alias e="exa -lgah"
+alias eg="exa -lh --git"
+alias ea="exa -la"
+alias et="exa -lT --level 3" # more than 3 levels takes *forever*. Even 3 takes a while :(
+alias l="exa -lgah"
+#+END_SRC
+
+Old but helpful "list directory" shortcuts (not tangled)
+
+#+BEGIN_SRC sh :tangle no
+alias lsa='ls -lah'
+alias l='ls -lA1'
+alias ll='ls -l'
+alias la='ls -lA'
+alias sl=ls # often screw this up
+#+END_SRC
+
+* Rust
+
+I like this automatic [[https://www.rust-lang.org/install.html][Rust]] installer:
+
+#+BEGIN_SRC sh
+alias rustup="curl -sSf https://static.rust-lang.org/rustup.sh | sh"
+alias rustup_beta="curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=beta"
+alias rustup_nightly="curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly"
+#+END_SRC
+
+* Git Aliases and Helpers
+
+Use [[https://hub.github.com/][hub]] as a git-wrapper (but only if it exists as a command in the system).
+
+#+BEGIN_SRC sh
+command -v hub >/dev/null 2>&1 && hub_path=$(which hub) && alias git="$hub_path"
+#+END_SRC
+
+Self explanatory git aliases. I don't use all of them, but they are nice to have
+
+#+BEGIN_SRC sh
+alias gl='git pull --prune'
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gp='git push origin HEAD'
+alias gd='git diff'
+alias gc='git commit'
+alias gca='git commit -a'
+alias gco='git checkout'
+alias gb='git branch'
+alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
+
+alias pull="git pull"
+alias ci="git commit"
+alias st="git st"
+alias fetch="git fetch"
+alias push="git push"
+
+# Two aliases for adding files. The first ignores delete files,
+# the second includes them.
+alias add="git add --ignore-removal"
+alias ga="git add -A"
+#+END_SRC
