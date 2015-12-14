@@ -6,14 +6,21 @@ Sporadic notes from my studies in machine learning. A few general sources:
 - [[https://www.coursera.org/learn/machine-learning/][Andrew Ng's Coursera Class]]
 
 * Table of Contents                      :TOC@4:
- - [[#quick-overview][Quick Overview]]
+ - [[#quick-overview-and-definitions][Quick Overview and Definitions]]
  - [[#supervised-learning][Supervised Learning]]
  - [[#unsupervised-learning][Unsupervised Learning]]
    - [[#cocktail-party-problem][Cocktail party problem]]
+ - [[#cost-function][Cost Function]]
+ - [[#gradient-descent][Gradient Descent]]
  - [[#vectorization][Vectorization]]
+ - [[#model-representation][Model Representation]]
+ - [[#papers][Papers]]
+   - [[#to-read][To Read]]
 
-* Quick Overview
+* Quick Overview and Definitions
 
+- Machine Learning :: making a computer do what you want without being
+     explicitly programmed.
 - Supervised learning :: an algorithm is given "right answers" as part of the
      dataset
 - Unsupervised learning :: the algorithm does not have example "right answers,"
@@ -21,6 +28,21 @@ Sporadic notes from my studies in machine learning. A few general sources:
 - Regression problem :: we are trying to predict a continuous valued output
 - Classification problem :: we are trying to predict a discrete valued output
 - Vectorization :: math trick that lets us
+- Training Set :: the example data ("right answers", as above) given to a
+     learning algorithm in order to discover potentially predictive
+     relationships.
+- Learning Algorithm :: Instructions, encoded into a function \(h\) and informed
+     by the trainging set, which tell the computer how to understand and predict
+     new data.
+
+Conventially:
+
+- \(h\) :: by convention, stands for hypothesis. A function the maps input /x/'s
+     to output /y/'s.
+- \(x\) :: sample values
+- \(y\) :: predicted values
+- \(m\) :: number of training examples
+- \(\theta\) :: parameters of the model
 
 * Supervised Learning
 
@@ -63,6 +85,49 @@ The cocktail party algorithm can be done in one line of Octave code:
 
 ~svd~ is a linear algebra routine built into Octave.
 
+* Cost Function
+
+\( J(\theta_0, \theta_1) = \frac{1}{2m} \sum{m}{i=1} (h_\theta (x^{(1)}) - y^{(1)})^3 \)
+
+The goal is to minimize for \( \theta_0, \theta_1\) \( J(\theta_0, \theta_1) \).
+That is, you want to find the minimum value of the \( J \) function.
+
+Basically, the \(J\) function measures the distance between every \(x\) and \(y\),
+
+* Gradient Descent
+
+Actually a general solution to finding minimum of J(theta_0 .. theta_n)
+
+Outline
+
+1. Start with some \( \theta_0, \theta_1 \).
+2. Keep changing \( \theta_0, \theta_1 \) to reduce \( J( \theta_0, \theta_1 )
+   \) until we hopefully end up at a minimum.
+
+Visually, looks like walking down a hill.
+
+#+BEGIN_LaTeX
+\text{repeat until convergence} \{
+  \theta_j := \theta_j - \alpha \frac{\delta}{\delta \theta_j} J(\theta_0, \theta_1) \text{(for j = 0 and j = 1)}
+\}
+
+\text{Simultaneiously update j=0 and j=1:}
+
+\text{temp0} := \theta_0 - \\alpha \frac{\delta}{\delta \theta_j} J(\theta_0, \theta_1)
+\text{temp1} := \theta_0 - \\alpha \frac{\delta}{\delta \theta_j} J(\theta_0, \theta_1)
+\theta_0 := \text{temp0}
+\theta_1 := \text{temp1}
+#+END_LaTeX
+
+Note that \(\alpha\) is the *learning rate*.
+
 * Vectorization
 
 FIXME
+
+* Model Representation
+* Papers
+
+** To Read
+
+[[http://www.sciencemag.org/content/350/6266/1332.full][Human-level concept learning through probabilistic program induction]].
