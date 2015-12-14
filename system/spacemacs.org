@@ -51,6 +51,7 @@ The settings here are:
        yaml
        markdown
        org
+       nixos
        bsima
        org-journal
        jabber
@@ -167,6 +168,7 @@ this function is good for my own customizations. Some highlights:
   (setq
     display-time-format "%k:%M"
     powerline-default-separator nil
+    browse-url-browser-function 'eww-browse-url
     clojure-enable-fancify-symbols t
 
     jabber-account-list      '(("bensima@gmail.com"
