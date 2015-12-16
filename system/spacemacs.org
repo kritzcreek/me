@@ -187,6 +187,7 @@ this function is good for my own customizations. Some highlights:
                              wrap-prefix "    "))
 (defun config-circe ()
   "Customizations to the Circe IRC client."
+  (require 'circe)
   ;; simplify channel output
   (setq circe-format-say "{nick}> {body}")
   ;; hide messages I don't care about
