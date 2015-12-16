@@ -72,6 +72,7 @@ The settings here are:
                                         sx
                                         circe
                                         instapaper
+                                        dictionary
                                         org-journal )
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t))
@@ -99,7 +100,7 @@ just modify the given variables.
                            zenburn )
     dotspacemacs-colorize-cursor-according-to-state t
     dotspacemacs-default-font '("Fantasque Sans Mono"
-                                :size 13
+                                :size 16
                                 :weight normal
                                 :width normal
                                 :powerline-scale 1.1)
@@ -194,6 +195,8 @@ this function is good for my own customizations. Some highlights:
   (tooltip-mode -1)
   (display-time-mode t)
   (config-instapaper)
+  (define-key global-map "\C-cs" 'dictionary-search)
+  (define-key global-map "\C-cm" 'dictionary-match-words)
   (evil-leader/set-key "fed" 'find-spacemacs-org-file)
   (evil-leader/set-key "tt"  'font-lock-mode)
   (evil-leader/set-key "aoI" 'org-clock-in))
