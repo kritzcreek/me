@@ -55,28 +55,34 @@ The settings here are:
     dotspacemacs-distribution 'spacemacs
     dotspacemacs-configuration-layer-path '()
     dotspacemacs-configuration-layers
-    '( auto-completion
-       better-defaults
-       emacs-lisp
+    '( ;; dev tools
        shell
        git
        github
        dockerfile
        yaml
-       markdown
-       org
        nixos
-       bsima
-       org-journal
        jabber
        xkcd
        emoji
+
+       ;; notes and writing
+       better-defaults
+       auto-completion
+       markdown
+       org
+       gnus
+       bsima
+       org-journal
+
+       ;; languages
+       octave
        clojure
        java
        common-lisp
-       ;;shen
+       ;shen
        racket
-       ;;python
+       ;python
        haskell
        ocaml
        rust
