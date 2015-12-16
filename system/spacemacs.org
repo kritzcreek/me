@@ -5,6 +5,20 @@
 #+property:   comments org
 #+property:   eval no-export
 
+[[https://github.com/syl20bnr/spacemacs][Spacemacs]] is pretty awesome.
+
+* Contents                                                            :toc@4:
+ - [[#dotspacemacs][=dotspacemacs=]]
+   - [[#default-layers][Default layers]]
+   - [[#initialization][Initialization]]
+   - [[#user-initialization][User Initialization]]
+   - [[#user-configuration][User Configuration]]
+ - [[#additional-layers][Additional Layers]]
+   - [[#journal][Journal]]
+   - [[#private-layer][Private layer]]
+     - [[#bsimame][=bsima.me=]]
+     - [[#tasks][Tasks]]
+
 * =dotspacemacs=
 
 This generates my =~/.spacemacs= file. I've begun using [[https://github.com/syl20bnr/spacemacs][Spacemacs]] instead of my
