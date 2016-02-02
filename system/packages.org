@@ -7,15 +7,29 @@ listing of all my stuff. See [[https://nixos.org/wiki/FAQ#How_can_I_manage_softw
 #+BEGIN_SRC nix :tangle ~/packages.nix
 with (import <nixpkgs> {});
 { inherit
+  # utils
   git
+  whois
   emacs
   xclip
   keepassx
   chromium
+  phantomjs
+  jq
+  cmake
+  pdftk
+  elasticsearch
+
+  # haskell stuff
+  ghc
+  cabal-install
+
+  # lisp
   sbcl
   stumpwm
   leiningen # this will auto-include openjdk-8 (and a bunch of other stuff)
-  boot; }
+  boot
+  ; }
 #+END_SRC
 
 This file is tangled to =~/packages.nix=. To install all packages from
