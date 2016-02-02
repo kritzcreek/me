@@ -93,7 +93,8 @@ The settings here are:
                                         circe
                                         instapaper
                                         dictionary
-                                        org-journal )
+                                        org-journal
+                                        org-trello  )
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t))
 #+END_SRC
