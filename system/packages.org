@@ -18,6 +18,7 @@ with (import <nixpkgs> {});
   jq
   cmake
   pdftk
+  gnuplot
   elasticsearch
 
   # haskell stuff
