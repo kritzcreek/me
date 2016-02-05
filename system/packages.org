@@ -9,7 +9,7 @@ with (import <nixpkgs> {});
 { inherit
   # utils
   git
-  whois
+  jwhois
   emacs
   xclip
   keepassx
