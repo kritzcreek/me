@@ -241,6 +241,8 @@ this function is good for my own customizations. Some highlights:
     org-journal-dir         "~/Dropbox/org/journal/"
     org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)"
     org-agenda-files        '("~/Dropbox/org/tasks.org"
+                              "~/Dropbox/org/nebula.vc.org"
+                              "~/Dropbox/org/plan.org"
                               "~/workspace/liaison/dm-schema/schema.org"))
   (tooltip-mode -1)
   (display-time-mode t)
