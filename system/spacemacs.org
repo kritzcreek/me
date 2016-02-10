@@ -215,7 +215,6 @@ this function is good for my own customizations. Some highlights:
   (evil-leader/set-key "aic" 'circe))
 
 
-
 (defun dotspacemacs/user-config ()
   (setq
     tooltip-use-echo-area t
@@ -248,6 +247,7 @@ this function is good for my own customizations. Some highlights:
   (display-time-mode t)
   (config-instapaper)
   (config-circe)
+  (add-to-list 'auto-mode-alist '("\\.cljs\\.hl\\'" . clojurescript-mode))
   (define-key global-map "\C-cs" 'dictionary-search)
   (define-key global-map "\C-cm" 'dictionary-match-words)
   (evil-leader/set-key "fed" 'find-spacemacs-org-file)
