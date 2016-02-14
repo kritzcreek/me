@@ -227,6 +227,7 @@ this function is good for my own customizations. Some highlights:
     jabber-account-list      '(("bensima@gmail.com"
                                (:network-server . "talk.google.com")
                                (:connection-type . ssl)))
+    jabber-chat-buffer-show-avatar nil
     jabber-history-enabled    t
     jabber-use-global-history nil
     jabber-backlog-number     40
