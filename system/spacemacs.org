@@ -223,6 +223,7 @@ this function is good for my own customizations. Some highlights:
     powerline-default-separator nil
     browse-url-browser-function 'eww-browse-url
     clojure-enable-fancify-symbols t
+    dash-helm-dash-docset-path "/home/ben/.local/share/Zeal/Zeal/docsets/"
 
     jabber-account-list      '(("bensima@gmail.com"
                                (:network-server . "talk.google.com")
