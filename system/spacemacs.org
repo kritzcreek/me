@@ -18,6 +18,8 @@
    - [[#private-layer][Private layer]]
      - [[#bsimame][=bsima.me=]]
      - [[#tasks][Tasks]]
+     - [[#org-mode-files][Org-mode files]]
+   - [[#shen-layer][Shen Layer]]
 
 * =dotspacemacs=
 
@@ -81,7 +83,7 @@ The settings here are:
        clojure
        java
        common-lisp
-       ;shen
+       shen
        racket
        ;python
        haskell
@@ -417,4 +419,47 @@ To view my tasks, just do =SPC a t=.
 
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
 (evil-leader/set-key "at" 'bs/get-tasks-file)
+** Shen Layer
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/shen/packages.el
+(setq shen-packages
+      '(shen-mode
+        ;; inf-shen is not in GNU ELPA, pending FSF copyright paperwork
+        (inf-shen :location (recipe :fetcher git
+                                    :repo "https://github.com/eschulte/shen-mode.git"
+                                    :files ("inf-shen.el")))))
+
+(defun shen/init-shen-mode ()
+  (use-package shen-mode
+    :defer t
+    :mode "\\.shen\\'"
+    :config
+    (progn
+      (evil-leader/set-key-for-mode 'shen-mode
+        ;; e - eval
+        "el" 'shen-eval-last-sexp
+        "ed" 'shen-eval-defun
+        "eg" 'shen-eval-defun-and-go
+        "er" 'shen-eval-region
+        "et" 'shen-eval-region-and-go
+
+        ;; compile
+        "f" 'shen-compile-file
+        "d" 'shen-compile-defun
+        "g" 'shen-compile-defun-and-go
+
+        ;; s - REPL
+        "si" 'inferior-shen
+        "ss" 'switch-to-shen
+        "sl" 'shen-load-file
+
+        ;; h - help
+        "ha" 'shen-show-arglist
+        "hs" 'shen-describe-sym
+        "hf" 'shen-show-function-documentation
+        "hv" 'shen-show-variable-documentation))))
+
+(defun shen/init-inf-shen ()
+  (use-package inf-shen
+    :defer t))
 #+END_SRC
