@@ -319,7 +319,6 @@ Helper functions for getting journal files.
 #+END_SRC
 
 ** Private layer
-
 *** =bsima.me=
 
 I use orgmode for notes, mostly in the [[file:../notes][notes]] directory. The code blocks below
@@ -415,10 +414,36 @@ a new buffer.
   (find-file bs/tasks-file))
 #+END_SRC
 
-To view my tasks, just do =SPC a t=.
+To view my tasks, just do =SPC a b t=.
 
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
-(evil-leader/set-key "at" 'bs/get-tasks-file)
+(evil-leader/set-key "abt" 'bs/get-tasks-file)
+#+END_SRC
+
+*** Org-mode files
+
+To open any of my orgmode files, I can pop up a helm-mode buffer and find the
+one I want with either =C-c b= or =SPC a b o=.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
+
+(defvar *bs/org-dir* "~/me/org")
+
+(defun bs/org-files ()
+  "Returns a list of all my orgmode files."
+  (interactive)
+  (let ((fs (cl-remove-if-not
+              (lambda (s) (s-suffix? ".org" s))
+              (directory-files *bs/org-dir*))))
+    (helm :sources (helm-build-sync-source "org"
+                     :candidates fs
+                     :fuzzy-match t
+                     :action (lambda (f) (find-file (concat *bs/org-dir* "/" f))))
+          :buffer "*bs-org-files*")))
+
+(define-key global-map "\C-cb" 'bs/org-files)
+(evil-leader/set-key   "abo"   'bs/org-files)
+#+END_SRC
 ** Shen Layer
 
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/shen/packages.el
