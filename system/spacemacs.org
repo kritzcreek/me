@@ -237,7 +237,7 @@ this function is good for my own customizations. Some highlights:
     jabber-backlog-number     40
     jabber-backlog-days       30
 
-    org-todo-keywords       '((sequence "TODO" "IN PROGRESS" "|" "DONE" "DELEGATED"))
+    org-todo-keywords       '((sequence "TODO" "IN PROGRESS" "BLOCKED" "|" "DONE" "DELEGATED"))
     org-default-tasks-file  "~/Dropbox/org/tasks.org"
     org-capture-templates   '(("t" "Task entry"
                                entry (file+function org-default-tasks-file bs/first-header)
