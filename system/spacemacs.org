@@ -86,6 +86,7 @@ The settings here are:
        shen
        racket
        ;python
+       elm
        haskell
        ocaml
        rust
