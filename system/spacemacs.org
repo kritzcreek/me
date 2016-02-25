@@ -245,6 +245,7 @@ this function is good for my own customizations. Some highlights:
                                :empty-lines 1))
     org-journal-dir         "~/Dropbox/org/journal/"
     org-journal-date-format "#+TITLE: Journal Entry :: %Y-%b-%d (%A)"
+    org-agenda-start-with-clockreport-mode t
     org-agenda-files        '("~/me/org/tasks.org"
                               "~/me/org/nebula.vc.org"
                               "~/me/org/plan.org"
