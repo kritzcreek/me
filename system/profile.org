@@ -50,6 +50,17 @@ done
 PATH=$PATH:$OLDPATH
 #+END_SRC
 
+* Info
+
+=info= first searches in =/usr/share/info=. Emacs uses the INFOPATH environment
+variable to initialize the value of Emacs’s own Info-directory-list variable. I
+can put custom info files (such as [[http://www.neilvandyke.org/sicp-texi/][SICP]]) in my personal =~/info= directory:
+
+#+BEGIN_SRC sh
+INFOPATH=.:$HOME/info:
+export INFOPATH
+#+END_SRC
+
 * Editor
 
 Set =EDITOR= to use emacs in the terminal:
