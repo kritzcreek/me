@@ -218,6 +218,22 @@ this function is good for my own customizations. Some highlights:
   (add-hook 'lui-mode-hook 'my-lui-setup)
   (evil-leader/set-key "aic" 'circe))
 
+(defun config-clojure ()
+  (add-to-list 'auto-mode-alist '("\\.cljs\\.hl\\'" . clojurescript-mode))
+  (define-clojure-indent
+    (match 1)
+    (aif 1)
+    (awhen 1)
+    (awhile 1)
+    (aand 1)
+    (acond 1)
+    (afn 1)
+    (rfn 1)
+    (trav 1)
+    (-> 1)
+    (->> 1)
+    (do 0)
+    (into 1)))
 
 (defun dotspacemacs/user-config ()
   (setq
@@ -226,6 +242,7 @@ this function is good for my own customizations. Some highlights:
     powerline-default-separator nil
     browse-url-browser-function 'eww-browse-url
     clojure-enable-fancify-symbols t
+    clojure-align-forms-automatically t
     dash-helm-dash-docset-path "/home/ben/.local/share/Zeal/Zeal/docsets/"
 
     jabber-account-list      '(("bensima@gmail.com"
@@ -254,7 +271,8 @@ this function is good for my own customizations. Some highlights:
   (display-time-mode t)
   (config-instapaper)
   (config-circe)
-  (add-to-list 'auto-mode-alist '("\\.cljs\\.hl\\'" . clojurescript-mode))
+  (add-hook 'clojure-mode-hook #'config-clojure)
+  (add-hook 'clojure-mode-hook #'paredit-mode)
   (define-key global-map "\C-cs" 'dictionary-search)
   (define-key global-map "\C-cm" 'dictionary-match-words)
   (evil-leader/set-key "fed" 'find-spacemacs-org-file)
