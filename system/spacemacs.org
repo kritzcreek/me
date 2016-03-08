@@ -85,7 +85,7 @@ The settings here are:
        common-lisp
        shen
        racket
-       ;python
+       python
        elm
        haskell
        ocaml
