@@ -69,8 +69,9 @@ The settings here are:
        emoji
        dash
 
-       ;; notes and writing
+       ;; notes, writing, display
        better-defaults
+       themes-megapack
        auto-completion
        markdown
        org
@@ -117,6 +118,7 @@ just modify the given variables.
     dotspacemacs-startup-banner  nil
     dotspacemacs-startup-lists   '(recents projects bookmarks)
     dotspacemacs-themes '( leuven
+                           minimal-light
                            spacemacs-light
                            spacemacs-dark
                            solarized-light
@@ -150,7 +152,6 @@ just modify the given variables.
     dotspacemacs-active-transparency 90
     dotspacemacs-inactive-transparency 90
     dotspacemacs-mode-line-unicode-symbols t
-    dotspacemacs-smooth-scrolling t
     dotspacemacs-smartparens-strict-mode nil
     dotspacemacs-highlight-delimiters 'all
     dotspacemacs-persistent-server t
