@@ -117,8 +117,8 @@ just modify the given variables.
     dotspacemacs-verbose-loading nil
     dotspacemacs-startup-banner  nil
     dotspacemacs-startup-lists   '(recents projects bookmarks)
-    dotspacemacs-themes '( leuven
-                           minimal-light
+    dotspacemacs-themes '( minimal-light
+                           leuven
                            spacemacs-light
                            spacemacs-dark
                            solarized-light
@@ -148,7 +148,7 @@ just modify the given variables.
     dotspacemacs-loading-progress-bar t
     dotspacemacs-fullscreen-at-startup nil
     dotspacemacs-fullscreen-use-non-native nil
-    dotspacemacs-maximized-at-startup nil
+    dotspacemacs-maximized-at-startup t
     dotspacemacs-active-transparency 90
     dotspacemacs-inactive-transparency 90
     dotspacemacs-mode-line-unicode-symbols t
@@ -240,7 +240,7 @@ this function is good for my own customizations. Some highlights:
   (setq
     tooltip-use-echo-area t
     display-time-format "%k:%M"
-    powerline-default-separator nil
+    powerline-default-separator contour
     browse-url-browser-function 'eww-browse-url
     clojure-enable-fancify-symbols t
     clojure-align-forms-automatically t
