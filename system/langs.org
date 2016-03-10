@@ -1,0 +1,54 @@
+#+title: Langs.org
+#+description: Configurations for Languages and Build Tools
+#+author:      Ben Sima <bensima@gmail.com>
+#+property:    comments org
+#+property:    eval no-export
+#+options:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+options:     skip:nil author:nil email:nil creator:nil timestamp:nil
+
+My extra configs for build tools and languages. Not including environment, PATH, packages, etc.
+
+* Clojure
+
+Clojure
+
+** Boot
+
+[[http://boot-clj.com/][Boot]] is build-tooling for Clojure. It's pretty great. Install Boot
+like so:
+
+#+BEGIN_SRC sh :tangle no
+curl -LO https://github.com/boot-clj/boot/releases/download/2.0.0/boot.sh
+mv boot.sh boot && chmod a+x boot && sudo mv boot /usr/local/bin
+#+END_SRC
+
+I can customize Boot with a =$BOOT_HOME/profile.boot= file. This
+will add cider and [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl]] to the Boot middleware.
+
+#+BEGIN_SRC clojure :tangle "~/.boot/profile.boot"
+(require 'boot.repl)
+(swap! boot.repl/*default-dependencies*
+       conj '[refactor-nrepl "1.1.0"]
+            '[cider/cider-nrepl "0.11.0-SNAPSHOT"])
+
+(swap! boot.repl/*default-middleware*
+       conj 'refactor-nrepl.middleware/wrap-refactor
+            'cider.nrepl/cider-middleware
+            'clojure.core.typed.repl/wrap-clj-repl)
+#+END_SRC
+
+** Leiningen
+
+[[http://leiningen.org/][Leiningen]] is the de-facto project manager for Clojure. Gets its
+name from [[https://www.youtube.com/watch?v=gmeHKhvWGIM][this]].
+
+Lein uses a Clojure map to store user configurations:
+
+#+BEGIN_SRC clojure :tangle ~/.lein/profiles.clj
+{:user {:plugins [[lein-sub "0.3.0"]
+                  [refactor-nrepl "1.1.0"]
+                  [cider/cider-nrepl "0.11.0-SNAPSHOT"]
+                  [jonase/eastwood "0.2.3"]]}
+         :dependencies [[alembic "0.3.2"]
+                        [org.clojure/tools.nrepl "0.2.11"]]}
+#+END_SRC
