@@ -5,22 +5,10 @@ Sporadic notes from my studies in machine learning. A few general sources:
 
 - [[https://www.coursera.org/learn/machine-learning/][Andrew Ng's Coursera Class]]
 
-* Table of Contents                      :TOC@4:
- - [[#quick-overview-and-definitions][Quick Overview and Definitions]]
- - [[#supervised-learning][Supervised Learning]]
- - [[#unsupervised-learning][Unsupervised Learning]]
-   - [[#cocktail-party-problem][Cocktail party problem]]
- - [[#cost-function][Cost Function]]
- - [[#gradient-descent][Gradient Descent]]
- - [[#vectorization][Vectorization]]
- - [[#model-representation][Model Representation]]
- - [[#papers][Papers]]
-   - [[#to-read][To Read]]
-
 * Quick Overview and Definitions
 
-- Machine Learning :: making a computer do what you want without being
-     explicitly programmed.
+- Machine Learning :: "giving computers the ability to learn without being
+     explicitly programmed" ---Arthur Samuel
 - Supervised learning :: an algorithm is given "right answers" as part of the
      dataset
 - Unsupervised learning :: the algorithm does not have example "right answers,"
@@ -39,6 +27,7 @@ Conventially:
 
 - \(h\) :: by convention, stands for hypothesis. A function the maps input /x/'s
      to output /y/'s.
+- \(g\) :: No idea... some function I guess
 - \(x\) :: sample values
 - \(y\) :: predicted values
 - \(m\) :: number of training examples
@@ -94,7 +83,10 @@ That is, you want to find the minimum value of the \( J \) function.
 
 Basically, the \(J\) function measures the distance between every \(x\) and \(y\),
 
-* Gradient Descent
+* Algorithms
+** Gradient Descent
+
+Gradient descent is kinda like a general framework for creating models...
 
 Actually a general solution to finding minimum of J(theta_0 .. theta_n)
 
@@ -121,12 +113,24 @@ Visually, looks like walking down a hill.
 
 Note that \(\alpha\) is the *learning rate*.
 
-* Vectorization
+** Other algorithms
+
+These algorithms have no need to manually pick \(\alpha\) and are often faster
+than gradient descent. On the other hand, they are more complex.
+
+- Conjugate gradient
+- BFGS
+- L-BFGS
+
+* TODO Vectorization
 
 FIXME
 
-* Model Representation
+* TODO Model Representation
 * Papers
+
+- [[http://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems.pdf][Hidden technical debt in ML systems]] - pretty good, should revisit once I write
+  larger systems
 
 ** To Read
 
