@@ -25,6 +25,10 @@ reproducible and self-contained.
   |- ...
 #+END_EXAMPLE
 
+* Blogging
+
+See [[file:system/spacemacs.org::*=bsima.me=][=bsima.me=]].
+
 * TODO Common Lisp Scripting
 
 Lisp is way better than shell. I can use the following as a portable
