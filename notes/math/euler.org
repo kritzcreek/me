@@ -5,15 +5,6 @@
 
 Am I a mathematician yet?
 
-* Table of Contents                                                   :TOC@2:
- - [[#problem-1---multiples-of-3-and-5][Problem 1 - Multiples of 3 and 5]]
-   - [[#haskell][Haskell]]
-   - [[#common-lisp][Common Lisp]]
- - [[#problem-2---even-fibonacci-numbers][Problem 2 - Even Fibonacci numbers]]
-   - [[#common-lisp][Common Lisp]]
-   - [[#ocaml][OCaml]]
-   - [[#haskell][Haskell]]
-
 * DONE Problem 1 - Multiples of 3 and 5
 CLOSED: [2015-11-06 Fri 16:45]
 
@@ -32,7 +23,7 @@ sum [3, 6..999] + sum[5, 10..999] - sum[15, 30..999]
 ** DONE Common Lisp
 CLOSED: [2015-11-06 Fri 16:45]
 
-#+BEGIN_SRC lisp
+#+BEGIN_SRC common-lisp
 (defun collector (n)
   (if (or (= 0 (mod n 5))
           (= 0 (mod n 3)))
@@ -60,7 +51,7 @@ four million, find the sum of the even-valued terms.
 
 Old, over-engineered attempt:
 
-#+BEGIN_SRC lisp
+#+BEGIN_SRC common-lisp
 (set 'phi (/ (+ 1 (sqrt 5)) 2))
 (set 'psy (/ (- 1 (sqrt 5)) 2))
 
@@ -133,8 +124,34 @@ let rec fib =
   | _ -> raise (Invalid_argument "Negative value supplied to fib")
 #+END_SRC
 
-** TODO Haskell
+** DONE Haskell
+CLOSED: [2016-01-15 Fri 19:19]
 
 #+BEGIN_SRC haskell
--- todo
+  -- Calculate fibonacci sequence
+  fibs :: Num a => [a]
+  fibs = 1 : 2 : zipwith (+) fibs (tail fibs)
+
+  -- list comprehension: creates a list of all x where x is the result of the
+  -- function `fibs' less than 4,000,000 and `even x'
+  sum [x | x <- takeWhile (< 4000000) fibs, even x]
 #+END_SRC
+
+* Problem 3 - Largest Prime Factors
+
+** Pseudocode
+
+The trial-by-division method
+
+#+BEGIN_EXAMPLE
+define factors(n):
+    z = 2
+    while (z * z <= n):
+        if (n % z == 0):
+            output z
+            n /= z
+        else:
+            z++
+    if n > 1
+        output n
+#+END_EXAMPLE
