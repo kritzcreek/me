@@ -6,12 +6,3 @@ find my code on [[https://github.com/bsima][GitHub]], my favorite reading passag
 quote blog]], and my tweets on [[https://twitter.com/bensima][Twitter]]. Other profiles: [[http://about.me/bsima][about.me/bsima]]
 
 My resume is [[file:resume.org][here]].
-
-This site was made with:
-
-- [[http://ethanschoonover.com/solarized][Solarzied color scheme]]
-- [[http://inuitcss.com][Inuit CSS]]
-- [[https://en.wikipedia.org/wiki/PT_Fonts][PT Sans and Serif]]
-- [[http://openfontlibrary.org/en/font/fantasque-sans-mono][Fantasque Sans Mono]]
-- [[http://orgmode.org][Orgmode]]
-- [[https://github.com/bsima/bsima.github.io][Source on GitHub]]

@@ -3,7 +3,9 @@ title: Resume
 id: resume
 ---
 
-My resume is currently available at [[https://docs.google.com/document/d/1OrBr3KPDjeJBcXdKFJ2vE3tgAKQxThciGMsIX1icVx8/edit][this document]].
+My resume is currently available at
+[[https://docs.google.com/document/d/1OrBr3KPDjeJBcXdKFJ2vE3tgAKQxThciGMsIX1icVx8/edit][this
+document]].
 
 #+BEGIN_COMMENT
 
