@@ -374,7 +374,6 @@ here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing
 (setq org-publish-project-alist
       `(("org-notes"
          :base-directory "~/me/notes/"
-         :base-extension "org"
          :publishing-directory "~/me/www/public/notes/"
          :recursive t
          :publishing-function org-html-publish-to-html
@@ -383,8 +382,7 @@ here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing
          :auto-preamble t)
 
         ("org-pages"
-         :base-directory "~/me/www/resources/pages/"
-         :base-extension "org"
+         :base-directory "~/me/pages/"
          :publishing-directory "~/me/www/public/"
          :recursive t
          :publishing-function org-html-publish-to-html
@@ -402,10 +400,11 @@ here can be found in the [[http://orgmode.org/manual/Publishing.html][Publishing
         ; :auto-preamble t)
 
         ("org-static"
-         :base-directory "~/me/www/resources/assets/"
+         :base-directory "~/me/www/assets/"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
          :publishing-directory "~/me/www/public/assets/"
          :recursive t
+         :htmlized-source nil
          :publishing-function org-publish-attachment)
 
         ("org" :components ("org-notes" "org-pages" "org-static"))))
@@ -415,10 +414,14 @@ To actually publish everything, I need to do =M-x org-publish-project RET org
 RET=. That's too many things, so here is a helper function. The =t= makes
 orgmode publish everything, even if the file's been unchanged.
 
+Call this with ~SPC A B P~.
+
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
-  (defun bs-publish ()
+  (defun bs/publish ()
     (interactive)
     (org-publish-project "org" t))
+
+(evil-leader/set-key "abp" 'bs/publish)
 #+END_SRC
 
 *** Tasks
