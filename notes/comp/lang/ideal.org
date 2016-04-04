@@ -1,0 +1,34 @@
+#+title: My Ideal Proglang
+#+author: Ben Sima <bensima@gmail.com>
+
+Imagine my ideal programming language...
+
+- s-expression based syntax, or at least homoiconic (Lisp)
+- =nil= does not equal the empty list (Scheme / Racket)
+  - that is, =(equal? nil '())= returns false
+  - maybe no =nil= at all?
+- pattern match on arguments to functions ([[http://www.shenlanguage.org/learn-shen/functions/functions_pattern_matching.html][Shen]])
+- symbols evaluate to themselves ([[http://www.shenlanguage.org/learn-shen/symbols.html][Shen]])
+  - any ordinary word is treated as a symbol
+  - Like Clojure's =:keywords= or Ruby's =:symbols=, except without the colon prefix
+  - potential problem: a symbol typo could be really hard to debug?
+- equality based on value, not type (Shen)
+  - eg. 1 = 1.0
+  - see [[https://twitter.com/deech/status/705193386219687937][deech's tweet]]
+- =fst= and =snd=. None of this =car= and =cdr= historical nonsense
+- Macros directly program the reader (Shen)
+- =?= Algebraic data types (ML/Haskell)
+- Category Theory built-in (Elm, Haskell)
+  - see [[https://twitter.com/krisajenkins/status/692352776362430464][Kris Jenkins' tweet]]
+- Immutable data structures by default, with optional mutatable data structures (Rust, Clojure)
+  - Clojure's [[http://clojure.org/reference/transients][transients]] are really nice
+- Anaphoric operations ([[http://arclanguage.github.io/ref/anaphoric.html][Arc]])
+- Concurrency built in (Clojure, Erlang)
+  - not sure what this would look like tho (Actors? CSP? STM?)
+- Uppercase signifies variable (Shen)
+- full-featured namespace/package system (Common Lisp / Clojure)
+- Lazy eval (Haskell, Clojure, etc)
+- =#lang= feature (Racket)
+- Awesome error messages (Rust, Elm)
+- Docstrings are super important, and must available for lookup at the REPL (Common Lisp, Clojure)
+- =?= prolog, compiler-compiler (Shen)
