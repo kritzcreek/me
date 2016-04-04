@@ -347,8 +347,7 @@ page.
 
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
 (defvar bs-site-head
-  "<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic'>
-   <link rel='stylesheet' type='text/css' media='screen' href='http://openfontlibrary.org/face/fantasque-sans-mono'/>
+  "<link rel='stylesheet' type='text/css' href='/assets/css/tufte.css' />
    <link rel='stylesheet' type='text/css' href='/assets/css/main.css' />")
 #+END_SRC
 
