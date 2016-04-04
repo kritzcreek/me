@@ -445,14 +445,16 @@ one I want with either =C-c b= or =SPC a b o=.
 
 #+BEGIN_SRC elisp :tangle ~/.emacs.d/private/bsima/config.el
 
-(defvar *bs/org-dir* "~/me/org")
+(defvar *bs/org-dirs* '( "~/me/org"
+                         "~/me/notes"
+                         "~/me/pages"))
 
 (defun bs/org-files ()
   "Returns a list of all my orgmode files."
   (interactive)
   (let ((fs (cl-remove-if-not
               (lambda (s) (s-suffix? ".org" s))
-              (directory-files *bs/org-dir*))))
+              (mapcar #'directory-files *bs/org-dirs*))))
     (helm :sources (helm-build-sync-source "org"
                      :candidates fs
                      :fuzzy-match t
