@@ -1,35 +1,39 @@
 #+title: Papers to read
 
-* A Critique of Abelson and Sussman, or, Why calculating is better than scheming, Philip Wadler
+
+* Computer Science
+** A Critique of Abelson and Sussman, or, Why calculating is better than scheming, Philip Wadler
 
   [[http://www.cs.kent.ac.uk/people/staff/dat/miranda/wadler87.pdf][PDF]] - Critiques SICP in favor of KRC, which influenced Miranda, which influenced Haskell.
 
-* Strong Static Type Checking for Common Lisp
+** Strong Static Type Checking for Common Lisp
 
   [[http://www.cs.utexas.edu/users/boyer/ftp/diss/akers.pdf#sthash.hFZujQOT.dpuf][PDF]] - defines a portable static type system. Really long, like almost 400 pages
 
-* History of logic an programming languages, Philip Wadler
+** History of logic and programming languages, Philip Wadler
 
   [[http://homepages.inf.ed.ac.uk/wadler/topics/history.html#sthash.hFZujQOT.dpuf][HTML]] - a collection of papers, actually
 
-* Koka: Programming with Row-polymorphic Effect Types
+** Koka: Programming with Row-polymorphic Effect Types
 
 [[http://research.microsoft.com/pubs/210640/paper.pdf][PDF]] - found via toroidal-code's implementation in OCaml: [[https://github.com/brick-lang/kekka/][kekka]]
 
-* Fast Set operations with Treaps
+** Fast Set operations with Treaps
 
 [[http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.5678][Source]]. Found via Rich Hickey's email [[https://groups.google.com/forum/#!topic/clojure/tfFhrEfQTpM][here]].
 
-* Two papers on Algorithm W
+** Two papers on Algorithm W
 
 [[http://webdoc.sub.gwdg.de/ebook/serien/ah/UU-CS/2002-031.pdf][Generalizing Hindley-Milner Type Inference Algorithms]]
 
 [[https://courses.engr.illinois.edu/cs421/sp2012/project/milner-polymorphism.pdf][A theory of polymorphism in programming]]
 
-* Out of the tarpit
-
+** Out of the tarpit
 [[http://shaffner.us/cs/papers/tarpit.pdf][Source]] - recommended via Fogus' 2013 talk at the Clojure Conj about Zeder
-
-* Functional Programming with Structured Graphs
+** Functional Programming with Structured Graphs
 
 [[https://www.cs.utexas.edu/~wcook/Drafts/2012/graphs.pdf][Source PDF.]] Found via [[https://twitter.com/BrandonBloom/status/665554176307412992][this tweet]].
+* Biology
+** The Scientific Quest for Lasting Youth
+
+http://online.liebertpub.com/doi/pdfplus/10.1089/rej.2014.1580
