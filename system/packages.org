@@ -17,6 +17,7 @@ with (import <nixpkgs> {});
   pdftk
   gnuplot
   bzip2
+  dropbox
 
   # dev tools
   vim
