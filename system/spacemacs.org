@@ -118,13 +118,8 @@ just modify the given variables.
     dotspacemacs-startup-banner  nil
     dotspacemacs-startup-lists   '(recents projects bookmarks)
     dotspacemacs-themes '( minimal-light
-                           leuven
-                           spacemacs-light
-                           spacemacs-dark
-                           solarized-light
-                           solarized-dark
-                           monokai
-                           zenburn )
+                           minimal
+                           leuven )
     dotspacemacs-colorize-cursor-according-to-state t
     dotspacemacs-default-font '("Fantasque Sans Mono"
                                 :size 16
@@ -240,7 +235,7 @@ this function is good for my own customizations. Some highlights:
   (setq
     tooltip-use-echo-area t
     display-time-format "%k:%M"
-    powerline-default-separator contour
+    powerline-default-separator nil
     browse-url-browser-function 'eww-browse-url
     clojure-enable-fancify-symbols t
     clojure-align-forms-automatically t
