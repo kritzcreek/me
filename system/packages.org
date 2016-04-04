@@ -10,26 +10,36 @@ with (import <nixpkgs> {});
   # utils
   git
   jwhois
-  emacs
   xclip
-  keepassx
   chromium
   phantomjs
   jq
-  cmake
   pdftk
   gnuplot
-  elasticsearch
+  bzip2
 
-  # haskell stuff
+  # dev tools
+  vim
+  emacs
+  cmake
+  zeal
+
+  # dev stuff
   ghc
   cabal-install
-
-  # lisp
+  clang
+  cmake
   sbcl
-  stumpwm
   leiningen # this will auto-include openjdk-8 (and a bunch of other stuff)
   boot
+  ocaml
+  utop
+  
+
+  # UI and desktop
+  stumpwm
+  keepassx
+  pianobar
   ; }
 #+END_SRC
 
