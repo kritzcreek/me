@@ -8,6 +8,7 @@
 [[https://github.com/syl20bnr/spacemacs][Spacemacs]] is pretty awesome.
 
 * Contents                                                            :toc@4:
+ - [[#find-a-place-for-this-snippet][Find a place for this snippet]]
  - [[#dotspacemacs][=dotspacemacs=]]
    - [[#default-layers][Default layers]]
    - [[#initialization][Initialization]]
@@ -20,6 +21,23 @@
      - [[#tasks][Tasks]]
      - [[#org-mode-files][Org-mode files]]
    - [[#shen-layer][Shen Layer]]
+
+* TODO Find a place for this snippet
+
+Via someone on irc #clojure
+
+#+BEGIN_SRC elisp :tangle no
+(define-abbrev-table 'erc-mode-abbrev-table
+  '(("gface" "( ≖‿≖)")
+    ("purrface" "( ･ ◡◡･)")
+    ("derpface" "◔ ◡ ◔")
+    ("mehface" "ヽ(´ｰ｀ )ﾉ")
+    ("outtahere" "(╯°□°）╯︵ ┻━┻")
+    ("dealwithit" "(⌐■_■)")
+    ("novaivia" "⡗⢼⣏⣹⡀⢇⡸⡮⢵⡅ ⢇⡸⡅⡮⢵")
+    ("whatever" "¯\_(ツ)_/¯")
+    ("idonteven" "¯\(°_°)/¯")))
+#+END_SRC
 
 * =dotspacemacs=
 
