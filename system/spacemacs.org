@@ -225,7 +225,7 @@ this function is good for my own customizations. Some highlights:
 (defun dotspacemacs/user-config ()
   (setq
     tooltip-use-echo-area t
-    display-time-format "%k:%M"
+    display-time-format "<%k:%M %a %e/%m>"
     powerline-default-separator nil
     browse-url-browser-function 'eww-browse-url
     clojure-enable-fancify-symbols t
