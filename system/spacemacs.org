@@ -131,7 +131,7 @@ just modify the given variables.
 #+BEGIN_SRC elisp
 (defun dotspacemacs/init ()
   (setq-default
-    dotspacemacs-editing-style   'hybrid
+    dotspacemacs-editing-style   'emacs
     dotspacemacs-verbose-loading nil
     dotspacemacs-startup-banner  nil
     dotspacemacs-startup-lists   '(recents projects bookmarks)
