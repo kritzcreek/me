@@ -205,33 +205,6 @@ this function is good for my own customizations. Some highlights:
   ;(define-key w3m-mode-map "i" 'instapaper-add-from-w3m)
 )
 
-(defun my-circe-set-margin () (setq right-margin-width 5))
-(defun my-lui-setup () (setq fringes-outside-margins t
-                             right-margin-width 5
-                             word-wrap t
-                             wrap-prefix "    "))
-(defun config-circe ()
-  "Customizations to the Circe IRC client."
-  (require 'circe)
-  ;; simplify channel output
-  (setq circe-format-say "{nick}> {body}")
-  ;; hide messages I don't care about
-  (circe-set-display-handler "JOIN" (lambda (&rest ignored) nil))
-  (circe-set-display-handler "PART" (lambda (&rest ignored) nil))
-  (circe-set-display-handler "QUIT" (lambda (&rest ignored) nil))
-  (setq circe-reduce-lurker-spam t)
-  ;; intelligent pasting
-  (add-hook 'circe-channel-mode-hook 'enable-lui-autopaste)
-  ;; spellcheck
-  (setq lui-flyspell-p t
-        lui-flyspell-alist '((".*" "american")))
-  ;; allow for timestamps to be in the margin, so text can wrap correctly
-  (setq lui-time-stamp-position 'right-margin
-        lui-time-stamp-format   "%H:%M")
-  (add-hook 'lui-mode-hook 'my-circe-set-margin)
-  (add-hook 'lui-mode-hook 'my-lui-setup)
-  (evil-leader/set-key "aic" 'circe))
-
 (defun config-clojure ()
   (add-to-list 'auto-mode-alist '("\\.cljs\\.hl\\'" . clojurescript-mode))
   (define-clojure-indent
@@ -284,7 +257,6 @@ this function is good for my own customizations. Some highlights:
   (tooltip-mode -1)
   (display-time-mode t)
   (config-instapaper)
-  (config-circe)
   (add-hook 'clojure-mode-hook #'config-clojure)
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (define-key global-map "\C-cs" 'dictionary-search)
