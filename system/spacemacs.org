@@ -284,14 +284,14 @@ files to org-mode.
       (global-set-key (kbd "C-c f j") 'journal-file-today)
       (global-set-key (kbd "C-c f y") 'journal-file-yesterday)
       (evil-leader/set-key
-        "aojn" 'org-journal-new-entry
-        "aojs" 'org-journal-search
-        "aojd" 'org-journal-new-date-entry
-        "aojr" 'org-journal-read-entry
-        "aojj" 'org-journal-next-entry
-        "aojk" 'org-journal-previous-entry
-        "aojt" 'journal-file-today
-        "aojy" 'journal-file-yesterday))))
+        "abjn" 'org-journal-new-entry
+        "abjs" 'org-journal-search
+        "abjd" 'org-journal-new-date-entry
+        "abjr" 'org-journal-read-entry
+        "abjj" 'org-journal-next-entry
+        "abjk" 'org-journal-previous-entry
+        "abjt" 'journal-file-today
+        "abjy" 'journal-file-yesterday))))
 #+END_SRC
 
 Helper functions for getting journal files.
@@ -303,7 +303,7 @@ Helper functions for getting journal files.
     (expand-file-name (concat org-journal-dir daily-name))))
 
 (defun journal-file-today ()
-  "Create and load a journal file bbcikznuyqhosctvrased on today's date."
+  "Create and load a journal file based on today's date."
   (interactive)
   (find-file (get-journal-file-today)))
 
