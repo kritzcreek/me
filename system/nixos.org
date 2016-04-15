@@ -1,0 +1,163 @@
+#+title:    NixOS Configuration File
+#+author:   Ben Sima <bensima@gmail.com>
+#+property: comments org
+#+property: eval no-export
+#+property: tangle /etc/nixos/configuration.nix
+
+My main machine uses [[https://nixos.org][NixOS]], and this is the configuration file for it.
+
+Start with the standard nix expression setup, but also import the auto-generated
+hardware config.
+
+#+BEGIN_SRC nix
+{config, pkgs, ... }:
+
+{ imports = [ ./hardware-configuration.nix ];
+#+END_SRC
+
+* Hardware and Setup
+
+Since my machine uses UEFI, I'll use Gummiboot
+
+#+BEGIN_SRC nix
+boot.loader.gummiboot.enable = true;
+boot.loader.efi.canTouchEfiVariables = true;
+boot.loader.grub.device = "/dev/sda7";
+#+END_SRC
+
+Networking is pretty simple. I'll also enable bluetooth while I'm at it:
+
+#+BEGIN_SRC nix
+networking.hostName = "neb";
+networking.wireless.enable = true; # via wpa_supplicant
+hardware.bluetooth.enable = true;
+#+END_SRC
+
+Some internationalisation/locale stuff.
+
+#+BEGIN_SRC nix
+i18n = {
+  consoleFont = "Lat2-Terminus16";
+  consoleKeyMap = "us";
+  defaultLocale = "en_US.UTF-8";
+};
+
+time.timeZone = "America/Los_Angeles";
+#+END_SRC
+
+* Environment
+
+This is getting to the fun stuff, system packages. I don't really know how these
+are all scoped, but if it compiles then I go with it
+
+** Packages
+
+#+BEGIN_SRC nix
+environment.systemPackages = with pkgs; [
+  # general
+  pkgs.wget
+  pkgs.which
+  pkgs.jwhois
+  pkgs.xclip
+  pkgs.firefox
+  pkgs.zip
+  pkgs.unzip
+    
+  # xorg / media
+  xorg.xbacklight
+  pkgs.alock
+  pkgs.acpi
+  pkgs.pianobar
+  pkgs.autorandr
+  
+  # security / perf
+  pkgs.gnupg21
+  pkgs.pnugp1compat
+  pkgs.vpnc
+  pkgs.htop
+  pkgs.conky
+  
+  # dev
+  pkgs.tmux
+  pkgs.emacs
+  pkgs.gitAndTools.gitFull 
+  pkgs.phantomjs # FIXME this line and below should really go in my user profile
+  pkgs.jq
+  pkgs.elasticsearch
+  pkgs.boot
+  pkgs.leiningen
+
+  # other
+  pkgs.dropbox-cli
+];
+#+END_SRC
+
+** Fonts
+Fonts are really easy to install, see [[https://nixos.org/wiki/Fonts][instructions on the wiki]].
+
+#+BEGIN_SRC nix
+fonts = {
+  enableFontDir = true;
+  enableGhostscriptFonts = true;
+  fonts = with pkgs; [
+    corefonts
+    fira
+    fira-code
+    fira-mono
+    inconsolata
+    theano
+    unifont
+    unifont_upper
+  ];
+};
+#+END_SRC
+
+** Services
+
+I'll proabably use printing at some point
+
+#+BEGIN_SRC nix
+services.printing.enable = true;
+#+END_SRC
+
+All the Xorg stuff, and docker
+
+#+BEGIN_SRC nix
+services.xserver.enable = true;
+services.xserver.layout = "us";
+services.xserver.xkbOptions = "ctrl:swapcaps";
+services.xserver.xkbModel = "classmate";
+services.xserver.synaptics.enable = true;
+services.xserver.synaptics.twoFingerScroll = true;
+services.xserver.windowManager.stumpwm.enable = true;
+
+virtualisation.docker.enable = true;
+#+END_SRC
+
+* Users
+
+Just me!
+
+#+BEGIN_SRC nix
+users.extraUsers.ben = {
+  isNormalUser = true;
+  uid = 1000;
+  home = "/home/ben";
+  description = "Ben";
+  extraGroups = [ "wheel" "networkmanager" "docker" ];
+};
+#+END_SRC
+
+* Postamble
+
+The NixOS release to be compatible with for stateful data such as databases.
+
+#+BEGIN_SRC nix
+system.stateVersion = "16.03";
+#+END_SRC
+
+Don't forget to close the opening top-level bracket!
+
+#+BEGIN_SRC nix
+}
+#+END_SRC
