@@ -1,0 +1,151 @@
+#+title:    StumpWM Configuration
+#+author:   Ben Sima <bensima@gmail.com>
+#+property: comments org
+#+property: eval no-export
+#+property: tangle ~/.stumpwmrc
+
+I use [[https://nixos.org][NixOS]], which makes it really easy to use [[https://stumpwm.github.io][StumpWM]] with just a single [[http://nixos.org/nixos/options.html][line
+of configuration]] (search "stumpwm" on that link).
+
+Start with the lisp headers:
+
+#+BEGIN_SRC lisp
+;; -*-lisp-*-
+(in-package :stumpwm)
+#+END_SRC
+
+* Keyboard Shortcuts
+** Top-level shortcuts
+
+These shortcuts don't require the prefix key:
+
+| Key     | Action            |
+|---------+-------------------|
+| ~M-TAB~ | cycle frames      |
+| ~s-TAB~ | cycle groups      |
+| ~M-l~   | lock the computer |
+| ~M-L~   | logout            |
+
+#+BEGIN_SRC lisp
+(defvar *lock-command* "exec alock")
+
+(define-key *top-map* (kbd "M-TAB") "fnext")
+(define-key *top-map* (kbd "s-TAB") "gnext")
+(define-key *top-map* (kbd "M-l")   *lock-command*)
+(define-key *top-map* (kbd "M-L")   "quit")
+#+END_SRC
+
+** Root-level shortcuts
+
+Change the prefix key to ~M-SPC~:
+
+#+BEGIN_SRC lisp
+(set-prefix-key (kbd "M-SPC"))
+#+END_SRC
+
+These only work after you press the prefix key! See a full list with ~M-SPC ?~
+
+| Key | Action                    |
+|-----+---------------------------|
+| ~c~ | Start configured terminal |
+| ~L~ | Reload .stumpwmrc         |
+| ~?~ | Show keyboard shortcuts   |
+
+** Media Keys
+
+These are really great, they increase/decrease the backlight by just 5%. Most
+systems set the delta to something like 9% or 10%, which is way too much.
+
+#+BEGIN_SRC lisp
+(define-key *top-map* (kbd "XF86MonBrightnessUp")   "exec xbacklight -inc 5%")
+(define-key *top-map* (kbd "XF86MonBrightnessDown") "exec xbacklight -dec 5%")
+#+END_SRC
+
+* Windowing
+
+General window styles. First I set some defaults to special vars.
+
+#+BEGIN_SRC lisp
+(setf
+ *fg*      "#ffffff"
+ *bg*      "#538cc6"
+ *gravity* :bottom-left)
+
+(set-fg-color     *fg*)
+(set-bg-color     *bg*)
+(set-border-color *bg*)
+#+END_SRC
+
+The following vars control the general window styles
+
+#+BEGIN_SRC lisp
+(setf
+ *window-border-style*    :none
+ *normal-border-width*    0
+ *transient-border-width* 0)
+#+END_SRC
+
+Use mouse clicks to focus on frames!
+
+#+BEGIN_SRC lisp
+(setf *mouse-focus-policy* :click)
+#+END_SRC
+
+** Message window styles
+
+First I set the font to "FiraCode" (which doesn't actually work, idk why) and
+then setup the default message window styles.
+
+#+BEGIN_SRC  lisp
+(set-font "FiraCode:size=11")
+
+(set-msg-border-width 1)
+
+(setf *message-window-padding* 4
+      *message-window-gravity* *gravity*
+      *input-window-gravity*   *gravity*)
+#+END_SRC
+
+* Mode Line
+
+First lets setup some vars to store commands for the battery status and volume:
+
+#+BEGIN_SRC lisp
+(defvar *battery-status-command*
+  "acpi -b | awk -F '[ ,]' '{printf \"%s%s\", $3, $5}' | sed s/Discharging/\-/ | sed s/Unknown// | sed s/Full// | sed s/Charging/+/")
+
+(defvar *vol-status-command* "")
+#+END_SRC
+
+Now I need to actually style the mode-line
+
+#+BEGIN_SRC lisp
+(setf
+ *window-format*              "%m%n%s%c"
+ *time-modeline-string*       "%k:%M %a %e/%m"
+ *mode-line-position*         :bottom
+ *mode-line-foreground-color* *fg*
+ *mode-line-background-color* *bg*
+ *mode-line-border-color*     *bg*
+ *mode-line-border-width*     1
+ *mode-line-pad-x*            2
+ *mode-line-pad-y*            2
+ *mode-line-timeout*          1)
+#+END_SRC
+
+The following puts everything together and formats the modeline
+
+#+BEGIN_SRC lisp
+(setf *screen-mode-line-format*
+      (list "[^B%n^b] %W^>"
+            '(:eval (run-shell-command *battery-status-command* t))
+            " | Vol. "
+            '(:eval (run-shell-command *vol-status-command* t))
+            " | %d"))
+#+END_SRC
+
+Now I just need to turn it on
+
+#+BEGIN_SRC lisp
+(toggle-mode-line (current-screen) (current-head))
+#+END_SRC
