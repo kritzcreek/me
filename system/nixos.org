@@ -31,6 +31,7 @@ Networking is pretty simple. I'll also enable bluetooth while I'm at it:
 networking.hostName = "neb";
 networking.wireless.enable = true; # via wpa_supplicant
 hardware.bluetooth.enable = true;
+hardware.pulseaudio.enable = true;
 #+END_SRC
 
 Some internationalisation/locale stuff.
