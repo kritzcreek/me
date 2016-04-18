@@ -51,6 +51,11 @@ These only work after you press the prefix key! See a full list with ~M-SPC ?~
 | ~L~ | Reload .stumpwmrc         |
 | ~?~ | Show keyboard shortcuts   |
 
+#+BEGIN_SRC lisp
+(define-key *root-map* (kbd "c") "exec xterm -rv -fa FiraCode:size=ll")
+(define-key *root-map* (kbd "L") "eval (load \"~/.stumpwmrc\")")
+#+END_SRC
+
 ** Media Keys
 
 These are really great, they increase/decrease the backlight by just 5%. Most
